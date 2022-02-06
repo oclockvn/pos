@@ -1,4 +1,4 @@
-# dsn
+# pos
 
 ### migrations
 
@@ -8,13 +8,13 @@ cd src
 dotnet tool restore
 
 # check database
-dotnet ef dbcontext info -s pos.web
+dotnet ef dbcontext info -s src/pos.web
 
 # apply migrations
-dotnet ef database update -s pos.web
+dotnet ef database update -s src/pos.web
 
 # add new migration
-dotnet ef migrations add Init -s pos.web/ -p core/dsn.data/
+dotnet ef migrations add Init -s src/pos.web/ -p src/pos.data/
 
 # generate a migration script
 dotnet ef migrations script -s src/pos.web/ -p src/pos.data/ -o src/pos.data/Migrations/sql/1-init.sql

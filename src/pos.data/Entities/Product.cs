@@ -9,13 +9,13 @@ namespace pos.data.Entities
     {
         public string ProductName { get; set; }
 
-        //[Precision(14, 2)]
+        [Precision(14, 2)]
         public decimal WholesalesPrice { get; set; }
 
-        //[Precision(14, 2)]
+        [Precision(14, 2)]
         public decimal SalesPrice { get; set; }
 
-        //[Precision(14, 2)]
+        [Precision(14, 2)]
         public decimal ImportPrice { get; set; }
     }
 
