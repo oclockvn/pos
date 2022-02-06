@@ -19,4 +19,8 @@
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\domains\products\pos.products\pos.products.csproj" />
+  </ItemGroup>
 </Project>
