@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pos.data.Entities
 {
@@ -9,6 +8,15 @@ namespace pos.data.Entities
     public class Product : BaseEntity
     {
         public string ProductName { get; set; }
+
+        //[Precision(14, 2)]
+        public decimal WholesalesPrice { get; set; }
+
+        //[Precision(14, 2)]
+        public decimal SalesPrice { get; set; }
+
+        //[Precision(14, 2)]
+        public decimal ImportPrice { get; set; }
     }
 
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
