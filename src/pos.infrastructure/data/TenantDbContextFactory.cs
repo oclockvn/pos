@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace pos.data
+namespace pos.infrastructure.data
 {
     public interface ITenantDbContextFactory : IDbContextFactory<TenantDbContext>
     {

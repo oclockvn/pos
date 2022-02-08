@@ -1,4 +1,4 @@
-﻿namespace pos.data.Entities
+﻿namespace pos.core.Entities
 {
     public class BaseEntity
     {

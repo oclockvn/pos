@@ -1,4 +1,4 @@
-using pos.data;
+using pos.infrastructure;
 using pos.products;
 
 var builder = WebApplication
@@ -15,7 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("TenantConnecti
 
 // Add services to the container.
 builder.Services
-    .AddDataServices(connectionString, isDevelopment, isDevelopment)
+    .AddInfrastructureServices(connectionString, isDevelopment, isDevelopment)
     .AddProductServices()
     .AddControllersWithViews();
 

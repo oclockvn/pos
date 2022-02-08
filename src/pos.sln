@@ -5,21 +5,23 @@ VisualStudioVersion = 17.1.32127.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.web", "pos.web\pos.web.csproj", "{49319337-B286-4B43-829D-89E892FD3478}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.data", "pos.data\pos.data.csproj", "{9EC2D69F-2FF8-4980-8EDB-F53E39129687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.core", "pos.data\pos.core.csproj", "{9EC2D69F-2FF8-4980-8EDB-F53E39129687}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domains", "domains", "{A63F0076-6E7C-4F49-8B71-F1FA09C11C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.products", "domains\products\pos.products\pos.products.csproj", "{7BD68BBC-9022-42B8-8EF0-776F6078B1F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.products", "domains\products\pos.products\pos.products.csproj", "{7BD68BBC-9022-42B8-8EF0-776F6078B1F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.products.tests", "domains\products\pos.products.tests\pos.products.tests.csproj", "{37960330-6019-41A2-94A6-2B8A34B2D8B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.products.tests", "domains\products\pos.products.tests\pos.products.tests.csproj", "{37960330-6019-41A2-94A6-2B8A34B2D8B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "products", "products", "{E8DFD65E-3C90-4850-AEEA-726DF3B23948}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{F0B7E01C-5BB3-472F-B680-281492344123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.common.extensions", "common\pos.common.extensions\pos.common.extensions.csproj", "{DBF0FDA9-2F34-48CC-87E0-CB730FD8C6C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.common.extensions", "common\pos.common.extensions\pos.common.extensions.csproj", "{DBF0FDA9-2F34-48CC-87E0-CB730FD8C6C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.common.extensions.files", "common\pos.common.extensions.files\pos.common.extensions.files.csproj", "{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.common.extensions.files", "common\pos.common.extensions.files\pos.common.extensions.files.csproj", "{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.infrastructure", "pos.infrastructure\pos.infrastructure.csproj", "{71FD3394-3AE3-4699-961A-119D425D7C22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71FD3394-3AE3-4699-961A-119D425D7C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71FD3394-3AE3-4699-961A-119D425D7C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71FD3394-3AE3-4699-961A-119D425D7C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71FD3394-3AE3-4699-961A-119D425D7C22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

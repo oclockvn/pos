@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using pos.data.Entities;
+using pos.core.Entities;
+using pos.infrastructure.data.configrations;
 
-namespace pos.data
+namespace pos.infrastructure.data
 {
     public class TenantDbContext : DbContext
     {
