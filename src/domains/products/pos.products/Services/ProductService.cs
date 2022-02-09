@@ -1,4 +1,4 @@
-﻿using pos.infrastructure.data;
+﻿using pos.core.Data;
 
 namespace pos.products.Services
 {

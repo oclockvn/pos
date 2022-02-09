@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using pos.core.Entities;
 
-namespace pos.infrastructure.data.configrations
+namespace pos.core.Data.Configrations
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.ToTable("Product", "products");
+            builder.ToTable("Products", "product");
 
             builder.Property(x => x.ProductName)
                 .IsRequired()

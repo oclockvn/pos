@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using pos.infrastructure.data;
+using pos.core.Data;
 
 namespace pos.web
 {

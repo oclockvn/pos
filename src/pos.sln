@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos.common.extensions.files
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.infrastructure", "pos.infrastructure\pos.infrastructure.csproj", "{71FD3394-3AE3-4699-961A-119D425D7C22}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "users", "users", "{12EFFBEF-59BE-4696-8BB7-CBBDA5335AB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos.users", "domains\users\pos.users\pos.users.csproj", "{919117D1-5B8F-4148-9261-656C48A63BE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{71FD3394-3AE3-4699-961A-119D425D7C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71FD3394-3AE3-4699-961A-119D425D7C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71FD3394-3AE3-4699-961A-119D425D7C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{919117D1-5B8F-4148-9261-656C48A63BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{919117D1-5B8F-4148-9261-656C48A63BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{919117D1-5B8F-4148-9261-656C48A63BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{919117D1-5B8F-4148-9261-656C48A63BE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +75,8 @@ Global
 		{E8DFD65E-3C90-4850-AEEA-726DF3B23948} = {A63F0076-6E7C-4F49-8B71-F1FA09C11C2E}
 		{DBF0FDA9-2F34-48CC-87E0-CB730FD8C6C0} = {F0B7E01C-5BB3-472F-B680-281492344123}
 		{AFCAAAA5-59D9-410F-89FF-AF4AACB1F821} = {F0B7E01C-5BB3-472F-B680-281492344123}
+		{12EFFBEF-59BE-4696-8BB7-CBBDA5335AB3} = {A63F0076-6E7C-4F49-8B71-F1FA09C11C2E}
+		{919117D1-5B8F-4148-9261-656C48A63BE0} = {12EFFBEF-59BE-4696-8BB7-CBBDA5335AB3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD68C895-9BE6-4A76-9FEF-3F0254AE71FB}
