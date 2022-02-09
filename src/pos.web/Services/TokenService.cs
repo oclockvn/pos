@@ -35,6 +35,11 @@ namespace pos.web.Services
                 new Claim(ClaimTypes.Role, "user"), // todo: set user role
             };
 
+            if (expiryMinites == 0)
+            {
+                expiryMinites = _tokenSetting.ExpiryMinutes;
+            }
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSetting.SecurityKey));
 
             var token = new JwtSecurityToken(

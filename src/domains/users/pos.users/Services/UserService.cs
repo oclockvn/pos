@@ -10,6 +10,13 @@ namespace pos.users.Services
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> IsValidUserAccountAsync(UserLogin user);
+
+        /// <summary>
+        /// Get user token info
+        /// </summary>
+        /// <param name="username"><see cref="UserToken"/></param>
+        /// <returns></returns>
+        Task<UserToken> GetUserTokenInfoAsync(string username);
     }
 
     public class UserService : IUserService
@@ -17,6 +24,11 @@ namespace pos.users.Services
         public UserService()
         {
 
+        }
+
+        public Task<UserToken> GetUserTokenInfoAsync(string username)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<bool> IsValidUserAccountAsync(UserLogin user)
