@@ -17,5 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\domains\products\pos.products\pos.products.csproj" />
     <ProjectReference Include="..\domains\users\pos.users\pos.users.csproj" />
+    <ProjectReference Include="..\pos.core\pos.core.csproj" />
   </ItemGroup>
 </Project>
