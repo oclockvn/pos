@@ -1,4 +1,7 @@
-﻿using pos.users.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using pos.common.extensions;
+using pos.core.Data;
+using pos.users.Models;
 
 namespace pos.users.Services
 {
@@ -16,24 +19,43 @@ namespace pos.users.Services
         /// </summary>
         /// <param name="username"><see cref="UserToken"/></param>
         /// <returns></returns>
-        Task<UserToken> GetUserTokenInfoAsync(string username);
+        Task<UserToken> GetUserInfoAsync(string username);
     }
 
     public class UserService : IUserService
     {
-        public UserService()
-        {
+        private readonly ITenantDbContextFactory _tenantDbContextFactory;
 
+        public UserService(
+            ITenantDbContextFactory tenantDbContextFactory)
+        {
+            _tenantDbContextFactory = tenantDbContextFactory;
         }
 
-        public Task<UserToken> GetUserTokenInfoAsync(string username)
+        public async Task<UserToken> GetUserInfoAsync(string username)
         {
-            throw new NotImplementedException();
+            using var context = _tenantDbContextFactory.CreateDbContext();
+            return await context.Users
+                .Where(x => x.Username == username)
+                .Select(x => new UserToken
+                {
+                    Username = x.Username,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                })
+                .FirstOrDefaultAsync();
         }
 
-        public Task<bool> IsValidUserAccountAsync(UserLogin user)
+        public async Task<bool> IsValidUserAccountAsync(UserLogin user)
         {
-            throw new NotImplementedException();
+            using var context = _tenantDbContextFactory.CreateDbContext();
+
+            var hashed = user.Password.Hash();
+            var valid = await context.Users
+                .Where(x => x.Username == user.Username && x.Password == hashed)
+                .AnyAsync();
+
+            return valid;
         }
     }
 }
