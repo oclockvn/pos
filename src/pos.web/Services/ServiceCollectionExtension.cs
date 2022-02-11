@@ -6,7 +6,7 @@
         {
             return services
                 .Configure<TokenSetting>(configuration.GetSection("JwtToken"))
-                .AddScoped<ITokenService, TokenService>()
+                .AddScoped<ITokenGeneratorService, TokenGeneratorService>()
                 ;
         }
     }

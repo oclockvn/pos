@@ -9,9 +9,9 @@ namespace pos.web.Controllers
     public class AuthController : ApplicationBaseController
     {
         private readonly IUserService _userService;
-        private readonly ITokenService _tokenService;
+        private readonly ITokenGeneratorService _tokenService;
 
-        public AuthController(IUserService userService, ITokenService tokenService)
+        public AuthController(IUserService userService, ITokenGeneratorService tokenService)
         {
             _userService = userService;
             _tokenService = tokenService;
