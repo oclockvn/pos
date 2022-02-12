@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
     this._pingService
       .ping()
       .pipe(take(1))
-      .subscribe({ next: pong => console.log(pong) });
+      .subscribe({ next: pong => console.log("authorized ping", pong) });
 
     this._pingService
       .pingAnonymous()

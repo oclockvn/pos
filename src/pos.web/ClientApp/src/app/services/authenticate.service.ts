@@ -9,7 +9,7 @@ import {
   take,
   tap,
 } from "rxjs";
-import { CurrentUser } from "../models/user.model";
+import { CurrentUser } from "../models";
 import { StorageService } from "./storage.service";
 import jwt_decode from "jwt-decode";
 
@@ -23,8 +23,16 @@ export class AuthenticateService {
     this._storage.set("token", token);
   }
 
-  logout(): void {
-    this._storage.set("token", null); // redirect to login page
+  // logout(): void {
+  //   this.clearToken();
+  // }
+
+  getToken(): Observable<string> {
+    return of(this._storage.get("token") || "");
+  }
+
+  clearToken(): void {
+    this._storage.set("token", null);
   }
 
   private _user$ = new BehaviorSubject<CurrentUser | null>(null);
