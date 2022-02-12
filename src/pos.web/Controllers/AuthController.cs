@@ -6,6 +6,7 @@ using pos.web.Services;
 
 namespace pos.web.Controllers
 {
+    [ApiController]
     public class AuthController : ApplicationBaseController
     {
         private readonly IUserService _userService;

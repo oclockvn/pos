@@ -9,7 +9,7 @@ namespace pos.web.Controllers
         [HttpGet]
         public IActionResult Ping()
         {
-            return Ok("pong");
+            return Ok(new { msg = "pong" });
         }
 
         [Route("ping-anonymous")]
@@ -17,7 +17,7 @@ namespace pos.web.Controllers
         [AllowAnonymous]
         public IActionResult PingAnonymous()
         {
-            return Ok("pong anonymous");
+            return Ok(new { msg = "pong" });
         }
     }
 }
