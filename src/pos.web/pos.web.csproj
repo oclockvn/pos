@@ -4,9 +4,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:44471</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:8200</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>yarn start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
+
+  <!--<ItemGroup>
+        <Compile Remove="node_modules\**" />
+            <Content Include="node_modules\**" />
+  </ItemGroup>-->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
@@ -17,5 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\domains\products\pos.products\pos.products.csproj" />
     <ProjectReference Include="..\domains\users\pos.users\pos.users.csproj" />
+    <ProjectReference Include="..\pos.core\pos.core.csproj" />
   </ItemGroup>
 </Project>

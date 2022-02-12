@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { AuthenticateService } from "src/app/services/authenticate.service";
 import { UserService } from "src/app/services/user.service";
 
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
     private _userService: UserService,
     private _authService: AuthenticateService,
     private _fb: FormBuilder,
+    private _router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
       next: token => {
         if (token?.length) {
           this._authService.persistToken(token);
+          this._router.navigate(["/"]);
 
           // todo: use redirectUrl
         }

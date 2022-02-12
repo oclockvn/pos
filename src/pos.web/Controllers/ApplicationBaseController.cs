@@ -5,7 +5,7 @@ namespace pos.web.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ApplicationBaseController : ControllerBase
     {
 

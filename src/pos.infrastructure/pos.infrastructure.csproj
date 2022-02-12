@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pos.data\pos.core.csproj" />
+    <ProjectReference Include="..\pos.core\pos.core.csproj" />
   </ItemGroup>
 
 </Project>

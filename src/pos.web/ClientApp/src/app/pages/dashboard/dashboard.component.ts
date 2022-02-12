@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { take } from "rxjs";
+import { PingService } from "src/app/services/ping.service";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
-
-  constructor() { }
+  constructor(private _pingService: PingService) {}
 
   ngOnInit(): void {
-  }
+    this._pingService
+      .ping()
+      .pipe(take(1))
+      .subscribe({ next: pong => console.log("authorized ping", pong) });
 
+    this._pingService
+      .pingAnonymous()
+      .pipe(take(1))
+      .subscribe({ next: pong => console.log("anonymous ping", pong) });
+  }
 }

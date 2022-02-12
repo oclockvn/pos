@@ -6,12 +6,13 @@ using pos.web.Services;
 
 namespace pos.web.Controllers
 {
+    [ApiController]
     public class AuthController : ApplicationBaseController
     {
         private readonly IUserService _userService;
-        private readonly ITokenService _tokenService;
+        private readonly ITokenGeneratorService _tokenService;
 
-        public AuthController(IUserService userService, ITokenService tokenService)
+        public AuthController(IUserService userService, ITokenGeneratorService tokenService)
         {
             _userService = userService;
             _tokenService = tokenService;
@@ -30,8 +31,8 @@ namespace pos.web.Controllers
             var valid = await _userService.IsValidUserAccountAsync(user);
             if (valid)
             {
-                var userToken = await _userService.GetUserTokenInfoAsync(user.Username);
-                var token = _tokenService.GetToken(userToken, 0);
+                var userInfo = await _userService.GetUserInfoAsync(user.Username);
+                var token = _tokenService.GetToken(userInfo);
 
                 return Ok(new
                 {

@@ -8,16 +8,16 @@ using pos.users.Models;
 
 namespace pos.web.Services
 {
-    public interface ITokenService
+    public interface ITokenGeneratorService
     {
         string GetToken(UserToken user, int expiryMinites = 0);
     }
 
-    public class TokenService : ITokenService
+    public class TokenGeneratorService : ITokenGeneratorService
     {
         private readonly TokenSetting _tokenSetting;
 
-        public TokenService(IOptions<TokenSetting> tokenOptions)
+        public TokenGeneratorService(IOptions<TokenSetting> tokenOptions)
         {
             _tokenSetting = tokenOptions.Value;
 
