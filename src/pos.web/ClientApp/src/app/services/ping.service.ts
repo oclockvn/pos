@@ -9,10 +9,10 @@ export class PingService {
   constructor(private _httpClient: HttpClient) {}
 
   ping(): Observable<string> {
-    return this._httpClient.get<string>("ping/ping");
+    return this._httpClient.get<string>("api/ping/ping");
   }
 
   pingAnonymous(): Observable<string> {
-    return this._httpClient.get<string>("ping/ping-anonymous");
+    return this._httpClient.get<string>("api/ping/ping-anonymous");
   }
 }

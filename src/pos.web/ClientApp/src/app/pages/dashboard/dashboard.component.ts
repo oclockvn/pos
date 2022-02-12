@@ -14,11 +14,11 @@ export class DashboardComponent implements OnInit {
     this._pingService
       .ping()
       .pipe(take(1))
-      .subscribe({ next: pong => console.log("ping authenticated: " + pong) });
+      .subscribe({ next: pong => console.log(pong) });
 
     this._pingService
       .pingAnonymous()
       .pipe(take(1))
-      .subscribe({ next: pong => console.log("ping anonymous: " + pong) });
+      .subscribe({ next: pong => console.log("anonymous ping", pong) });
   }
 }
