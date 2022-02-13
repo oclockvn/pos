@@ -38,6 +38,11 @@ const routes: Routes = [
     ],
   },
   {
+    path: "pos",
+    loadChildren: () =>
+      import("src/app/pages/pos/pos.module").then(m => m.PosModule),
+  },
+  {
     path: "login",
     loadChildren: () =>
       import("src/app/layout/unauthorized/unauthorized.module").then(

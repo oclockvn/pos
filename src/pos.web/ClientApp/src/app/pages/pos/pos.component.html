@@ -1,1 +1,156 @@
-<p>pos works!</p>
+<div class="pos">
+  <header>
+    <div class="search">
+      <i class="bi bi-search"></i>
+      <input type="text" class="form-control" placeholder="Add product to cart (F3)">
+    </div>
+
+    <div class="mode">
+      <button class="btn btn-default" type="button">
+        <i class="bi bi-upc-scan"></i>
+        <span>(F10)</span>
+      </button>
+    </div>
+
+    <div class="orders">
+      <div class="order-tab">
+        <button type="button" class="btn btn-primary">
+          Order 1
+          <i class="bi bi-x-circle"></i>
+        </button>
+      </div>
+      <div class="order-tab active">
+        <button type="button" class="btn btn-primary">
+          Order 2
+          <i class="bi bi-x-circle"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="branches">
+      <button class="btn btn-default" type="button">
+        <i class="bi bi-geo-alt"></i>
+        Default branch
+      </button>
+
+      <button class="btn btn-default" type="button">
+        <i class="bi bi-person"></i>
+        Username
+      </button>
+    </div>
+
+    <div class="menu">
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-tablet"></i>
+      </button>
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-arrorws-fullscreen"></i>
+      </button>
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-wifi"></i>
+      </button>
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-house"></i>
+      </button>
+      <button type="button" class="btn btn-default">
+        Shortcut
+      </button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="cart">
+      <div class="card__header">
+        <div class="column column--order">Order</div>
+        <div class="column column--sku">SKU</div>
+        <div class="column column--product">Product</div>
+        <div class="column column--unit">Unit</div>
+        <div class="column column--qty">Qty</div>
+        <div class="column column--sub">Sub total</div>
+        <div class="column column--total">Total</div>
+      </div>
+      <div class="card__body">
+        <ng-container *ngFor="let p of products">
+          <div class="column column--order">{{p.order}}</div>
+          <div class="column column--sku">{{p.sku}}</div>
+          <div class="column column--product">{{p.productName}}</div>
+          <div class="column column--unit">{{p.unit}}</div>
+          <div class="column column--qty">{{p.qty}}</div>
+          <div class="column column--sub">{{p.subTotal}}</div>
+          <div class="column column--total">{{p.total}}</div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="payment">
+      <div class="form-group">
+        <i class="bi bi-search"></i>
+        <input type="text" class="form-control" placeholder="Search customer (F4)">
+        <button type="button" class="btn btn-default">
+          <i class="bi bi-plus"></i>
+        </button>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="delivery">
+          <label class="form-check-label" for="delivery">Delivery</label>
+        </div>
+      </div>
+
+      <div class="payment-items">
+        <div class="payment-item">
+          <div class="label">Sub total: (2 products)</div>
+          <div class="value">1,550,000</div>
+        </div>
+        <div class="payment-item">
+          <div class="label">VAT</div>
+          <div class="value">0</div>
+        </div>
+        <div class="payment-item">
+          <div class="label">Discount (F6)</div>
+          <div class="value">0</div>
+        </div>
+        <div class="payment-item strong">
+          <div class="label">Total</div>
+          <div class="value">1,500,000</div>
+        </div>
+        <div class="payment-item strong">
+          <div class="label">Customer pay (F2)</div>
+          <div class="value">1,500,000</div>
+        </div>
+
+        <div class="quick-amounts">
+          <button type="button" class="btn btn-default">100,000</button>
+          <button type="button" class="btn btn-default">100,000</button>
+          <button type="button" class="btn btn-default">100,000</button>
+          <button type="button" class="btn btn-default">100,000</button>
+          <button type="button" class="btn btn-default">100,000</button>
+          <button type="button" class="btn btn-default">100,000</button>
+        </div>
+
+        <div class="payment-item strong">
+          <div class="label">Return</div>
+          <div class="value">0</div>
+        </div>
+
+        <div class="form-group">
+          <i class="bi bi-pencil"></i>
+          <input type="text" class="form-control" placeholder="Notes">
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-light">
+            Multiple payments (F7)
+          </button>
+
+          <button type="button" class="btn btn-success">
+            PAY (F1)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
