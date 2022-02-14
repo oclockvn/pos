@@ -3,7 +3,9 @@ $payment-width: 445px;
 
 .pos__header {
   .btn {
-    color: #fff;
+    &:not(.btn-outline-light) {
+      color: #fff;
+    }
   }
 }
 
