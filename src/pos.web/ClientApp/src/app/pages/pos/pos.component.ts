@@ -26,6 +26,24 @@ export class PosComponent implements OnInit {
       subTotal: 150000,
       total: 150000,
     },
+    {
+      order: 3,
+      productName: "Egg mixing machine 2",
+      sku: "PVN01",
+      unit: "item",
+      qty: 1,
+      subTotal: 150000,
+      total: 150000,
+    },
+    {
+      order: 4,
+      productName: "Egg mixing machine 3",
+      sku: "PVN01",
+      unit: "item",
+      qty: 1,
+      subTotal: 150000,
+      total: 150000,
+    },
   ];
 
   constructor() {}

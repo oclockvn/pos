@@ -97,26 +97,32 @@
   </header>
 
   <div class="main">
-    <div class="cart bg-white">
-      <div class="card__header">
+    <div class="cart bg-white p-2">
+      <div class="card__header fw-bold order-item py-2">
         <div class="column column--order">Order</div>
+        <div class="column column--remove"></div>
         <div class="column column--sku">SKU</div>
         <div class="column column--product">Product</div>
         <div class="column column--unit">Unit</div>
-        <div class="column column--qty">Qty</div>
-        <div class="column column--sub">Sub total</div>
-        <div class="column column--total">Total</div>
+        <div class="column column--qty text-center">Qty</div>
+        <div class="column column--sub text-end">Sub total</div>
+        <div class="column column--total text-end pe-2">Total</div>
       </div>
       <div class="card__body">
-        <ng-container *ngFor="let p of products">
-          <div class="column column--order">{{ p.order }}</div>
+        <div *ngFor="let p of products" class="order-item">
+          <div class="column column--order ps-2">{{ p.order }}</div>
+          <div class="column column--remove">
+            <button type="button" class="btn btn-icon btn-hoverable rounded-circle">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
           <div class="column column--sku">{{ p.sku }}</div>
           <div class="column column--product">{{ p.productName }}</div>
           <div class="column column--unit">{{ p.unit }}</div>
-          <div class="column column--qty">{{ p.qty }}</div>
-          <div class="column column--sub">{{ p.subTotal }}</div>
-          <div class="column column--total">{{ p.total }}</div>
-        </ng-container>
+          <div class="column column--qty text-center">{{ p.qty }}</div>
+          <div class="column column--sub text-end">{{ p.subTotal }}</div>
+          <div class="column column--total text-end pe-2">{{ p.total }}</div>
+        </div>
       </div>
     </div>
 
@@ -125,7 +131,7 @@
         <i class="bi bi-search position-absolute"></i>
         <input
           type="text"
-          class="border-0 form-control md-input ps-5 rounded-0 shadow-none"
+          class="border-0 form-control md-input rounded-0 shadow-none"
           placeholder="Search customer (F4)"
           style="padding-left: 2rem"
         />
@@ -163,11 +169,11 @@
           <div class="label">Discount (F6)</div>
           <div class="value">0</div>
         </div>
-        <div class="payment-item strong">
+        <div class="fs-5 fw-bold payment-item text-uppercase">
           <div class="label">Total</div>
           <div class="value">1,500,000</div>
         </div>
-        <div class="payment-item strong">
+        <div class="payment-item fw-bold">
           <div class="label">Customer pay (F2)</div>
           <div class="value">1,500,000</div>
         </div>
@@ -176,27 +182,27 @@
           class="d-grid has-3-cols my-2 py-2 quick-amounts"
           style="grid-gap: 1rem"
         >
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-pill">
+          <button type="button" class="btn btn-outline-primary rounded-pill">
             100,000
           </button>
         </div>
 
-        <div class="border-top my-2 payment-item py-2 strong">
+        <div class="border-top my-2 payment-item py-2 fw-bold">
           <div class="label">Return</div>
           <div class="value">0</div>
         </div>
