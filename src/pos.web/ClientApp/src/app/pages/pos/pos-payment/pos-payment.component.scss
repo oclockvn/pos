@@ -1,0 +1,10 @@
+.actions {
+  height: calc(150px - 1rem);
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .25rem 0;
+}

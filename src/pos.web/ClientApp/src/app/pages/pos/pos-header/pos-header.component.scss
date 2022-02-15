@@ -1,0 +1,5 @@
+.btn {
+  &:not(.btn-outline-light) {
+    color: #fff;
+  }
+}

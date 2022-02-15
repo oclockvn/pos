@@ -1,0 +1,26 @@
+$header-height: 54px;
+$payment-width: 445px;
+$order-item-height: 64px;
+
+.order-item {
+  display: grid;
+  grid-template-columns: 50px 50px 120px auto 100px 80px 150px 150px;
+}
+
+.card__body {
+  .order-item {
+    align-items: center;
+    height: $order-item-height;
+    font-size: 1.1rem;
+    border-radius: .5rem;
+
+    &:nth-child(2n + 1) {
+      background: #f7f7f7;
+      border: 1px solid #aaa;
+    }
+
+    &:hover {
+      background: #f2f2f2;
+    }
+  }
+}
