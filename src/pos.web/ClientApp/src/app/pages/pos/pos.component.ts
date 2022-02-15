@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
+import { RxState } from "@rx-angular/state";
+import { PosState, POS_STATE } from "./states/pos.state";
 
 @Component({
   selector: "app-pos",
@@ -6,7 +8,11 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./pos.component.scss"],
 })
 export class PosComponent implements OnInit {
-  constructor() {}
+  constructor(@Inject(POS_STATE) private posState: RxState<PosState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.posState.set({
+      total: 2000_000,
+    });
+  }
 }

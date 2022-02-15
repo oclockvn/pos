@@ -6,6 +6,8 @@ import { PosComponent } from "./pos.component";
 import { PosHeaderComponent } from "./pos-header/pos-header.component";
 import { PosPaymentComponent } from "./pos-payment/pos-payment.component";
 import { PosCartComponent } from "./pos-cart/pos-cart.component";
+import { PosState, POS_STATE } from "./states/pos.state";
+import { RxState } from "@rx-angular/state";
 
 @NgModule({
   declarations: [
@@ -15,5 +17,11 @@ import { PosCartComponent } from "./pos-cart/pos-cart.component";
     PosCartComponent,
   ],
   imports: [CommonModule, PosRoutingModule],
+  providers: [
+    {
+      provide: POS_STATE,
+      useFactory: () => new RxState<PosState>(),
+    },
+  ],
 })
 export class PosModule {}
