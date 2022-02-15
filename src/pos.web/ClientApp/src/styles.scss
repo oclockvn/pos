@@ -3,6 +3,8 @@
 
 $primary: #0964CF;
 $secondary: #2FA84F;
+$default: rgba(9, 100, 207, 0.1);
+$default-hover: rgba(9, 100, 207, 0.25);
 $btn-icon-width: 38px;
 
 .btn-hoverable {
@@ -39,5 +41,17 @@ $btn-icon-width: 38px;
 
   &.has-3-cols {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.bg-default {
+  background-color: $default !important;
+}
+
+.btn-default {
+  background-color: $default !important;
+
+  &:hover {
+    background-color: $default-hover !important;
   }
 }

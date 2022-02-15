@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Product } from "./models";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-pos",
