@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 
 declare type LoginResponse = {
   token: string;
+  statusCode: string;
 };
 
 @Injectable({
@@ -12,12 +13,10 @@ declare type LoginResponse = {
 export class UserService {
   constructor(private _httpClient: HttpClient) {}
 
-  login(username: string, password: string): Observable<string> {
-    return this._httpClient
-      .post<LoginResponse>("api/auth/login", {
-        username,
-        password,
-      })
-      .pipe(map(response => response.token));
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this._httpClient.post<LoginResponse>("api/auth/login", {
+      username,
+      password,
+    });
   }
 }

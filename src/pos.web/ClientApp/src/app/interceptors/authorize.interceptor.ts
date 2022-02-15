@@ -63,10 +63,10 @@ export class AuthorizeInterceptor implements HttpInterceptor {
     // todo: show toast message in case of server error
 
     // throw error for component to handle
-    return throwError({
+    return throwError(() => ({
       success: false,
       statusCode: "internal_server_error",
-    });
+    }));
   };
 
   private isSameOrigin(req: any): boolean {
