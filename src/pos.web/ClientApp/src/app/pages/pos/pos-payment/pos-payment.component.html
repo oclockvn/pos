@@ -31,7 +31,7 @@
   <div class="payment-items py-2">
     <div class="payment-item">
       <div class="label">Sub total: (2 products)</div>
-      <div class="value">{{ pos.total }}</div>
+      <div class="value">{{ pos.subTotal | currency:'VND' }}</div>
     </div>
     <div class="payment-item">
       <div class="label">VAT</div>
@@ -41,13 +41,16 @@
       <div class="label">Discount (F6)</div>
       <div class="value">0</div>
     </div>
-    <div class="fs-5 fw-bold payment-item text-uppercase">
+    <div
+      class="bg-danger fs-5 fw-bold payment-item px-3 text-uppercase text-white"
+      style="margin-left: -1rem; margin-right: -1rem"
+    >
       <div class="label">Total</div>
-      <div class="value">1,500,000</div>
+      <div class="value">{{ pos.total | currency:'VND'}}</div>
     </div>
     <div class="payment-item fw-bold">
       <div class="label">Customer pay (F2)</div>
-      <div class="value">{{pos.pay}}</div>
+      <div class="value">{{ pos.pay | currency:'VND'}}</div>
     </div>
 
     <div class="btn-group-sm my-2 py-2 quick-amounts" style="grid-gap: 1rem">
@@ -63,7 +66,7 @@
 
     <div class="border-top my-2 payment-item py-2 fw-bold">
       <div class="label">Return</div>
-      <div class="value">0</div>
+      <div class="value">{{ returnAmount | currency:'VND' }}</div>
     </div>
   </div>
 
