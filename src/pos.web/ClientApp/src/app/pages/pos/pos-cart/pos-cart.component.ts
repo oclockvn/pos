@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Product } from "../models";
+import { ProductItem } from "../states/pos.state";
 
 @Component({
   selector: "app-pos-cart",
@@ -7,7 +7,7 @@ import { Product } from "../models";
   styleUrls: ["./pos-cart.component.scss"],
 })
 export class PosCartComponent implements OnInit {
-  products: Product[] = [
+  products: ProductItem[] = [
     {
       order: 1,
       productName: "Mixing machine",
