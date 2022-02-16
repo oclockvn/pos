@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RxState } from "@rx-angular/state";
-import { catchError, Observable, of, Subject, tap } from "rxjs";
+import { catchError, filter, mergeMap, Observable, of, Subject } from "rxjs";
 import { AuthenticateService } from "src/app/services/authenticate.service";
 import { UserService } from "src/app/services/user.service";
 import { LoginState } from "../states";
@@ -16,6 +16,7 @@ import { LoginState } from "../states";
 export class LoginComponent implements OnInit {
   form!: FormGroup;
   onSubmit = new Subject<void>();
+  onSubmitHandler$ = new Subject<{ username: string; password: string }>();
   get state$(): Observable<LoginState> {
     return this._state.select();
   }
@@ -46,16 +47,35 @@ export class LoginComponent implements OnInit {
   }
 
   private connectState(): void {
-    this._state.connect(
-      this.form.valueChanges,
-      (prev, curr: { username: string; password: string }) => {
-        return {
-          ...prev,
-          username: curr.username,
-          password: curr.password,
-        };
-      },
+    const handler$ = this.onSubmitHandler$.pipe(
+      mergeMap(data =>
+        this._userService.login(data.username, data.password).pipe(
+          catchError((err: { statusCode: string }) =>
+            of({
+              statusCode: err.statusCode,
+              token: "",
+            }),
+          ),
+        ),
+      ),
     );
+
+    this._state.connect(handler$, (prev, curr) => ({
+      ...prev,
+      statusCode: curr.statusCode,
+      hasError: !curr.token,
+      token: curr.token,
+    }));
+
+    this._state
+      .select("token")
+      .pipe(filter(x => !!x))
+      .subscribe({
+        next: token => {
+          this._router.navigate(["/"]);
+          this._authService.persistToken(token);
+        },
+      });
   }
 
   private manageEvents() {
@@ -69,26 +89,10 @@ export class LoginComponent implements OnInit {
         return;
       }
 
-      this._userService
-        .login(this._state.get("username"), this._state.get("password"))
-        .pipe(
-          catchError((err: { statusCode: string }) => {
-            return of({ token: "", statusCode: err.statusCode });
-          }),
-        )
-        .subscribe({
-          next: response => {
-            this._state.set({
-              statusCode: response.statusCode,
-              hasError: !response.token,
-            });
-
-            if (response.token) {
-              this._authService.persistToken(response.token);
-              this._router.navigate(["/"]);
-            }
-          },
-        });
+      this.onSubmitHandler$.next({
+        username: this.form.value.username,
+        password: this.form.value.password,
+      });
     });
   }
 }
