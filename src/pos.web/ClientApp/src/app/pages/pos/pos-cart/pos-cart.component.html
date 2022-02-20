@@ -1,4 +1,4 @@
-<div class="cart bg-white p-2">
+<div class="cart bg-white p-2" *ngIf="vm$ | async as vm">
   <div class="card__header fw-bold order-item py-2">
     <div class="column column--order">Order</div>
     <div class="column column--remove"></div>
@@ -10,7 +10,7 @@
     <div class="column column--total text-end pe-2">Total</div>
   </div>
   <div class="card__body">
-    <div *ngFor="let p of products" class="order-item">
+    <div *ngFor="let p of vm.cart" class="order-item">
       <div class="column column--order ps-2">{{ p.order }}</div>
       <div class="column column--remove">
         <button type="button" class="btn btn-icon btn-hoverable rounded-circle">

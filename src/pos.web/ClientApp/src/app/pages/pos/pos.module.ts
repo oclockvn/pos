@@ -8,6 +8,8 @@ import { PosPaymentComponent } from "./pos-payment/pos-payment.component";
 import { PosCartComponent } from "./pos-cart/pos-cart.component";
 import { PosState, POS_STATE } from "./states/pos.state";
 import { RxState } from "@rx-angular/state";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,7 +18,13 @@ import { RxState } from "@rx-angular/state";
     PosPaymentComponent,
     PosCartComponent,
   ],
-  imports: [CommonModule, PosRoutingModule],
+  imports: [
+    CommonModule,
+    PosRoutingModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     {
       provide: POS_STATE,

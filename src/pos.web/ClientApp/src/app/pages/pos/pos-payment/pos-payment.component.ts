@@ -23,10 +23,6 @@ export class PosPaymentComponent implements OnInit {
     return this.posState.select();
   }
 
-  get returnAmount(): number {
-    return (this.posState.get("pay") || 0) - (this.posState.get("total") || 0);
-  }
-
   onQuickAmountClicked = new Subject<number>();
 
   constructor(@Inject(POS_STATE) private posState: RxState<PosState>) {}

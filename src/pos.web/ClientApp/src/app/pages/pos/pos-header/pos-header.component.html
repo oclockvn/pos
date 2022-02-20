@@ -1,14 +1,21 @@
-<header class="align-items-center bg-primary d-flex px-3 pos__header" *ngIf="vm$ | async as vm">
+<header
+  class="align-items-center bg-primary d-flex px-3 pos__header"
+  *ngIf="vm$ | async as vm"
+>
   <div
     class="align-items-center bg-white d-flex outline-none ps-2 rounded-3 shadow-none"
   >
     <i class="bi bi-search mx-2"></i>
-    <input
-      type="text"
-      class="form-control border-0 shadow-none"
-      placeholder="Add product to cart (F3)"
+    <ng-select
+      [items]="vm.products || []"
+      bindLabel="productName"
+      bindValue="id"
       style="min-width: 300px"
-    />
+      class="form-control2 border-0 shadow-none"
+      (change)="onSelectProduct($event)"
+      [formControl]="productControl"
+    >
+    </ng-select>
   </div>
 
   <div class="ms-2">
