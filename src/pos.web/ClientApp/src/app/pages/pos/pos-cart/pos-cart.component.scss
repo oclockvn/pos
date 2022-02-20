@@ -24,3 +24,9 @@ $order-item-height: 64px;
     }
   }
 }
+
+.column--product {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

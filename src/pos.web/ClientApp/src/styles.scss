@@ -56,3 +56,22 @@ $btn-icon-width: 38px;
     background-color: $default-hover !important;
   }
 }
+.ng-select {
+  &.no-caret {
+    .ng-arrow-wrapper {
+      display: none;
+    }
+  }
+
+  &.border-0 {
+    .ng-select-container {
+      border: none !important;
+    }
+  }
+
+  &.shadow-none {
+    .ng-select-container {
+      box-shadow: none !important;
+    }
+  }
+}

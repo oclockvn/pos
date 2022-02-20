@@ -1,5 +1,29 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .btn {
   &:not(.btn-outline-light) {
     color: #fff;
+  }
+}
+
+.product__item-template ::ng-deep {
+  .ng-dropdown-panel {
+    min-width: 600px;
+  }
+
+  .ng-option:not(.ng-option-disabled) {
+    padding: 0 !important;
+  }
+
+  .item-template-container {
+    &:hover {
+      .product__name {
+        color: var(--bs-blue);
+      }
+    }
   }
 }

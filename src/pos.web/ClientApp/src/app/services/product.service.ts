@@ -15,10 +15,11 @@ export class ProductService {
           ({
             id: i,
             importPrice: 0,
-            productName: `Product ${i}`,
+            productName: `Lorem ipsum dolor sit amet consectetur adipisicing elit ${i}`,
             salesPrice: (i + 2) * 10000,
             sku: `P0000${i}`,
             wholesalePrice: 0,
+            inventory: i * 10,
           } as Product),
       ),
     );
