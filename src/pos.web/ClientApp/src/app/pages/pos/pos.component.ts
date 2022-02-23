@@ -38,12 +38,9 @@ export class PosComponent implements OnInit {
 
     this.posState.connect(
       "total",
-      this.posState.select().pipe(selectSlice(["cart"])),
-      prev => {
-        return (
-          prev.total + prev.cart.reduce((p, c) => p + c.qty * c.subTotal, 0)
-        );
-      },
+      this.posState.select("cart"),
+      curr =>
+        (curr.total = curr.cart.reduce((p, c) => p + c.qty * c.subTotal, 0)),
     );
 
     this.posState.connect(

@@ -12,7 +12,7 @@
   <div class="card__body">
     <div *ngFor="let p of vm.cart" class="order-item">
       <div class="column column--order ps-2">{{ p.order }}</div>
-      <div class="column column--remove">
+      <div class="column column--remove" (click)="remove$.next(p)">
         <button type="button" class="btn btn-icon btn-hoverable rounded-circle">
           <i class="bi bi-x-lg"></i>
         </button>
