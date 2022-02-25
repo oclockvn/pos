@@ -58,7 +58,7 @@
         *ngFor="let a of quickAmounts"
         type="button"
         class="btn btn-outline-primary me-1"
-        (click)="onQuickAmountClicked.next(a.value)"
+        (click)="onQuickAmountClicked$.next(a.value)"
       >
         {{ a.label }}
       </button>
@@ -90,7 +90,7 @@
       Multiple payments (F7)
     </button>
 
-    <button type="button" class="btn btn-success flex-fill fs-3">
+    <button type="button" class="btn btn-success flex-fill fs-3" (click)="pay$.next()">
       PAY (F1)
     </button>
   </div>
