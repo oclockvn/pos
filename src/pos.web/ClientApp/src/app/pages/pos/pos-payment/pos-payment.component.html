@@ -1,0 +1,97 @@
+<ng-container *ngIf="posState$ | async as vm">
+  <div class="align-items-center d-flex form-group vm.tion-relative">
+    <i class="bi bi-search vm.tion-absolute"></i>
+    <input
+      type="text"
+      class="border-0 form-control md-input rounded-0 shadow-none"
+      placeholder="Search customer (F4)"
+      style="padding-left: 2rem"
+    />
+    <button
+      type="button"
+      class="align-items-center btn btn-default btn-hoverable btn-icon d-inline-flex justify-content-center vm.tion-absolute rounded-circle shadow-none"
+      style="right: 0"
+    >
+      <i class="bi bi-plus" style="font-size: 1.5rem"></i>
+    </button>
+  </div>
+
+  <div class="border-bottom py-2">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="delivery"
+      />
+      <label class="form-check-label" for="delivery">Delivery</label>
+    </div>
+  </div>
+
+  <div class="payment-items py-2">
+    <div class="payment-item">
+      <div class="label">Sub total: (2 products)</div>
+      <div class="value">{{ vm.subTotal | currency:'VND' }}</div>
+    </div>
+    <div class="payment-item">
+      <div class="label">VAT</div>
+      <div class="value">0</div>
+    </div>
+    <div class="payment-item">
+      <div class="label">Discount (F6)</div>
+      <div class="value">0</div>
+    </div>
+    <div
+      class="bg-danger fs-5 fw-bold payment-item px-3 text-uppercase text-white"
+      style="margin-left: -1rem; margin-right: -1rem"
+    >
+      <div class="label">Total</div>
+      <div class="value">{{ vm.total | currency:'VND'}}</div>
+    </div>
+    <div class="payment-item fw-bold">
+      <div class="label">Customer pay (F2)</div>
+      <div class="value">{{ vm.pay | currency:'VND'}}</div>
+    </div>
+
+    <div class="btn-group-sm my-2 py-2 quick-amounts" style="grid-gap: 1rem">
+      <button
+        *ngFor="let a of quickAmounts"
+        type="button"
+        class="btn btn-outline-primary me-1"
+        (click)="onQuickAmountClicked$.next(a.value)"
+      >
+        {{ a.label }}
+      </button>
+    </div>
+
+    <div class="border-top my-2 payment-item py-2 fw-bold">
+      <div class="label">Return</div>
+      <div class="value">{{ vm.return | currency:'VND' }}</div>
+    </div>
+  </div>
+
+  <div class="flex-fill"></div>
+
+  <div class="align-items-center d-flex form-group vm.tion-relative">
+    <i class="bi bi-pencil vm.tion-absolute" style="left: 0"></i>
+    <input
+      type="text"
+      class="border-0 form-control md-input rounded-0 shadow-none"
+      placeholder="Notes"
+      style="padding-left: 2rem"
+    />
+  </div>
+
+  <div
+    class="actions d-flex justify-content-between pt-3"
+    style="grid-gap: 1rem"
+  >
+    <button type="button" class="btn bg-default fs-4" style="max-width: 200px">
+      Multiple payments (F7)
+    </button>
+
+    <button type="button" class="btn btn-success flex-fill fs-3" (click)="pay$.next()">
+      PAY (F1)
+    </button>
+  </div>
+</ng-container>

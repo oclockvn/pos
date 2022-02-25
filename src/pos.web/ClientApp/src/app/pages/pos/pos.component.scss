@@ -1,0 +1,28 @@
+$header-height: 54px;
+$payment-width: 445px;
+$order-item-height: 64px;
+
+.main {
+  display: grid;
+  grid-template-columns: auto $payment-width;
+  grid-template-rows: auto 150px;
+  background-color: #ddd;
+  grid-gap: .5rem;
+
+  .payment {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-end: 3;
+  }
+}
+
+.pos {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: $header-height auto;
+}
+
+.order-actions {
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 1rem;
+}

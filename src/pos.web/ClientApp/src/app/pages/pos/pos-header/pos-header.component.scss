@@ -1,0 +1,38 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.btn {
+  &:not(.btn-outline-light) {
+    color: #fff;
+  }
+}
+
+.product__item-template ::ng-deep {
+  .ng-dropdown-panel {
+    min-width: 600px;
+  }
+
+  .ng-option:not(.ng-option-disabled) {
+    padding: 0 !important;
+  }
+
+  .item-template-container {
+    &:hover {
+      .product__name {
+        color: var(--bs-blue);
+      }
+    }
+  }
+}
+
+.product-select ::ng-deep {
+  .ng-dropdown-panel.ng-select-bottom {
+    margin-top: 10px;
+    border: 1px solid #eee;
+    border-radius: .25rem;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  }
+}

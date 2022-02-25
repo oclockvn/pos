@@ -1,0 +1,47 @@
+<div class="cart bg-white p-2" *ngIf="vm$ | async as vm">
+  <div class="card__header fw-bold order-item py-2">
+    <div class="column column--order">Order</div>
+    <div class="column column--remove"></div>
+    <div class="column column--sku">SKU</div>
+    <div class="column column--product">Product</div>
+    <div class="column column--unit">Unit</div>
+    <div class="column column--qty text-center">Qty</div>
+    <div class="column column--sub text-end">Sub total</div>
+    <div class="column column--total text-end pe-2">Total</div>
+  </div>
+  <div class="card__body">
+    <div *ngFor="let p of vm.cart" class="order-item">
+      <div class="column column--order ps-2">{{ p.order }}</div>
+      <div class="column column--remove" (click)="remove$.next(p)">
+        <button type="button" class="btn btn-icon btn-hoverable rounded-circle">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="column column--sku">{{ p.sku }}</div>
+      <div class="column column--product">{{ p.productName }}</div>
+      <div class="column column--unit">{{ p.unit }}</div>
+      <div class="column column--qty text-center d-inline-flex justify-content-center">
+        <div class="align-items-center d-flex position-relative" style="width: 50px;">
+          <button
+            type="button"
+            class="btn-default dec update-qty"
+            (click)="changeQty$.next({ p: p, qty: -1 })"
+            [disabled]="p.qty === 1"
+          >
+            <i class="bi bi-arrow-down-short"></i>
+          </button>
+          <input type="number" class="number" [value]="p.qty" (change)="setQty$.next({ p: p, e: $event })" />
+          <button
+            type="button"
+            class="update-qty inc btn-default"
+            (click)="changeQty$.next({ p: p, qty: 1 })"
+          >
+            <i class="bi bi-arrow-up-short"></i>
+          </button>
+        </div>
+      </div>
+      <div class="column column--sub text-end">{{ p.subTotal | currency:'VND' }}</div>
+      <div class="column column--total text-end pe-2">{{ p.total | currency:'VND' }}</div>
+    </div>
+  </div>
+</div>

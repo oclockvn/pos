@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+$primary: #0964CF;
+$secondary: #2FA84F;
+$default: rgba(9, 100, 207, 0.1);
+$default-hover: rgba(9, 100, 207, 0.25);
+$btn-icon-width: 38px;
+
+.btn-hoverable {
+  &:hover {
+    background: rgb(0 0 0 / 10%) !important;
+  }
+
+  &--active {
+    background: rgb(0 0 0 / 30%) !important;
+  }
+}
+.btn-icon {
+  width: $btn-icon-width;
+  height: $btn-icon-width;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.md-input {
+  border-bottom: 1px solid #eee !important;
+
+  &:focus {
+    border-bottom-color: #bebebe !important;
+  }
+}
+
+.d-grid {
+  display: grid !important;
+
+  &.has-2-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &.has-3-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.bg-default {
+  background-color: $default !important;
+}
+
+.btn-default {
+  background-color: $default !important;
+
+  &:hover {
+    background-color: $default-hover !important;
+  }
+}
+.ng-select {
+  &.no-caret {
+    .ng-arrow-wrapper {
+      display: none;
+    }
+  }
+
+  &.border-0 {
+    .ng-select-container {
+      border: none !important;
+    }
+  }
+
+  &.shadow-none {
+    .ng-select-container {
+      box-shadow: none !important;
+    }
+  }
+}
+
+input.number::-webkit-outer-spin-button,
+input.number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.number[type=number] {
+  -moz-appearance: textfield;
+}
