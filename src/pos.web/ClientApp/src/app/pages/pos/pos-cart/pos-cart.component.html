@@ -20,9 +20,28 @@
       <div class="column column--sku">{{ p.sku }}</div>
       <div class="column column--product">{{ p.productName }}</div>
       <div class="column column--unit">{{ p.unit }}</div>
-      <div class="column column--qty text-center">{{ p.qty }}</div>
-      <div class="column column--sub text-end">{{ p.subTotal }}</div>
-      <div class="column column--total text-end pe-2">{{ p.total }}</div>
+      <div class="column column--qty text-center d-inline-flex justify-content-center">
+        <div class="align-items-center d-flex position-relative" style="width: 50px;">
+          <button
+            type="button"
+            class="btn-default dec update-qty"
+            (click)="changeQty$.next({ p: p, qty: -1 })"
+            [disabled]="p.qty === 1"
+          >
+            <i class="bi bi-arrow-down-short"></i>
+          </button>
+          <input type="number" class="number" [value]="p.qty" (change)="setQty$.next({ p: p, e: $event })" />
+          <button
+            type="button"
+            class="update-qty inc btn-default"
+            (click)="changeQty$.next({ p: p, qty: 1 })"
+          >
+            <i class="bi bi-arrow-up-short"></i>
+          </button>
+        </div>
+      </div>
+      <div class="column column--sub text-end">{{ p.subTotal | currency:'VND' }}</div>
+      <div class="column column--total text-end pe-2">{{ p.total | currency:'VND' }}</div>
     </div>
   </div>
 </div>

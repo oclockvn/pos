@@ -4,7 +4,7 @@ $order-item-height: 64px;
 
 .order-item {
   display: grid;
-  grid-template-columns: 50px 50px 120px auto 100px 80px 150px 150px;
+  grid-template-columns: 50px 50px 120px auto 100px 100px 150px 150px;
 }
 
 .card__body {
@@ -29,4 +29,52 @@ $order-item-height: 64px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.column--qty {
+  input.number {
+    width: 50px;
+    height: 24px;
+    text-align: center;
+    border: none;
+    outline: none;
+    background: inherit;
+    border-radius: .25rem;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: #ddd;
+    }
+  }
+
+  .update-qty {
+    border: 0;
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    border-radius: .25rem;
+    transition: .02s ease-out;
+    opacity: 0;
+    visibility: hidden;
+
+    &.dec {
+      right: 100%;
+    }
+
+    &.inc {
+      left: 100%;
+    }
+  }
+
+  &:hover {
+    .update-qty {
+      overflow: 1;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
