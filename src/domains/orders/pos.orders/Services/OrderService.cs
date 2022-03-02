@@ -64,7 +64,7 @@ namespace pos.orders.Services
 
             // todo: add inventory history
 
-            return new CreateOrder.Response(true);
+            return new CreateOrder.Response();
         }
 
         private core.Entities.OrderItem ValidateAndMapOrderItem(List<ValidatableProduct> products, CreateOrder.ProductItem cartItem)

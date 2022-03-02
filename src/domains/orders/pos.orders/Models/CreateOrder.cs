@@ -18,16 +18,16 @@ namespace pos.orders.Models
 
         public class Response : Result
         {
-            public bool Success { get; set; }
+            public bool Success { get; private set; } = true;
 
-            public Response(bool success)
+            public Response()
             {
-                Success = success;
             }
 
             public Response(StatusCode statusCode)
             {
                 StatusCode = statusCode;
+                Success = false;
             }
         }
 
