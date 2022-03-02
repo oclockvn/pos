@@ -10,8 +10,8 @@
     <div class="column column--total text-end pe-2">Total</div>
   </div>
   <div class="card__body">
-    <div *ngFor="let p of vm.cart" class="order-item">
-      <div class="column column--order ps-2">{{ p.order }}</div>
+    <div *ngFor="let p of vm.cart; let i = index;" class="order-item">
+      <div class="column column--order ps-2">{{ i+1 }}</div>
       <div class="column column--remove" (click)="remove$.next(p)">
         <button type="button" class="btn btn-icon btn-hoverable rounded-circle">
           <i class="bi bi-x-lg"></i>

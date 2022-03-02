@@ -7,7 +7,7 @@
         public Product Product { get; set; }
 
         public decimal WholesalesPrice { get; set; }
-        public decimal SalesPrice { get; set; }
+        public decimal SalesPrice { get; set; } // todo: remove sale price
         public decimal ImportPrice { get; set; }
 
         public int Qty { get; set; }

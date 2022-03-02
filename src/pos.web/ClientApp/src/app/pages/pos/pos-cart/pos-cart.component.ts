@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { RxState } from "@rx-angular/state";
 import { Observable, Subject } from "rxjs";
-import { PosState, POS_STATE, ProductItem } from "../states/pos.state";
+import { OrderItem } from "src/app/models";
+import { PosState, POS_STATE } from "../states/pos.state";
 
 @Component({
   selector: "app-pos-cart",
@@ -10,9 +11,9 @@ import { PosState, POS_STATE, ProductItem } from "../states/pos.state";
   providers: [RxState],
 })
 export class PosCartComponent implements OnInit {
-  remove$ = new Subject<ProductItem>();
-  changeQty$ = new Subject<{ p: ProductItem; qty: number }>();
-  setQty$ = new Subject<{ p: ProductItem; e: any }>();
+  remove$ = new Subject<OrderItem>();
+  changeQty$ = new Subject<{ p: OrderItem; qty: number }>();
+  setQty$ = new Subject<{ p: OrderItem; e: any }>();
 
   constructor(@Inject(POS_STATE) private posState: RxState<PosState>) {
     this.connect();

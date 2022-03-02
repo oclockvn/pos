@@ -13,13 +13,14 @@ export class PosComponent implements OnInit {
     @Inject(POS_STATE) private posState: RxState<PosState>,
     private _productService: ProductService,
   ) {
+    this.posState.set({
+      cart: [],
+    });
+
     this.connect();
   }
 
   ngOnInit(): void {
-    this.posState.set({
-      cart: [],
-    });
   }
 
   private connect(): void {

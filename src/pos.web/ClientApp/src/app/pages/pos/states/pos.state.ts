@@ -1,7 +1,6 @@
 import { InjectionToken } from "@angular/core";
 import { RxState } from "@rx-angular/state";
-import { Customer } from "src/app/models";
-import { Product } from "src/app/models/product.model";
+import { Customer, OrderItem, Product } from "src/app/models";
 
 export enum DeliverySource {
   WebOrder = 1,
@@ -28,17 +27,7 @@ export interface PosState {
   deliverySource: DeliverySource;
   customer: Customer;
   products: Product[];
-  cart: ProductItem[];
-}
-
-export interface ProductItem {
-  order: number;
-  sku: string;
-  productName: string;
-  unit: string;
-  qty: number;
-  subTotal: number;
-  total: number;
+  cart: OrderItem[];
 }
 
 export const POS_STATE = new InjectionToken<RxState<PosState>>("POS_STATE");
