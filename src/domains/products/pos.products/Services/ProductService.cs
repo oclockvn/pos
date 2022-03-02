@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Light.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using pos.core;
 using pos.core.Data;
 using pos.products.Models;
-using Light.GuardClauses;
 
 namespace pos.products.Services
 {
@@ -14,6 +14,8 @@ namespace pos.products.Services
         /// <param name="product"><see cref="AddProduct.Request"/></param>
         /// <returns></returns>
         Task<AddProduct.Response> AddProductAsync(AddProduct.Request product);
+
+        Task<List<GetListProduct.Response>> GetListProductsAsync(GetListProduct.Request request);
     }
 
     public class ProductService : IProductService
@@ -64,6 +66,24 @@ namespace pos.products.Services
             {
                 Id = entity.Id,
             };
+        }
+
+        public async Task<List<GetListProduct.Response>> GetListProductsAsync(GetListProduct.Request request)
+        {
+            using var context = _tenantDbContextFactory.CreateDbContext();
+            return await context.Products
+                .OrderByDescending(x => x.UpdatedAt)
+                .Select(x => new GetListProduct.Response
+                {
+                    Id = x.Id,
+                    ImportPrice = x.ImportPrice,
+                    ProductName = x.ProductName,
+                    SalesPrice = x.SalesPrice,
+                    WholesalesPrice = x.WholesalesPrice,
+                    Sku = x.Sku,
+                    Barcode = x.Barcode
+                })
+                .ToListAsync();
         }
 
         private Task<bool> IsProductNameExist(TenantDbContext context, string productName)

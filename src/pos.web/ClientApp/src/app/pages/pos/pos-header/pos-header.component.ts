@@ -23,6 +23,10 @@ export class PosHeaderComponent implements OnInit {
     return this.posState.select().pipe(selectSlice(["products"]));
   }
 
+  get products$(): Observable<Product[]> {
+    return this.posState.select("products");
+  }
+
   ngOnInit(): void {}
 
   private connect(): void {

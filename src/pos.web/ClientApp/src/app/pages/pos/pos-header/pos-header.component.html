@@ -1,13 +1,12 @@
 <header
   class="align-items-center bg-primary d-flex px-3 pos__header"
-  *ngIf="vm$ | async as vm"
 >
   <div
     class="align-items-center bg-white d-flex outline-none ps-2 rounded-3 shadow-none"
   >
     <i class="bi bi-search mx-2"></i>
     <ng-select
-      [items]="vm.products || []"
+      [items]="products$ | async"
       bindLabel="productName"
       bindValue="id"
       style="min-width: 300px"

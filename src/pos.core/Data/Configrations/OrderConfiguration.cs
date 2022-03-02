@@ -14,6 +14,12 @@ namespace pos.core.Data.Configrations
                 .WithOne(x => x.Order)
                 .HasForeignKey(x => x.OrderId);
 
+            builder.Property(x => x.OrderNumber)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            builder.HasIndex(x => x.OrderNumber).IsUnique();
+
             builder.Property(x => x.Total).HasPrecision(18, 2);
             builder.Property(x => x.TotalWithTax).HasPrecision(18, 2);
         }

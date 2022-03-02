@@ -14,6 +14,11 @@ namespace pos.core.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<InventoryHistory> InventoryHistories { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

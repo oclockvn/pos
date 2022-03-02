@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pos.core.Data;
 
@@ -11,9 +12,10 @@ using pos.core.Data;
 namespace pos.core.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220226153926_AddUniqueConstraint")]
+    partial class AddUniqueConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,14 +205,6 @@ namespace pos.core.Migrations
                     b.Property<string>("Barcode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("getutcdate()");
-
-                    b.Property<string>("CreatedId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("ImportPrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -228,12 +222,6 @@ namespace pos.core.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UpdatedId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("WholesalesPrice")
                         .HasPrecision(18, 2)
