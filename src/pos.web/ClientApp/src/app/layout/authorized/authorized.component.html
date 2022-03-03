@@ -1,11 +1,11 @@
 <div class="d-flex master">
   <aside class="aside">
     <h2 class="mb-0">
-      <a href="#" class="border-bottom border-secondary branding px-4">POS</a>
+      <a [routerLink]="['/admin']" class="border-bottom border-secondary branding px-4">POS</a>
     </h2>
     <nav class="h-100 menu">
       <div class="divider"><i class="bi bi-box-seam"></i> PRODUCTS</div>
-      <a href="#">Products</a>
+      <a [routerLink]="['./', 'products']">Products</a>
       <a href="#">Inventories</a>
       <a href="#">Purchase Orders</a>
     </nav>
