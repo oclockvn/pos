@@ -21,6 +21,8 @@ namespace pos.core.Data.Configrations
             builder.HasMany(x => x.InventoryHistories)
                 .WithOne(x => x.Inventory)
                 .HasForeignKey(x => x.InventoryId);
+
+            builder.Property(x => x.CreatedAt).HasDefaultValueSql("getutcdate()");
         }
     }
 }
