@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { RxState } from "@rx-angular/state";
-import { Observable, Subject, switchMap } from "rxjs";
+import { catchError, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { PosService } from "src/app/services/pos.service";
 import { PosState, POS_STATE } from "../states/pos.state";
 
@@ -44,7 +44,14 @@ export class PosPaymentComponent implements OnInit {
     });
 
     this.posState.connect(
-      this.pay$.pipe(switchMap(() => this.posService.pay())),
+      this.pay$.pipe(
+        switchMap(() =>
+          this.posService.pay(this.posState.get("cart")).pipe(
+            tap(() => {}),
+            catchError(() => of({})),
+          ),
+        ),
+      ),
       (prev, curr) => {
         // assume pay success
         return {

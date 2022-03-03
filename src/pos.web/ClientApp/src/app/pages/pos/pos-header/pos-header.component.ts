@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { RxState, selectSlice } from "@rx-angular/state";
 import { filter, Observable, Subject } from "rxjs";
 import { Product } from "src/app/models/product.model";
-import { PosState, POS_STATE, ProductItem } from "../states/pos.state";
+import { PosState, POS_STATE } from "../states/pos.state";
 
 @Component({
   selector: "app-pos-header",
@@ -23,6 +23,10 @@ export class PosHeaderComponent implements OnInit {
     return this.posState.select().pipe(selectSlice(["products"]));
   }
 
+  get products$(): Observable<Product[]> {
+    return this.posState.select("products");
+  }
+
   ngOnInit(): void {}
 
   private connect(): void {
@@ -30,19 +34,21 @@ export class PosHeaderComponent implements OnInit {
       this.selectedItem$.pipe(filter(x => !!x)),
       (prev, product) => {
         let currCart = prev.cart || [];
-        const existingItem = currCart.find(c => c.sku === product.sku);
+        const orderItem = currCart.find(c => c.id === product.id);
 
-        if (existingItem == null) {
+        if (orderItem == null) {
           currCart = [
             ...currCart,
             {
-              order: 1,
               productName: product.productName,
               qty: 1,
               sku: product.sku,
-              subTotal: product.salesPrice,
+              subTotal: product.salesPrice, // todo: replace by unitPrice
               total: product.salesPrice,
-              unit: "",
+              barcode: product.barcode,
+              id: product.id,
+              // inventory: product.inventory,
+              unitPrice: product.salesPrice,
             },
           ];
         } else {

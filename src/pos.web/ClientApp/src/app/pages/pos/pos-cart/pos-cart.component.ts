@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { remove, RxState } from "@rx-angular/state";
-import { catchError, Observable, Subject, switchMap } from "rxjs";
-import { PosState, POS_STATE, ProductItem } from "../states/pos.state";
+import { RxState } from "@rx-angular/state";
+import { Observable, Subject } from "rxjs";
+import { OrderItem } from "src/app/models";
+import { PosState, POS_STATE } from "../states/pos.state";
 
 @Component({
   selector: "app-pos-cart",
@@ -10,9 +11,9 @@ import { PosState, POS_STATE, ProductItem } from "../states/pos.state";
   providers: [RxState],
 })
 export class PosCartComponent implements OnInit {
-  remove$ = new Subject<ProductItem>();
-  changeQty$ = new Subject<{ p: ProductItem; qty: number }>();
-  setQty$ = new Subject<{ p: ProductItem; e: any }>();
+  remove$ = new Subject<OrderItem>();
+  changeQty$ = new Subject<{ p: OrderItem; qty: number }>();
+  setQty$ = new Subject<{ p: OrderItem; e: any }>();
 
   constructor(@Inject(POS_STATE) private posState: RxState<PosState>) {
     this.connect();
@@ -30,12 +31,9 @@ export class PosCartComponent implements OnInit {
         .pipe
         // switchMap(item => )
         (),
-      (prev, item) => {
-        console.log(`removing item`, item);
-        return {
-          cart: prev.cart.filter(i => i.sku !== item.sku),
-        };
-      },
+      (prev, item) => ({
+        cart: prev.cart.filter(i => i.sku !== item.sku),
+      }),
     );
 
     this.posState.connect(this.changeQty$.pipe(), (prev, curr) => ({
@@ -53,10 +51,4 @@ export class PosCartComponent implements OnInit {
       };
     });
   }
-
-  // onRemove(p: ProductItem) {
-  //   this.posState.set(curr => ({
-  //     cart: curr.cart.filter(i => i.sku !== p.sku),
-  //   }));
-  // }
 }

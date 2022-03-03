@@ -1,4 +1,5 @@
 using pos.core;
+using pos.orders;
 using pos.products;
 using pos.users;
 using pos.web.Services;
@@ -20,6 +21,7 @@ builder.Services
     .AddInternalServices(builder.Configuration)
     .AddCoreServices(connectionString, isDevelopment, isDevelopment)
     .AddProductServices()
+    .AddOrderServices()
     .AddUserServices()
     .AddControllersWithViews();
 

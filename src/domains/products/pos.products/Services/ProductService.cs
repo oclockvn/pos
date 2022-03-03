@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Light.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using pos.core;
 using pos.core.Data;
 using pos.products.Models;
-using Light.GuardClauses;
 
 namespace pos.products.Services
 {
