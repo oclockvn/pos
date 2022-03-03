@@ -13,5 +13,6 @@
         public string CreatedId { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+        public string Unit { get; set; }
     }
 }

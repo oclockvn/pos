@@ -6,5 +6,5 @@ export interface Product {
   salesPrice: number;
   wholesalePrice: number;
   importPrice: number;
-  inventory: number;
+  availableQty: number;
 }

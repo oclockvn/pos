@@ -47,7 +47,7 @@ export class PosHeaderComponent implements OnInit {
               total: product.salesPrice,
               barcode: product.barcode,
               id: product.id,
-              inventory: product.inventory,
+              // inventory: product.inventory,
               unitPrice: product.salesPrice,
             },
           ];

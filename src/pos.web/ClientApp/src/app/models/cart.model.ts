@@ -3,7 +3,7 @@ export interface OrderItem {
   sku: string;
   productName: string;
   barcode: string;
-  inventory: number; // available items
+  // inventory: number; // available items
   unitPrice: number;
   qty: number;
   subTotal: number;

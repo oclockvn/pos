@@ -9,7 +9,8 @@ import { Product } from "../models/product.model";
 export class ProductService {
   constructor(private httpClient: HttpClient) {}
 
+  // todo: move to pos service
   getPosProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>("api/products/products");
+    return this.httpClient.get<Product[]>("api/inventory/products");
   }
 }

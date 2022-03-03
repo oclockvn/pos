@@ -10,6 +10,7 @@ namespace pos.products
             return services
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<IProductFakeService, ProductFakeService>()
+                .AddScoped<IInventoryService, InventoryService>()
                 ;
         }
     }

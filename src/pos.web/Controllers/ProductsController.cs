@@ -12,12 +12,5 @@ namespace pos.web.Controllers
         {
             _productService = productService;
         }
-
-        [HttpGet("products")]
-        public async Task<IActionResult> Products()
-        {
-            var products = await _productService.GetListProductsAsync(new pos.products.Models.GetListProduct.Request { });
-            return Ok(products);
-        }
     }
 }
