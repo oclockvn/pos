@@ -39,6 +39,7 @@ const routes: Routes = [
   },
   {
     path: "pos",
+    canActivate: [AuthorizeGuard],
     loadChildren: () =>
       import("src/app/pages/pos/pos.module").then(m => m.PosModule),
   },
