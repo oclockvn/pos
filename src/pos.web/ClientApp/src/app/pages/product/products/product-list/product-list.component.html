@@ -3,3 +3,51 @@
 <a [routerLink]="['./', 'create']">Create</a>
 <a [routerLink]="['./', 1]">Detail</a>
 <a [routerLink]="['./', 1, 'edit']">Update</a>
+
+<div class="p-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="flex-fill"></div>
+    <button type="button" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Add Product
+    </button>
+  </div>
+
+  <div>
+    <!-- search -->
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="search-icon"><i class="bi bi-search"></i></span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by product name, barcode or sku"
+        aria-label="Search product"
+        aria-describedby="search-icon"
+      />
+    </div>
+
+    <!-- table -->
+    <ngx-datatable
+        class="material"
+        [rows]="records"
+        [columns]="columns"
+        columnMode="flex"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [scrollbarV]="true"
+        (page)="onPage($event)"
+      >
+        <!-- <ngx-datatable-column name="Name" [width]="300">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Gender" [width]="300">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <i [innerHTML]="row['name']"></i> and <i>{{ value }}</i>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Row Height" prop="height" [width]="80"> </ngx-datatable-column> -->
+      </ngx-datatable>
+  </div>
+</div>

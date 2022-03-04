@@ -7,7 +7,9 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 
+const lib = [NgxDatatableModule];
 
 @NgModule({
   declarations: [
@@ -15,11 +17,8 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     ProductDetailComponent,
     ProductCreateComponent,
     ProductUpdateComponent,
-    ProductEditComponent
+    ProductEditComponent,
   ],
-  imports: [
-    CommonModule,
-    ProductsRoutingModule
-  ]
+  imports: [CommonModule, ProductsRoutingModule, ...lib],
 })
-export class ProductsModule { }
+export class ProductsModule {}
