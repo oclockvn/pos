@@ -1,6 +1,10 @@
+@import "./scss/ng-select.override.scss";
+
 /* You can add global styles to this file, and also import other style files */
 @import "./../node_modules/bootstrap-icons/font/bootstrap-icons.css";
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/@ng-select/ng-select/scss/default.theme.scss";
+@import "../node_modules/@swimlane/ngx-datatable/assets/icons.css";
+@import "../node_modules/@swimlane/ngx-datatable/index.css";
 @import "../node_modules/@swimlane/ngx-datatable/themes/material.css";
 
 $primary: #0964CF;
@@ -85,4 +89,8 @@ input.number::-webkit-inner-spin-button {
 
 input.number[type=number] {
   -moz-appearance: textfield;
+}
+
+.outline-none {
+  outline: none !important;
 }

@@ -36,9 +36,9 @@ const routes: Routes = [
       {
         path: "products",
         loadChildren: () =>
-          import("src/app/pages/product/products/products.module").then(
-            m => m.ProductsModule,
-          ),
+          import(
+            "src/app/pages/product/products/product-list/product-list.module"
+          ).then(m => m.ProductListModule),
       },
     ],
   },

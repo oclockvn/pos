@@ -2,14 +2,20 @@ $aside-bg: #202d3f;
 $aside-color: #cad6e2;
 $aside-w: 230px;
 $aside-icon: 24px;
+$master-bg: #f0f1f1;
 
 .master {
   min-height: 100vh;
+  background: $master-bg;
 
   .aside {
     background: $aside-bg;
     color: $aside-color;
   }
+.main-container {
+  height: 100vh;
+  overflow: auto;
+}
 }
 
 .aside {

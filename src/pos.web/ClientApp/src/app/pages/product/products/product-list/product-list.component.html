@@ -1,53 +1,79 @@
-<p>product-list works!</p>
-
-<a [routerLink]="['./', 'create']">Create</a>
-<a [routerLink]="['./', 1]">Detail</a>
-<a [routerLink]="['./', 1, 'edit']">Update</a>
-
 <div class="p-3">
-  <div class="d-flex align-items-center justify-content-between">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-download"></i> Export
+      </button>
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-upload"></i> Import
+      </button>
+    </div>
     <div class="flex-fill"></div>
     <button type="button" class="btn btn-primary">
       <i class="bi bi-plus"></i> Add Product
     </button>
   </div>
 
-  <div>
+  <div class="p-3 rounded bg-white">
     <!-- search -->
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="search-icon"><i class="bi bi-search"></i></span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by product name, barcode or sku"
-        aria-label="Search product"
-        aria-describedby="search-icon"
-      />
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="input-group me-3">
+        <span class="input-group-text bg-white" id="search-icon"
+          ><i class="bi bi-search"></i
+        ></span>
+        <input
+          type="text"
+          class="border-start-0 form-control"
+          placeholder="Search by product name, barcode or sku"
+          aria-label="Search product"
+          aria-describedby="search-icon"
+        />
+      </div>
+
+      <ng-select
+        [items]="[1, 2, 3, 4]"
+        [clearable]="false"
+        [closeOnSelect]="true"
+        style="min-width: 200px"
+        class="me-3"
+      >
+      </ng-select>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" style="min-width: 100px;">
+          <i class="bi bi-search"></i>
+          Search
+        </button>
+        <button type="button" class="btn btn-default" style="min-width: 100px;">
+          <i class="bi bi-x-lg"></i>
+          Clear
+        </button>
+      </div>
     </div>
 
     <!-- table -->
-    <ngx-datatable
-        class="material"
+    <div class="border overflow-hidden rounded shadow-sm">
+      <ngx-datatable
+        class="material rounded"
         [rows]="records"
         [columns]="columns"
-        columnMode="flex"
+        columnMode="force"
         [headerHeight]="50"
         [footerHeight]="50"
         [rowHeight]="50"
-        [scrollbarV]="true"
+        [externalPaging]="true"
+        [externalSorting]="true"
+        [count]="50"
+        [offset]="0"
+        [limit]="20"
         (page)="onPage($event)"
+        (sort)="onSort($event)"
       >
-        <!-- <ngx-datatable-column name="Name" [width]="300">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            <strong>{{ value }}</strong>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Gender" [width]="300">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <i [innerHTML]="row['name']"></i> and <i>{{ value }}</i>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Row Height" prop="height" [width]="80"> </ngx-datatable-column> -->
       </ngx-datatable>
+    </div>
   </div>
 </div>
+
+<ng-template #colCreatedAt let-value="value">
+  {{ value | date: "dd/MM/yyyy" }}
+</ng-template>
