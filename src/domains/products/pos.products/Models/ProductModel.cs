@@ -36,4 +36,23 @@ namespace pos.products.Models
             public StatusCode? StatusCode { get; set; }
         }
     }
+
+    public class ProductList
+    {
+        public class Request
+        { }
+
+        public class Response
+        {
+            public long Id { get; set; }
+            public string ProductName { get; set; }
+            public string Category { get; set; }
+            public string Brand { get; set; }
+            public string Sku { get; set; }
+            public string Barcode { get; set; }
+            public int AvailableQty { get; set; }
+            public int TotalQty { get; set; }
+            public DateTimeOffset CreatedAt { get; set; }
+        }
+    }
 }

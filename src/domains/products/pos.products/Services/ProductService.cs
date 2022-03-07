@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pos.core;
 using pos.core.Data;
+using pos.core.Models;
 using pos.products.Models;
 
 namespace pos.products.Services
@@ -14,6 +15,8 @@ namespace pos.products.Services
         /// <param name="product"><see cref="AddProduct.Request"/></param>
         /// <returns></returns>
         Task<AddProduct.Response> AddProductAsync(AddProduct.Request product);
+
+        Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request);
     }
 
     public class ProductService : IProductService
@@ -58,11 +61,38 @@ namespace pos.products.Services
                 ImportPrice = product.ImportPrice,
             }).Entity;
 
+            context.Inventories.Add(new core.Entities.Inventory(entity));
+
             await context.SaveChangesAsync();
 
             return new AddProduct.Response
             {
                 Id = entity.Id,
+            };
+        }
+
+        public async Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request)
+        {
+            using var context = _tenantDbContextFactory.CreateDbContext();
+            var products = await context.Products
+                .Select(x => new ProductList.Response
+                {
+                    Id = x.Id,
+                    Sku = x.Sku,
+                    ProductName = x.ProductName,
+                    Barcode = x.Barcode,
+                    CreatedAt = x.CreatedAt,
+                    TotalQty = 0,
+                    AvailableQty = 0,
+                    Brand = "",
+                    Category = "",
+                })
+                .ToListAsync();
+
+            return new Paging<ProductList.Response>
+            {
+                Metadata = new PagingMetadata { Count = products.Count, CurrentPage = 0, ItemPerPage = 20, },
+                Records = products
             };
         }
 

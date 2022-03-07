@@ -18,5 +18,18 @@
         public DateTimeOffset CreatedAt { get; set; }
         public string UpdatedId { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
+
+        public Inventory()
+        {
+
+        }
+
+        public Inventory(Product p)
+        {
+            WholesalesPrice = p.WholesalesPrice;
+            SalesPrice = p.SalesPrice;
+            ImportPrice = p.ImportPrice;
+            ProductId = p.Id;
+        }
     }
 }
