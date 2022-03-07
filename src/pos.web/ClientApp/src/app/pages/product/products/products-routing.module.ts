@@ -1,25 +1,32 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ProductDetailComponent } from "./product-detail/product-detail.component";
-import { ProductEditComponent } from "./product-edit/product-edit.component";
-// import { ProductListComponent } from "./product-list/product-list.component";
+import { ProductsComponent } from "./products.component";
 
 const routes: Routes = [
-  // {
-  //   path: "",
-  //   component: ProductListComponent,
-  // },
   {
-    path: ":id",
-    component: ProductDetailComponent,
-  },
-  {
-    path: "create",
-    component: ProductEditComponent,
-  },
-  {
-    path: ":id/edit",
-    component: ProductEditComponent,
+    path: "",
+    component: ProductsComponent,
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import("./product-list/product-list.module").then(
+            m => m.ProductListModule,
+          ),
+      },
+      // {
+      //   path: ":id",
+      //   component: ProductDetailComponent,
+      // },
+      // {
+      //   path: "create",
+      //   component: ProductEditComponent,
+      // },
+      // {
+      //   path: ":id/edit",
+      //   component: ProductEditComponent,
+      // },
+    ],
   },
 ];
 

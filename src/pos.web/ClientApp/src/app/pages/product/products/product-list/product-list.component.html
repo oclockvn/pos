@@ -16,46 +16,63 @@
 
   <div class="p-3 rounded bg-white">
     <!-- search -->
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <div class="input-group me-3">
-        <span class="input-group-text bg-white" id="search-icon"
-          ><i class="bi bi-search"></i
-        ></span>
-        <input
-          type="text"
-          class="border-start-0 form-control"
-          placeholder="Search by product name, barcode or sku"
-          aria-label="Search product"
-          aria-describedby="search-icon"
-        />
-      </div>
+    <form [formGroup]="searchForm">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="input-group me-3">
+          <span class="input-group-text bg-white" id="search-icon"
+            ><i class="bi bi-search"></i
+          ></span>
+          <input
+            type="text"
+            class="border-start-0 form-control"
+            placeholder="Search by product name, barcode or sku"
+            aria-label="Search product"
+            aria-describedby="search-icon"
+            formControlName="keyword"
+          />
+        </div>
 
-      <ng-select
-        [items]="[1, 2, 3, 4]"
-        [clearable]="false"
-        [closeOnSelect]="true"
-        style="min-width: 200px"
-        class="me-3"
-      >
-      </ng-select>
+        <ng-select
+          [items]="categories$ | async"
+          bindValue="id"
+          bindLabel="value"
+          [closeOnSelect]="true"
+          [multiple]="true"
+          placeholder="Categories"
+          style="min-width: 200px"
+          class="me-3"
+          formControlName="categories"
+        >
+        </ng-select>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary" style="min-width: 100px;">
-          <i class="bi bi-search"></i>
-          Search
-        </button>
-        <button type="button" class="btn btn-default" style="min-width: 100px;">
-          <i class="bi bi-x-lg"></i>
-          Clear
-        </button>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="min-width: 100px"
+            (click)="submitSearch$.next(searchForm.value)"
+          >
+            <i class="bi bi-search"></i>
+            Search
+          </button>
+          <button
+            type="button"
+            class="btn btn-default"
+            style="min-width: 100px"
+            (click)="resetSearch$.next()"
+          >
+            <i class="bi bi-x-lg"></i>
+            Clear
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
 
     <!-- table -->
     <div class="border overflow-hidden rounded shadow-sm">
       <ngx-datatable
         class="material rounded"
-        [rows]="records"
+        [rows]="products$ | async"
         [columns]="columns"
         columnMode="force"
         [headerHeight]="50"
@@ -63,9 +80,9 @@
         [rowHeight]="50"
         [externalPaging]="true"
         [externalSorting]="true"
-        [count]="50"
-        [offset]="0"
-        [limit]="20"
+        [count]="(metadata$|async)?.count || 0"
+        [offset]="(metadata$|async)?.currentPage || 0"
+        [limit]="(metadata$|async)?.itemPerPage || 0"
         (page)="onPage($event)"
         (sort)="onSort($event)"
       >
