@@ -11,6 +11,10 @@ namespace pos.web.Controllers
 
         public FakerController(IProductFakeService productFakerService)
         {
+#if !DEBUG
+            return Forbid();
+#endif
+
             _fakeService = productFakerService;
         }
 
@@ -19,10 +23,6 @@ namespace pos.web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GenerateProducts(int? count)
         {
-#if !DEBUG
-            return Forbid();
-#endif
-
             var saved = await _fakeService.FakeProductAsync(count ?? 100);
             return Ok(new { saved });
         }
