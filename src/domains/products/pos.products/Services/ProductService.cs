@@ -60,6 +60,8 @@ namespace pos.products.Services
                 WholesalesPrice = product.WholesalesPrice,
                 SalesPrice = product.SalesPrice,
                 ImportPrice = product.ImportPrice,
+                Sku = product.Sku,
+                Barcode = product.Barcode,
             }).Entity;
 
             context.Inventories.Add(new core.Entities.Inventory(entity));
@@ -125,26 +127,10 @@ namespace pos.products.Services
                     CreatedAt = x.CreatedAt,
                     TotalQty = x.TotalQty,
                     AvailableQty = x.AvailableQty,
-                    Brand = "",
+                    Brand = "", // todo: set brand and category
                     Category = "",
                 })
                 .ToListAsync();
-
-            //var list = products.AsQueryable();
-
-            //if (!string.IsNullOrWhiteSpace(request.SortBy))
-            //{
-            //    var sortBy = request.SortBy.ToLower();
-            //    var asc = request.SortDir == "asc";
-
-            //    list = sortBy switch
-            //    {
-            //        "createdat" => list.Sort(x => x.CreatedAt, asc),
-            //        "availableqty" => list.Sort(x => x.AvailableQty, asc),
-            //        "totalqty" => list.Sort(x => x.TotalQty, asc),
-            //        _ => list.Sort(x => x.Id, asc),
-            //    };
-            //}
 
             return new Paging<ProductList.Response>
             {

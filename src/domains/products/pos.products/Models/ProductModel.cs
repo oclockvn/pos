@@ -29,6 +29,8 @@ namespace pos.products.Models
             public decimal WholesalesPrice { get; set; }
             public decimal SalesPrice { get; set; }
             public decimal ImportPrice { get; set; }
+            public string Sku { get; set; }
+            public string Barcode { get; set; }
         }
 
         public class Response

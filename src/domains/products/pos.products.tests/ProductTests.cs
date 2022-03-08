@@ -28,12 +28,15 @@ namespace pos.products.tests
         {
             var productService = _serviceProvider.GetRequiredService<IProductService>();
 
+            var sku = Guid.NewGuid().ToString()[0..8];
             var response = await productService.AddProductAsync(new Models.AddProduct.Request
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
                 SalesPrice = 15,
                 WholesalesPrice = 12,
+                Sku = sku,
+                Barcode = sku
             });
 
             response.Should().NotBeNull();
@@ -61,12 +64,15 @@ namespace pos.products.tests
         {
             var productService = _serviceProvider.GetRequiredService<IProductService>();
 
+            var sku = Guid.NewGuid().ToString()[0..8];
             var response = await productService.AddProductAsync(new Models.AddProduct.Request
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
                 SalesPrice = 15,
                 WholesalesPrice = 12,
+                Sku = sku,
+                Barcode = sku
             });
 
             response.Should().NotBeNull();
