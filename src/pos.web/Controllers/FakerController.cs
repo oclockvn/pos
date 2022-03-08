@@ -12,7 +12,7 @@ namespace pos.web.Controllers
         public FakerController(IProductFakeService productFakerService)
         {
 #if !DEBUG
-            return Forbid();
+            throw new NotImplementedException();
 #endif
 
             _fakeService = productFakerService;
