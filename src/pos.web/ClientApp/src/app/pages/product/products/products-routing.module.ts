@@ -18,10 +18,13 @@ const routes: Routes = [
       //   path: ":id",
       //   component: ProductDetailComponent,
       // },
-      // {
-      //   path: "create",
-      //   component: ProductEditComponent,
-      // },
+      {
+        path: "create",
+        loadChildren: () =>
+          import("./product-edit/product-edit.module").then(
+            m => m.ProductEditModule,
+          ),
+      },
       // {
       //   path: ":id/edit",
       //   component: ProductEditComponent,
