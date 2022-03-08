@@ -9,14 +9,20 @@ import {
 import { FormControl, FormGroup } from "@angular/forms";
 import { RxState } from "@rx-angular/state";
 import { DatatableComponent, TableColumn } from "@swimlane/ngx-datatable";
-import { BehaviorSubject, Observable, Subject, switchMap } from "rxjs";
+import {
+  BehaviorSubject,
+  Observable,
+  shareReplay,
+  Subject,
+  switchMap,
+} from "rxjs";
 import {
   IdValue,
   PagingMetadata,
   ProductListItem,
   ProductListSearch,
 } from "src/app/models";
-import { ProductService } from "src/app/services/product.service";
+import { ProductService } from "src/app/services";
 import { PageInfo, SortInfo } from "src/app/types";
 import {
   ProductListPageState,
@@ -37,6 +43,8 @@ declare type FormType = {
 })
 export class ProductListComponent implements OnInit {
   @ViewChild("colCreatedAt", { static: true }) colCreatedAt!: TemplateRef<any>;
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
+
   columns: TableColumn[] = [];
   searchForm = new FormGroup({
     keyword: new FormControl(),
@@ -48,18 +56,16 @@ export class ProductListComponent implements OnInit {
   resetSearch$ = new Subject<void>();
 
   get categories$(): Observable<IdValue[]> {
-    return this.productPageState.select("categories"); // todo: recheck getter with change detection
+    return this.productPageState.select("categories").pipe(shareReplay(1)); // todo: recheck getter with change detection
   }
 
   get products$(): Observable<ProductListItem[]> {
-    return this.productListState.select("products");
+    return this.productListState.select("products").pipe(shareReplay(1));
   }
 
   get metadata$(): Observable<PagingMetadata> {
-    return this.productListState.select("metadata");
+    return this.productListState.select("metadata").pipe(shareReplay(1));
   }
-
-  @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   constructor(
     @Inject(PRODUCT_PAGE_STATE)
@@ -90,7 +96,7 @@ export class ProductListComponent implements OnInit {
 
     this.productListState.hold(this.resetSearch$, () => {
       this.searchForm.reset();
-      this.submitSearch$.next({});
+      this.search$.next({ currentPage: 0 });
       this.table.offset = 0;
     });
   }

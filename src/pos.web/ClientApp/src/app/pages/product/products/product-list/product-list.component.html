@@ -29,6 +29,7 @@
             aria-label="Search product"
             aria-describedby="search-icon"
             formControlName="keyword"
+            (keyup.enter)="search$.next(searchForm.value)"
           />
         </div>
 
