@@ -1,4 +1,5 @@
 ﻿using pos.core;
+using pos.core.Models;
 
 namespace pos.products.Models
 {
@@ -39,8 +40,10 @@ namespace pos.products.Models
 
     public class ProductList
     {
-        public class Request
-        { }
+        public class Request : SearchInfo
+        {
+            public List<long> Categories { get; set; } = new List<long>();
+        }
 
         public class Response
         {
