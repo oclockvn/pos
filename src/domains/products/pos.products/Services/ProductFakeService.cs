@@ -33,14 +33,20 @@ namespace pos.products.Services
             using var context = _tenantDbContextFactory.CreateDbContext();
             context.Products.AddRange(products);
 
+            var r = new Random();
+
             foreach (var p in products)
             {
+                var availQty = r.Next(1, 100);
+
                 context.Inventories.Add(new core.Entities.Inventory
                 {
                     WholesalesPrice = p.WholesalesPrice,
                     SalesPrice = p.SalesPrice,
                     ImportPrice = p.ImportPrice,
-                    Product = p
+                    Product = p,
+                    AvailableQty = availQty,
+                    TotalQty = availQty + 10
                 });
             }
 
