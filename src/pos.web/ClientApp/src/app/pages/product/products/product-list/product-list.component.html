@@ -1,0 +1,98 @@
+<div class="p-3">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-download"></i> Export
+      </button>
+      <button type="button" class="btn btn-default">
+        <i class="bi bi-upload"></i> Import
+      </button>
+    </div>
+    <div class="flex-fill"></div>
+    <button type="button" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Add Product
+    </button>
+  </div>
+
+  <div class="p-3 rounded bg-white">
+    <!-- search -->
+    <form [formGroup]="searchForm">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="input-group me-3">
+          <span class="input-group-text bg-white" id="search-icon"
+            ><i class="bi bi-search"></i
+          ></span>
+          <input
+            type="text"
+            class="border-start-0 form-control"
+            placeholder="Search by product name, barcode or sku"
+            aria-label="Search product"
+            aria-describedby="search-icon"
+            formControlName="keyword"
+            (keyup.enter)="search$.next(searchForm.value)"
+          />
+        </div>
+
+        <ng-select
+          [items]="categories$ | async"
+          bindValue="id"
+          bindLabel="value"
+          [closeOnSelect]="true"
+          [multiple]="true"
+          placeholder="Categories"
+          style="min-width: 200px"
+          class="me-3"
+          formControlName="categories"
+        >
+        </ng-select>
+
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="min-width: 100px"
+            (click)="submitSearch$.next(searchForm.value)"
+          >
+            <i class="bi bi-search"></i>
+            Search
+          </button>
+          <button
+            type="button"
+            class="btn btn-default"
+            style="min-width: 100px"
+            (click)="resetSearch$.next()"
+          >
+            <i class="bi bi-x-lg"></i>
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- table -->
+    <div class="border overflow-hidden rounded shadow-sm">
+      <ngx-datatable
+        class="material rounded"
+        [rows]="products$ | async"
+        [columns]="columns"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [loadingIndicator]="(loading$ | async) === true"
+        [externalPaging]="true"
+        [externalSorting]="true"
+        [count]="(metadata$|async)?.count || 0"
+        [offset]="(metadata$|async)?.currentPage || 0"
+        [limit]="(metadata$|async)?.itemPerPage || 0"
+        (page)="onPage($event)"
+        (sort)="onSort($event)"
+      >
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+<ng-template #colCreatedAt let-value="value">
+  {{ value | date: "dd/MM/yyyy" }}
+</ng-template>

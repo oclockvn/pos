@@ -6,6 +6,11 @@ import { AuthorizedComponent } from "./layout/authorized/authorized.component";
 const routes: Routes = [
   {
     path: "",
+    redirectTo: "admin",
+    pathMatch: "full",
+  },
+  {
+    path: "admin",
     component: AuthorizedComponent,
     canActivate: [AuthorizeGuard],
     children: [
@@ -29,16 +34,17 @@ const routes: Routes = [
           ),
       },
       {
-        path: "product",
+        path: "products",
         loadChildren: () =>
-          import("src/app/pages/product/product.module").then(
-            m => m.ProductModule,
+          import("src/app/pages/product/products/products.module").then(
+            m => m.ProductsModule,
           ),
       },
     ],
   },
   {
     path: "pos",
+    canActivate: [AuthorizeGuard],
     loadChildren: () =>
       import("src/app/pages/pos/pos.module").then(m => m.PosModule),
   },

@@ -1,0 +1,52 @@
+$aside-bg: #202d3f;
+$aside-color: #cad6e2;
+$aside-w: 230px;
+$aside-icon: 24px;
+$master-bg: #f0f1f1;
+
+.master {
+  min-height: 100vh;
+  background: $master-bg;
+
+  .aside {
+    background: $aside-bg;
+    color: $aside-color;
+  }
+.main-container {
+  height: 100vh;
+  overflow: auto;
+}
+}
+
+.aside {
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: $aside-w;
+    padding: 10px;
+    padding-left: 60px;
+
+    &:hover {
+      color: #fff;
+      background: hsl(215deg 33% 24%);
+    }
+  }
+
+  .divider {
+    padding: 10px;
+    padding-left: 60px;
+    position: relative;
+
+    .bi {
+      position: absolute;
+      left: 1rem;
+      width: $aside-icon;
+      height: $aside-icon;
+      font-size: $aside-icon;
+      line-height: $aside-icon;
+      top: 8px;
+    }
+  }
+}

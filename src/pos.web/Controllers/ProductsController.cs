@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using pos.products.Models;
 using pos.products.Services;
 
 namespace pos.web.Controllers
@@ -11,6 +12,13 @@ namespace pos.web.Controllers
         public ProductsController(IProductService productService)
         {
             _productService = productService;
+        }
+
+        [HttpGet("products")]
+        public async Task<IActionResult> GetProducts([FromQuery] ProductList.Request request)
+        {
+            var result = await _productService.GetProducts(request);
+            return Ok(result);
         }
     }
 }

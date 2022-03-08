@@ -1,16 +1,30 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { Product } from "../models/product.model";
+import { Observable } from "rxjs";
+import { Paging, ProductListItem } from "../models";
+import { Product, ProductListSearch } from "../models";
+import { stringify } from "query-string";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   // todo: move to pos service
   getPosProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>("api/inventory/products");
+    return this.http.get<Product[]>("api/inventory/products");
+  }
+
+  getProducts(search: ProductListSearch): Observable<Paging<ProductListItem>> {
+    const q = stringify({
+      keyword: search.keyword,
+      categories: search.categories || [],
+      currentPage: search.currentPage,
+      sortBy: search.sort?.sortBy,
+      sortDir: search.sort?.dir,
+    });
+
+    return this.http.get<Paging<ProductListItem>>(`api/products/products?` + q);
   }
 }

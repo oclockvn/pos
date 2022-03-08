@@ -1,4 +1,5 @@
 ﻿using pos.core;
+using pos.core.Models;
 
 namespace pos.products.Models
 {
@@ -28,12 +29,35 @@ namespace pos.products.Models
             public decimal WholesalesPrice { get; set; }
             public decimal SalesPrice { get; set; }
             public decimal ImportPrice { get; set; }
+            public string Sku { get; set; }
+            public string Barcode { get; set; }
         }
 
         public class Response
         {
             public long Id { get; set; }
             public StatusCode? StatusCode { get; set; }
+        }
+    }
+
+    public class ProductList
+    {
+        public class Request : SearchInfo
+        {
+            public List<long> Categories { get; set; } = new List<long>();
+        }
+
+        public class Response
+        {
+            public long Id { get; set; }
+            public string ProductName { get; set; }
+            public string Category { get; set; }
+            public string Brand { get; set; }
+            public string Sku { get; set; }
+            public string Barcode { get; set; }
+            public int AvailableQty { get; set; }
+            public int TotalQty { get; set; }
+            public DateTimeOffset CreatedAt { get; set; }
         }
     }
 }
