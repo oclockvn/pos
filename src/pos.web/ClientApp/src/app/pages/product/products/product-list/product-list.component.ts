@@ -11,10 +11,12 @@ import { RxState } from "@rx-angular/state";
 import { DatatableComponent, TableColumn } from "@swimlane/ngx-datatable";
 import {
   BehaviorSubject,
+  map,
   Observable,
   shareReplay,
   Subject,
   switchMap,
+  tap,
 } from "rxjs";
 import {
   IdValue,
@@ -67,6 +69,10 @@ export class ProductListComponent implements OnInit {
     return this.productListState.select("metadata").pipe(shareReplay(1));
   }
 
+  get loading$(): Observable<boolean> {
+    return this.productListState.select("loading").pipe(shareReplay(1));
+  }
+
   constructor(
     @Inject(PRODUCT_PAGE_STATE)
     private productPageState: RxState<ProductListPageState>,
@@ -78,10 +84,14 @@ export class ProductListComponent implements OnInit {
     this.initTable();
 
     this.productListState.connect(
-      this.search$.pipe(switchMap(s => this.productService.getProducts(s))),
+      this.search$.pipe(
+        tap(() => this.productListState.set({ loading: true })),
+        switchMap(s => this.productService.getProducts(s)),
+      ),
       (_, result) => ({
         products: result.records,
         metadata: { ...result.metadata },
+        loading: false,
       }),
     );
 
