@@ -61,18 +61,13 @@
                 <label class="form-label" for="weight">Weight</label>
                 <div class="input-group">
                   <input type="text" class="form-control" aria-label="Weight" />
-                  <button
-                    class="btn btn-outline-secondary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                  <ng-select
+                    class="weight-options"
+                    [clearable]="false"
+                    [items]="['g', 'kg']"
+                    style="width: 60px"
                   >
-                    Weight
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">g</a></li>
-                    <li><a class="dropdown-item" href="#">kg</a></li>
-                  </ul>
+                  </ng-select>
                 </div>
               </div>
             </div>
