@@ -7,6 +7,9 @@
 @import "../node_modules/@swimlane/ngx-datatable/index.css";
 @import "../node_modules/@swimlane/ngx-datatable/themes/material.css";
 
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.bubble.css";
+
 $primary: #0964CF;
 $secondary: #2FA84F;
 $default: rgba(9, 100, 207, 0.1);

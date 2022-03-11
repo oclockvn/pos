@@ -7,9 +7,14 @@ import { AppComponent } from "./app.component";
 import { AuthorizedComponent } from "./layout/authorized/authorized.component";
 import { AuthorizeInterceptor } from "./interceptors";
 
+
+import { QuillModule } from "ngx-quill";
+
+const lib = [QuillModule.forRoot()];
+
 @NgModule({
   declarations: [AppComponent, AuthorizedComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, ...lib],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

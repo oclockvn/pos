@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { ProductEditRoutingModule } from './product-edit-routing.module';
+import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgSelectModule } from "@ng-select/ng-select";
+import { ProductEditRoutingModule } from "./product-edit-routing.module";
+
 import { ProductEditComponent } from "./product-edit.component";
 
-const lib = [NgSelectModule];
+import { NgSelectModule } from "@ng-select/ng-select";
+import { QuillModule } from "ngx-quill";
+
+const lib = [NgSelectModule, QuillModule];
 
 @NgModule({
   declarations: [ProductEditComponent],
