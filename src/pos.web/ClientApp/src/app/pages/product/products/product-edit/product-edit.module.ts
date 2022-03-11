@@ -7,8 +7,9 @@ import { ProductEditComponent } from "./product-edit.component";
 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { QuillModule } from "ngx-quill";
+import { LetModule } from "@rx-angular/template";
 
-const lib = [NgSelectModule, QuillModule];
+const lib = [NgSelectModule, QuillModule, LetModule];
 
 @NgModule({
   declarations: [ProductEditComponent],

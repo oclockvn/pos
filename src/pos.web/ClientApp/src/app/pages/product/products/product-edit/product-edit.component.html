@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container py-3" *rxLet="vm$ as vm">
   <div class="row">
     <div class="col-8">
       <div class="card mb-3">
@@ -89,12 +89,12 @@
             </div>
           </div>
 
-          <button type="button" class="btn btn-sm btn-primary">
+          <button type="button" class="btn btn-sm btn-primary" (click)="toggleDescription$.next()">
             Product description
           </button>
 
-          <div>
-            <quill-editor></quill-editor>
+          <div class="mt-3" *ngIf="vm.showProductDescription">
+            <quill-editor [styles]="{height: '200px'}"></quill-editor>
           </div>
         </div>
       </div>
