@@ -4380,6 +4380,13 @@ ngx-bootstrap@8.0.0:
   dependencies:
     tslib "^2.0.0"
 
+ngx-dropzone@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-dropzone/-/ngx-dropzone-3.1.0.tgz#f2045a9ca90903fa96304f1b2aa33a922f14b15a"
+  integrity sha512-5RBaEl07QUcY6sv/BBPyIxN6nbWY/KqTGheEKgbuGS0N1QPFY7NJUo8+X3fYUwQgLS+wjJeqPiR37dd0YNDtWA==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-quill@^16.1.2:
   version "16.1.2"
   resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-16.1.2.tgz#577e8ae969855e41c64e8f605ab0ad37381ea061"
