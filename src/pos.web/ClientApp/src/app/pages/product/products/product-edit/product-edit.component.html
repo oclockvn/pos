@@ -89,12 +89,16 @@
             </div>
           </div>
 
-          <button type="button" class="btn btn-sm btn-primary" (click)="toggleDescription$.next()">
+          <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="toggleDescription$.next()"
+          >
             Product description
           </button>
 
           <div class="mt-3" *ngIf="vm.showProductDescription">
-            <quill-editor [styles]="{height: '200px'}"></quill-editor>
+            <quill-editor [styles]="{ height: '200px' }"></quill-editor>
           </div>
         </div>
       </div>
@@ -138,13 +142,30 @@
             Images
           </div>
           <div
-            class="border p-3 py-4 rounded text-center"
+            class="border rounded text-center"
             style="border-style: dashed !important"
           >
-            <div>
-              <i class="bi bi-plus"></i>
-              <span>drag and drop images here or</span>
-              <a class="ms-1" href="#">upload from your computer</a>
+            <div
+              class="custom-dropzone"
+              ngx-dropzone
+              [accept]="'image/*'"
+              (change)="selectedFiles$.next($event.addedFiles)"
+            >
+              <ngx-dropzone-label>
+                <div>
+                  <i class="bi bi-plus"></i>
+                  <span>drag and drop images here or</span>
+                  <span class="ms-1 text-primary text-decoration-underline">upload from your computer</span>
+                </div>
+              </ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-preview"
+                *ngFor="let f of vm.files"
+                [file]="f"
+                [removable]="true"
+                (removed)="removedFile$.next(f)"
+              >
+              </ngx-dropzone-image-preview>
             </div>
           </div>
         </div>
