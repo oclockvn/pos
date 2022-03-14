@@ -9,9 +9,10 @@
 
 @import "../node_modules/quill/dist/quill.core.css";
 @import "../node_modules/quill/dist/quill.bubble.css";
+@import "../node_modules/quill/dist/quill.snow.css";
 
-$primary: #0964CF;
-$secondary: #2FA84F;
+$primary: #0964cf;
+$secondary: #2fa84f;
 $default: rgba(9, 100, 207, 0.1);
 $default-hover: rgba(9, 100, 207, 0.25);
 $btn-icon-width: 38px;
@@ -90,7 +91,7 @@ input.number::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input.number[type=number] {
+input.number[type="number"] {
   -moz-appearance: textfield;
 }
 
