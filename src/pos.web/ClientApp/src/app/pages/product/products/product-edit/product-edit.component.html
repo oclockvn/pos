@@ -1,257 +1,330 @@
 <div class="container py-3">
-  <div class="row">
-    <div class="col-8">
-      <div class="card mb-3">
-        <div class="bg-white card-header d-flex justify-content-between py-3">
-          <span>Product types</span>
-          <span>Setup</span>
-        </div>
-        <div class="card-body">
-          <div class="d-flex">
-            <div class="form-check me-5">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="productType"
-                id="normalProduct"
-              />
-              <label class="form-check-label" for="normalProduct">
-                Normal product
-              </label>
-            </div>
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" (click)="submitForm()">
+        SAVE
+      </button>
+    </div>
 
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="productType"
-                id="expiryProduct"
-              />
-              <label class="form-check-label" for="expiryProduct">
-                Expiry product
-              </label>
+    <div class="row">
+      <div class="col-8">
+        <div class="card mb-3">
+          <div class="bg-white card-header d-flex justify-content-between py-3">
+            <span>Product types</span>
+            <span>Setup</span>
+          </div>
+          <div class="card-body">
+            <div class="d-flex">
+              <div class="form-check me-5">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="productType"
+                  id="normalProduct"
+                  [value]="'normal'"
+                  formControlName="productType"
+                />
+                <label class="form-check-label" for="normalProduct">
+                  Normal product
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="productType"
+                  id="expiryProduct"
+                  [value]="'expiry'"
+                  formControlName="productType"
+                />
+                <label class="form-check-label" for="expiryProduct">
+                  Expiry product
+                </label>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- product type -->
+        <!-- product type -->
 
-      <div class="card mb-3">
-        <div class="card-header bg-white py-3">Product information</div>
-        <div class="card-body">
-          <div class="form-group mb-3">
-            <label class="form-label" for="productName">Product name</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter product name"
-            />
-          </div>
+        <div class="card mb-3">
+          <div class="card-header bg-white py-3">Product information</div>
+          <div class="card-body">
+            <div class="form-group mb-3">
+              <label class="form-label" for="productName">Product name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter product name"
+                formControlName="productName"
+              />
+            </div>
 
-          <div class="row mb-3">
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="sku">SKU</label>
-                <input type="text" class="form-control" />
+            <div class="row mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="sku">SKU</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="sku"
+                  />
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="weight">Weight</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="Weight"
+                      formControlName="weight"
+                    />
+                    <ng-select
+                      class="weight-options"
+                      [clearable]="false"
+                      [items]="['g', 'kg']"
+                      style="width: 60px"
+                      formControlName="weightUnit"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="weight">Weight</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" aria-label="Weight" />
-                  <ng-select
-                    class="weight-options"
-                    [clearable]="false"
-                    [items]="['g', 'kg']"
-                    style="width: 60px"
+            <div class="row mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="barcode">Barcode</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="barcode"
+                  />
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="unit">Unit</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="unit"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-sm btn-primary">
+              Product description
+            </button>
+
+            <div class="mt-3">
+              <quill-editor></quill-editor>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header bg-white py-3">Pricing</div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="salePrice">Sale price</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="salePrice"
+                  />
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label class="form-label" for="wholesalePrice"
+                    >Wholesale price</label
                   >
-                  </ng-select>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="wholesalePrice"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="form-label" for="importPrice"
+                    >Import price</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="importPrice"
+                  />
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <!-- pricing -->
 
-          <div class="row mb-3">
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="barcode">Barcode</label>
-                <input type="text" class="form-control" />
-              </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="bg-white border-bottom-0 card-header mb-3 p-0 px-0">
+              Images
             </div>
-
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="unit">Unit</label>
-                <input type="text" class="form-control" />
+            <div
+              class="border p-3 py-4 rounded text-center"
+              style="border-style: dashed !important"
+            >
+              <div>
+                <i class="bi bi-plus"></i>
+                <span>drag and drop images here or</span>
+                <a class="ms-1" href="#">upload from your computer</a>
               </div>
             </div>
           </div>
+        </div>
+        <!-- images -->
 
-          <button type="button" class="btn btn-sm btn-primary">
-            Product description
-          </button>
+        <div class="card mb-3">
+          <div class="card-header bg-white py-3">
+            <div class="d-flex align-items-center">
+              <span style="min-height: 1.5rem" class="me-3">Inventory</span>
+              <div class="form-check form-switch mb-0">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="inventory"
+                  formControlName="inventoryInit"
+                />
+                <label class="form-check-label" for="inventory"></label>
+              </div>
+            </div>
+            <div class="fw-normal mt-3">
+              Initializing inventory and import price at branches
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3" style="font-weight: 500">
+              <div class="col align-self-center">Branch</div>
+              <div class="col">Init qty</div>
+              <div class="col">Import price</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">Default branch</div>
+              <div class="col">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="inventoryInitQty"
+                  />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="inventoryImportPrice"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- inventory -->
+      </div>
+      <!-- left col -->
 
-          <div class="mt-3">
-            <quill-editor></quill-editor>
+      <div class="col-4">
+        <div class="card mb-3">
+          <div class="card-header bg-white py-3">Additional info</div>
+          <div class="card-body">
+            <div class="form-group mb-3">
+              <label for="category" class="form-label">Category</label>
+              <ng-select
+                [items]="[1, 2, 3, 4]"
+                formControlName="category"
+              ></ng-select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="brand" class="form-label">Brand</label>
+              <ng-select
+                [items]="[1, 2, 3, 4]"
+                formControlName="brand"
+              ></ng-select>
+            </div>
+
+            <div class="form-group">
+              <label for="tags" class="form-label">Tags</label>
+              <textarea
+                rows="3"
+                class="form-control"
+                formControlName="tags"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- additional info -->
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between">
+              <div>
+                <strong>Status</strong>
+                <div>Able to sell</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="sellable"
+                  formControlName="active"
+                />
+                <label class="form-check-label" for="sellable"></label>
+              </div>
+            </div>
+            <hr />
+            <div class="d-flex align-items-end justify-content-between">
+              <div>
+                <strong>Tax</strong>
+                <div>Apply tax</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="tax"
+                  formControlName="taxable"
+                />
+                <label class="form-check-label" for="tax"></label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="card mb-3">
-        <div class="card-header bg-white py-3">Pricing</div>
-        <div class="card-body">
-          <div class="row mb-3">
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="salePrice">Sale price</label>
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="wholesalePrice"
-                  >Wholesale price</label
-                >
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <label class="form-label" for="importPrice">Import price</label>
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- pricing -->
-
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="bg-white border-bottom-0 card-header mb-3 p-0 px-0">
-            Images
-          </div>
-          <div
-            class="border p-3 py-4 rounded text-center"
-            style="border-style: dashed !important"
-          >
-            <div>
-              <i class="bi bi-plus"></i>
-              <span>drag and drop images here or</span>
-              <a class="ms-1" href="#">upload from your computer</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- images -->
-
-      <div class="card mb-3">
-        <div class="card-header bg-white py-3">
-          <div class="d-flex align-items-center">
-            <span style="min-height: 1.5rem" class="me-3">Inventory</span>
-            <div class="form-check form-switch mb-0">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="inventory"
-              />
-              <label class="form-check-label" for="inventory"></label>
-            </div>
-          </div>
-          <div class="fw-normal mt-3">
-            Initializing inventory and import price at branches
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row mb-3" style="font-weight: 500">
-            <div class="col align-self-center">Branch</div>
-            <div class="col">Init qty</div>
-            <div class="col">Import price</div>
-          </div>
-          <div class="row mb-3">
-            <div class="col">Default branch</div>
-            <div class="col">
-              <div class="form-group">
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- inventory -->
+      <!-- right col -->
     </div>
-    <!-- left col -->
+    <!-- row -->
 
-    <div class="col-4">
-      <div class="card mb-3">
-        <div class="card-header bg-white py-3">Additional info</div>
-        <div class="card-body">
-          <div class="form-group mb-3">
-            <label for="category" class="form-label">Category</label>
-            <ng-select [items]="[1, 2, 3, 4]"></ng-select>
-          </div>
-
-          <div class="form-group mb-3">
-            <label for="brand" class="form-label">Brand</label>
-            <ng-select [items]="[1, 2, 3, 4]"></ng-select>
-          </div>
-
-          <div class="form-group">
-            <label for="tags" class="form-label">Tags</label>
-            <textarea rows="3" class="form-control"></textarea>
-          </div>
-        </div>
-      </div>
-      <!-- additional info -->
-
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="d-flex align-items-end justify-content-between">
-            <div>
-              <strong>Status</strong>
-              <div>Able to sell</div>
-            </div>
-            <div class="form-check form-switch mb-0">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="sellable"
-              />
-              <label class="form-check-label" for="sellable"></label>
-            </div>
-          </div>
-          <hr />
-          <div class="d-flex align-items-end justify-content-between">
-            <div>
-              <strong>Tax</strong>
-              <div>Apply tax</div>
-            </div>
-            <div class="form-check form-switch mb-0">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="tax"
-              />
-              <label class="form-check-label" for="tax"></label>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="submitForm()">
+        SAVE
+      </button>
     </div>
-    <!-- right col -->
-  </div>
+  </form>
 </div>

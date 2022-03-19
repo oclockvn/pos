@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Paging, ProductListItem } from "../models";
+import { Paging, ProductDetail, ProductListItem } from "../models";
 import { Product, ProductListSearch } from "../models";
 import { stringify } from "query-string";
 
@@ -26,5 +26,9 @@ export class ProductService {
     });
 
     return this.http.get<Paging<ProductListItem>>(`api/products/products?` + q);
+  }
+
+  addProduct(product: ProductDetail): Observable<boolean> {
+    return this.http.post<boolean>(`api/products/`, product);
   }
 }

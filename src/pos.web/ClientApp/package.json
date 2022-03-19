@@ -23,6 +23,7 @@
     "@angular/router": "~13.1.0",
     "@ng-select/ng-select": "^8.1.1",
     "@ngneat/hot-toast": "4.1.0",
+    "@ngneat/overview": "2.0.2",
     "@rx-angular/state": "^1.5.0",
     "@swimlane/ngx-datatable": "^20.0.0",
     "bootstrap": "^5.1.3",
