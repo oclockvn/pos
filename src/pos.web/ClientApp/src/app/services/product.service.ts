@@ -1,7 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Paging, ProductDetail, ProductListItem } from "../models";
+import {
+  PagingRequest,
+  PagingResponse,
+  ProductDetail,
+  ProductListItem,
+} from "../models";
 import { Product, ProductListSearch } from "../models";
 import { stringify } from "query-string";
 
@@ -16,16 +21,20 @@ export class ProductService {
     return this.http.get<Product[]>("api/inventory/products");
   }
 
-  getProducts(search: ProductListSearch): Observable<Paging<ProductListItem>> {
+  getProducts(
+    request: PagingRequest<ProductListSearch>,
+  ): Observable<PagingResponse<ProductListItem>> {
     const q = stringify({
-      keyword: search.keyword,
-      categories: search.categories || [],
-      currentPage: search.currentPage,
-      sortBy: search.sort?.sortBy,
-      sortDir: search.sort?.dir,
+      keyword: request.keyword,
+      query: request.query,
+      currentPage: request.currentPage,
+      sortBy: request.sortBy,
+      sortDir: request.sortDir,
     });
 
-    return this.http.get<Paging<ProductListItem>>(`api/products/products?` + q);
+    return this.http.get<PagingResponse<ProductListItem>>(
+      `api/products/products?` + q,
+    );
   }
 
   addProduct(product: ProductDetail): Observable<boolean> {

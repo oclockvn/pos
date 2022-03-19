@@ -1,5 +1,3 @@
-import { SearchInfo } from ".";
-
 export interface Product {
   id: number;
   productName: string;
@@ -22,7 +20,7 @@ export interface ProductListItem {
   createdAt: Date;
 }
 
-export interface ProductListSearch extends SearchInfo {
+export interface ProductListSearch {
   categories?: number[];
 }
 

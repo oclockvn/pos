@@ -11,7 +11,6 @@ import { RxState } from "@rx-angular/state";
 import { DatatableComponent, TableColumn } from "@swimlane/ngx-datatable";
 import {
   BehaviorSubject,
-  map,
   Observable,
   shareReplay,
   Subject,
@@ -21,6 +20,7 @@ import {
 import {
   IdValue,
   PagingMetadata,
+  PagingRequest,
   ProductListItem,
   ProductListSearch,
 } from "src/app/models";
@@ -53,7 +53,7 @@ export class ProductListComponent implements OnInit {
     categories: new FormControl(),
   });
 
-  search$ = new BehaviorSubject<ProductListSearch>({});
+  search$ = new BehaviorSubject<PagingRequest<ProductListSearch>>({});
   submitSearch$ = new Subject<Partial<FormType>>();
   resetSearch$ = new Subject<void>();
 
@@ -164,7 +164,8 @@ export class ProductListComponent implements OnInit {
   onSort(event: SortInfo) {
     this.search$.next({
       ...this.search$.getValue(),
-      sort: { sortBy: event.column.prop, dir: event.newValue },
+      sortBy: event.column.prop,
+      sortDir: event.newValue,
     });
   }
 }

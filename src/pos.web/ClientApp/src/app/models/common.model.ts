@@ -1,7 +1,9 @@
-export interface SearchInfo {
+export interface PagingRequest<T> {
   keyword?: string;
-  sort?: { sortBy: string; dir: "asc" | "desc" };
+  sortBy?: string;
+  sortDir?: "asc" | "desc";
   currentPage?: number;
+  query?: T;
 }
 
 export interface IdValue {
@@ -15,7 +17,12 @@ export interface PagingMetadata {
   itemPerPage: number;
 }
 
-export interface Paging<T> {
+export interface PagingResponse<T> {
   records: T[];
   metadata: PagingMetadata;
+}
+
+export interface Result<T> {
+  data?: T;
+  statusCode?: string;
 }
