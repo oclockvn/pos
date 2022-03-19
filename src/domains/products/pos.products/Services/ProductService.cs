@@ -13,11 +13,11 @@ namespace pos.products.Services
         /// <summary>
         /// Add product
         /// </summary>
-        /// <param name="product"><see cref="AddProduct.Request"/></param>
+        /// <param name="product"><see cref="ProductCreate.Request"/></param>
         /// <returns></returns>
-        Task<AddProduct.Response> AddProductAsync(AddProduct.Request product);
+        Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product);
 
-        Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request);
+        Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request);
     }
 
     public class ProductService : IProductService
@@ -29,17 +29,14 @@ namespace pos.products.Services
             _tenantDbContextFactory = dbContextFactory;
         }
 
-        public async Task<AddProduct.Response> AddProductAsync(AddProduct.Request product)
+        public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product)
         {
             product.MustNotBeNull();
             product.ProductName.MustNotBeNullOrWhiteSpace();
 
-            AddProduct.Response FailedResult(StatusCode statusCode)
+            Result<ProductCreate.Response> FailedResult(StatusCode statusCode)
             {
-                return new AddProduct.Response
-                {
-                    StatusCode = statusCode
-                };
+                return new Result<ProductCreate.Response>(statusCode);
             }
 
             if (product.WholesalesPrice > product.SalesPrice)
@@ -68,13 +65,10 @@ namespace pos.products.Services
 
             await context.SaveChangesAsync();
 
-            return new AddProduct.Response
-            {
-                Id = entity.Id,
-            };
+            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = entity.Id });
         }
 
-        public async Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request)
+        public async Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request)
         {
             using var context = _tenantDbContextFactory.CreateDbContext();
             var query = context.Products
@@ -90,10 +84,10 @@ namespace pos.products.Services
                     i.TotalQty,
                 });
 
-            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            if (request.Searchable)
             {
-                var keyword = request.Keyword.Trim();
-                query = query.Where(x => x.ProductName.Contains(request.Keyword) || x.Barcode.Contains(keyword) || x.Sku.Contains(keyword));
+                var keyword = request.Keyword;
+                query = query.Where(x => x.ProductName.Contains(keyword) || x.Barcode.Contains(keyword) || x.Sku.Contains(keyword));
             }
 
             // todo: query by categories
@@ -103,10 +97,10 @@ namespace pos.products.Services
             //}
 
             var count = await query.CountAsync();
-            if (!string.IsNullOrWhiteSpace(request.SortBy))
+            if (request.Sortable)
             {
-                var sortBy = request.SortBy.ToLower();
-                var asc = request.SortDir == "asc";
+                var sortBy = request.SortBy;
+                var asc = request.SortAsc;
 
                 query = sortBy switch
                 {
@@ -133,11 +127,7 @@ namespace pos.products.Services
                 })
                 .ToListAsync();
 
-            return new Paging<ProductList.Response>
-            {
-                Metadata = new PagingMetadata(request.CurrentPage, count),
-                Records = products,
-            };
+            return new Paging.Response<ProductList.Response>(products, count, request.CurrentPage);
         }
 
         private Task<bool> IsProductNameExist(TenantDbContext context, string productName)

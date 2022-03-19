@@ -1,7 +1,4 @@
-﻿using pos.core;
-using pos.core.Models;
-
-namespace pos.products.Models
+﻿namespace pos.products.Models
 {
     public class GetListPosProduct
     {
@@ -21,7 +18,7 @@ namespace pos.products.Models
         }
     }
 
-    public class AddProduct
+    public class ProductCreate
     {
         public class Request
         {
@@ -36,13 +33,12 @@ namespace pos.products.Models
         public class Response
         {
             public long Id { get; set; }
-            public StatusCode? StatusCode { get; set; }
         }
     }
 
     public class ProductList
     {
-        public class Request : SearchInfo
+        public class Request
         {
             public List<long> Categories { get; set; } = new List<long>();
         }

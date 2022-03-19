@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pos.common.extensions;
 using pos.core.Data;
+using pos.core.Models;
 using pos.orders.Exceptions;
 using pos.orders.Models;
 
@@ -14,7 +15,7 @@ namespace pos.orders.Services
         /// </summary>
         /// <param name="request"><see cref="CreateOrder.Request"/></param>
         /// <returns><see cref="CreateOrder.Response"/></returns>
-        Task<CreateOrder.Response> CreateOrderAsync(CreateOrder.Request request);
+        Task<Result<CreateOrder.Response>> CreateOrderAsync(CreateOrder.Request request);
     }
 
     public class OrderService : IOrderService
@@ -26,7 +27,7 @@ namespace pos.orders.Services
             _tenantDbContextFactory = dbContextFactory;
         }
 
-        public async Task<CreateOrder.Response> CreateOrderAsync(CreateOrder.Request request)
+        public async Task<Result<CreateOrder.Response>> CreateOrderAsync(CreateOrder.Request request)
         {
             request.MustNotBeNull();
             request.Items.MustHaveMinimumCount(1);
@@ -64,7 +65,7 @@ namespace pos.orders.Services
 
             // todo: add inventory history
 
-            return new CreateOrder.Response();
+            return new Result<CreateOrder.Response>(new CreateOrder.Response());
         }
 
         private core.Entities.OrderItem ValidateAndMapOrderItem(List<ValidatableProduct> products, CreateOrder.ProductItem cartItem)
