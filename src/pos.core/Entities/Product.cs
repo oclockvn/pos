@@ -1,4 +1,6 @@
-﻿namespace pos.core.Entities
+﻿using pos.core.Enums;
+
+namespace pos.core.Entities
 {
     public class Product : BaseEntity, ICreatedEntity, IUpdatedEntity
     {
@@ -14,5 +16,7 @@
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public string Unit { get; set; }
+
+        public ProductType ProductType { get; set; } = ProductType.Normal;
     }
 }
