@@ -1349,10 +1349,26 @@
     node-gyp "^8.2.0"
     read-package-json-fast "^2.0.1"
 
+"@rx-angular/cdk@latest":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@rx-angular/cdk/-/cdk-1.0.0-beta.2.tgz#f08187a8805c848169add643229c22d50596ea96"
+  integrity sha512-qaP4lyLnrj11zT1TsuQS3LPYpc0e4kVguN4Vf4jRMDJnSRb9AMDtorIiW1jUxXdKgFMHv8nOWdvJu74sqhUvjw==
+  dependencies:
+    ng-morph "^2.0.0"
+    tslib "^2.0.0"
+
 "@rx-angular/state@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@rx-angular/state/-/state-1.5.0.tgz#e36f5729d92762a853b5e987cfef4b985a5a9692"
   integrity sha512-ScMCAMefWiZC3RKx1iy8VUftZdGqGD+fcnBJMMxR4b9HhmT/+8uIpqk5UrHgnLfO2yIfvRwLBpRIkz6JlRXx9Q==
+  dependencies:
+    ng-morph "^2.0.0"
+    tslib "^2.0.0"
+
+"@rx-angular/template@1.0.0-beta.32":
+  version "1.0.0-beta.32"
+  resolved "https://registry.yarnpkg.com/@rx-angular/template/-/template-1.0.0-beta.32.tgz#eeb1b6860ef84e70293b71337841e6cb52d35d4f"
+  integrity sha512-/ed4oW1KtZwV9ys0YfuJ34X4v1xIfuWyvodSlaSK9h0RAIY6PE3pv4rR70nOxxINXWvYlppErVlUPrxEOh/W8A==
   dependencies:
     ng-morph "^2.0.0"
     tslib "^2.0.0"
@@ -4361,6 +4377,13 @@ ngx-bootstrap@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-8.0.0.tgz#a1d222e626a1f5e13acdaafd754bb18874a1d561"
   integrity sha512-UjJ/57Pr7ctdI2L113QX1IqJPYtOMrp5Qq/RLvUT1TOwPQWPi9LXTQ/7BtipkptQjer7Fk9yueITH3Y8vD+Dmg==
+  dependencies:
+    tslib "^2.0.0"
+
+ngx-dropzone@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-dropzone/-/ngx-dropzone-3.1.0.tgz#f2045a9ca90903fa96304f1b2aa33a922f14b15a"
+  integrity sha512-5RBaEl07QUcY6sv/BBPyIxN6nbWY/KqTGheEKgbuGS0N1QPFY7NJUo8+X3fYUwQgLS+wjJeqPiR37dd0YNDtWA==
   dependencies:
     tslib "^2.0.0"
 

@@ -7,9 +7,11 @@ import { ProductEditComponent } from "./product-edit.component";
 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { QuillModule } from "ngx-quill";
+import { LetModule } from "@rx-angular/template";
+import { NgxDropzoneModule } from "ngx-dropzone";
 import { HotToastModule } from "@ngneat/hot-toast";
 
-const lib = [NgSelectModule, QuillModule];
+const lib = [NgSelectModule, QuillModule, LetModule, NgxDropzoneModule];
 
 @NgModule({
   declarations: [ProductEditComponent],

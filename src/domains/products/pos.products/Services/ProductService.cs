@@ -78,6 +78,7 @@ namespace pos.products.Services
         {
             using var context = _tenantDbContextFactory.CreateDbContext();
             var query = context.Products
+                .OrderByDescending(x => x.Id)
                 .Join(context.Inventories, p => p.Id, i => i.ProductId, (p, i) => new
                 {
                     p.Sku,

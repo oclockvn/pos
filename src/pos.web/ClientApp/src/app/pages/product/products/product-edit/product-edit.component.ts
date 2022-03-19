@@ -1,79 +1,67 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HotToastService } from "@ngneat/hot-toast";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
 import { RxState } from "@rx-angular/state";
-import { switchMap } from "rxjs";
-import { Subject } from "rxjs";
-import { ProductDetail, ProductListSearch } from "src/app/models";
-import { ProductService } from "src/app/services";
+import { Observable, Subject, tap } from "rxjs";
 
-export interface ProductDetailState {}
+interface ProductEditState {
+  showProductDescription: boolean;
+  files: File[];
+}
 
 @Component({
   selector: "app-product-edit",
   templateUrl: "./product-edit.component.html",
   styleUrls: ["./product-edit.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
 export class ProductEditComponent implements OnInit {
-  form!: FormGroup;
-  productSaved$ = new Subject<ProductDetail>();
+  toggleDescription$ = new Subject<void>();
+  selectedFiles$ = new Subject<File[]>();
+  removedFile$ = new Subject<File>();
 
-  constructor(
-    private fb: FormBuilder,
-    private toast: HotToastService,
-    private state: RxState<ProductDetailState>,
-    private productService: ProductService,
-  ) {}
-
-  ngOnInit(): void {
-    this.initForm();
-
-    this.state.connect(
-      this.productSaved$.pipe(
-        switchMap(p => this.productService.addProduct(p)),
-      ),
-      (prev, curr) => ({}),
-    );
+  get vm$(): Observable<ProductEditState> {
+    return this.state.select();
   }
 
-  initForm() {
-    this.form = this.fb.group({
-      productType: [],
-      productName: ["", [Validators.required]],
-      sku: [],
-      weight: [],
-      weightUnit: [],
-      barcode: [],
-      unit: [],
-      description: [],
-      importPrice: [],
-      salePrice: [],
-      wholesalePrice: [],
-      inventoryInit: [],
-      inventoryBranch: [],
-      inventoryInitQty: [],
-      inventoryImportPrice: [],
-      category: [],
-      brand: [],
-      tags: [],
-      active: [],
-      taxable: [],
+  constructor(
+    private state: RxState<ProductEditState>,
+    private cd: ChangeDetectorRef,
+  ) {
+    this.state.set({
+      showProductDescription: false,
+      files: [],
     });
   }
 
-  submitForm() {
-    const valid = this.form.valid;
-    console.log(
-      `form valid state = ${valid}`,
-      this.form.value,
-      this.form.errors,
+  ngOnInit(): void {
+    this.state.connect(this.toggleDescription$, (prev, _) => ({
+      showProductDescription: !prev.showProductDescription,
+    }));
+
+    this.state.connect(
+      this.selectedFiles$.pipe(
+        tap(() => setTimeout(() => this.cd.detectChanges(), 100)),
+      ),
+      (prev, curr) => ({
+        files: [...prev.files, ...curr],
+      }),
     );
-    // console.log(this.form.value);
-    if (valid) {
-      this.formSubmit$.next(this.form.value);
-    } else {
-      this.toast.error(`Invalid form`);
-    }
+
+    this.state.connect(
+      this.removedFile$.pipe(
+        tap(() => setTimeout(() => this.cd.markForCheck(), 100)),
+      ),
+      (prev, curr) => {
+        prev.files.splice(prev.files.indexOf(curr), 1);
+        return {
+          files: prev.files,
+        };
+      },
+    );
   }
 }
