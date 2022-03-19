@@ -54,8 +54,8 @@ namespace pos.products.Services
             var entity = context.Products.Add(new core.Entities.Product
             {
                 ProductName = product.ProductName,
-                WholesalesPrice = product.WholesalesPrice,
-                SalesPrice = product.SalesPrice,
+                WholesalePrice = product.WholesalesPrice,
+                SalePrice = product.SalesPrice,
                 ImportPrice = product.ImportPrice,
                 Sku = product.Sku,
                 Barcode = product.Barcode,

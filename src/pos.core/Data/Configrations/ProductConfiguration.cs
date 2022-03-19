@@ -25,11 +25,19 @@ namespace pos.core.Data.Configrations
 
             builder.HasIndex(x => x.Barcode).IsUnique();
 
-            builder.Property(x => x.WholesalesPrice).HasPrecision(18, 2);
-            builder.Property(x => x.SalesPrice).HasPrecision(18, 2);
+            builder.Property(x => x.WholesalePrice).HasPrecision(18, 2);
+            builder.Property(x => x.SalePrice).HasPrecision(18, 2);
             builder.Property(x => x.ImportPrice).HasPrecision(18, 2);
 
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("getutcdate()");
+
+            builder.HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId);
+
+            builder.HasOne(x => x.Brand)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.BrandId);
         }
     }
 }

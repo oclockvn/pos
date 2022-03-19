@@ -42,8 +42,8 @@ namespace pos.orders.Services
                     Id = x.Id,
                     Sku = x.Sku,
                     ImportPrice = x.ImportPrice,
-                    SalesPrice = x.SalesPrice,
-                    WholesalesPrice = x.WholesalesPrice,
+                    SalesPrice = x.SalePrice,
+                    WholesalesPrice = x.WholesalePrice,
                     Tax = 0, // todo: config product tax
                 })
                 .ToListAsync();

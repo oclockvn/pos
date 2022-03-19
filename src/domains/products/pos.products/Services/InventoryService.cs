@@ -31,7 +31,7 @@ namespace pos.products.Services
                     ProductName = x.Product.ProductName,
                     Sku = x.Product.Sku,
                     Unit = x.Product.Unit,
-                    UnitPrice = x.Product.SalesPrice,
+                    UnitPrice = x.Product.SalePrice,
                 })
                 .ToListAsync();
         }

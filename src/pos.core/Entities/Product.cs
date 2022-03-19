@@ -7,9 +7,12 @@ namespace pos.core.Entities
         public string Sku { get; set; }
         public string Barcode { get; set; }
         public string ProductName { get; set; }
-        public decimal WholesalesPrice { get; set; }
-        public decimal SalesPrice { get; set; }
+        public decimal WholesalePrice { get; set; }
+        public decimal SalePrice { get; set; }
         public decimal ImportPrice { get; set; }
+
+        public bool Sellable { get; set; }
+        public bool Taxable { get; set; }
 
         public string UpdatedId { get; set; }
         public string CreatedId { get; set; }
@@ -18,5 +21,31 @@ namespace pos.core.Entities
         public string Unit { get; set; }
 
         public ProductType ProductType { get; set; } = ProductType.Normal;
+
+        public long? CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public long? BrandId { get; set; }
+        public Brand Brand { get; set; }
+    }
+
+    public class Category : BaseEntity, ICreatedEntity
+    {
+        public string Name { get; set; }
+
+        public string CreatedId { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
+    }
+
+    public class Brand : BaseEntity, ICreatedEntity
+    {
+        public string Name { get; set; }
+
+        public string CreatedId { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }

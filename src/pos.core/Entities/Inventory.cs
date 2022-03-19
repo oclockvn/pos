@@ -26,8 +26,8 @@
 
         public Inventory(Product p)
         {
-            WholesalesPrice = p.WholesalesPrice;
-            SalesPrice = p.SalesPrice;
+            WholesalesPrice = p.WholesalePrice;
+            SalesPrice = p.SalePrice;
             ImportPrice = p.ImportPrice;
             ProductId = p.Id;
         }
