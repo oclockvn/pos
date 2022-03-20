@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import {
   PagingRequest,
   PagingResponse,
-  ProductDetail,
+  ProductData,
   ProductListItem,
 } from "../models";
 import { Product, ProductListSearch } from "../models";
@@ -37,7 +37,7 @@ export class ProductService {
     );
   }
 
-  addProduct(product: ProductDetail): Observable<boolean> {
+  addProduct(product: ProductData): Observable<boolean> {
     return this.http.post<boolean>(`api/products/`, product);
   }
 }

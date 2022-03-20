@@ -30,7 +30,7 @@ export enum ProductType {
   serial = 2,
 }
 
-export interface ProductDetail {
+export interface ProductData {
   id: number;
   productType: ProductType;
   productName: string;
@@ -50,6 +50,6 @@ export interface ProductDetail {
   category?: number;
   brand?: number;
   tags?: string;
-  ableToSell: boolean;
-  applyTax: boolean;
+  sellable: boolean;
+  taxable: boolean;
 }

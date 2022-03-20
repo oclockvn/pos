@@ -40,4 +40,21 @@ namespace pos.core.Data.Configrations
                 .HasForeignKey(x => x.BrandId);
         }
     }
+
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    {
+        public void Configure(EntityTypeBuilder<Category> builder)
+        {
+
+            builder.ToTable("Categories", "product");
+        }
+    }
+
+    public class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    {
+        public void Configure(EntityTypeBuilder<Brand> builder)
+        {
+            builder.ToTable("Brands", "product");
+        }
+    }
 }
