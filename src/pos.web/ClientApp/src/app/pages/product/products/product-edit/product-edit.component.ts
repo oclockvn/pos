@@ -4,6 +4,8 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
 import { Observable, Subject, tap } from "rxjs";
 
@@ -23,6 +25,7 @@ export class ProductEditComponent implements OnInit {
   toggleDescription$ = new Subject<void>();
   selectedFiles$ = new Subject<File[]>();
   removedFile$ = new Subject<File>();
+  form!: FormGroup;
 
   get vm$(): Observable<ProductEditState> {
     return this.state.select();
@@ -31,6 +34,8 @@ export class ProductEditComponent implements OnInit {
   constructor(
     private state: RxState<ProductEditState>,
     private cd: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private toast: HotToastService,
   ) {
     this.state.set({
       showProductDescription: false,
@@ -39,6 +44,8 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm();
+
     this.state.connect(this.toggleDescription$, (prev, _) => ({
       showProductDescription: !prev.showProductDescription,
     }));
@@ -63,5 +70,42 @@ export class ProductEditComponent implements OnInit {
         };
       },
     );
+  }
+
+  initForm() {
+    this.form = this.fb.group({
+      productType: [],
+      productName: ["", [Validators.required, Validators.minLength(10)]],
+      sku: [],
+      weight: [],
+      weightUnit: [],
+      barcode: [],
+      unit: [],
+      description: [],
+      importPrice: [],
+      salePrice: [0, [Validators.required, Validators.min(10)]],
+      wholesalePrice: [],
+      inventoryInit: [],
+      inventoryBranch: [],
+      inventoryInitQty: [],
+      inventoryImportPrice: [],
+      category: [],
+      brand: [],
+      tags: [],
+      active: [],
+      taxable: [],
+    });
+  }
+
+  submitForm() {
+    const valid = this.form.valid;
+
+    if (valid) {
+      // this.formSubmit$.next(this.form.value);
+      this.toast.error(`Ok`);
+    } else {
+      this.toast.error(`Invalid form. Please recheck and try again!`);
+      this.form.revalidateControls([]);
+    }
   }
 }

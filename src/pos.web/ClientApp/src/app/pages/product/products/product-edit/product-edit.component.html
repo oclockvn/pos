@@ -1,24 +1,10 @@
 <div class="container py-3" *rxLet="vm$ as vm">
-  <div class="row">
-    <div class="col-8">
-      <div class="card mb-3">
-        <div class="bg-white card-header d-flex justify-content-between py-3">
-          <span>Product types</span>
-          <span>Setup</span>
-        </div>
-        <div class="card-body">
-          <div class="d-flex">
-            <div class="form-check me-5">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="productType"
-                id="normalProduct"
-              />
-              <label class="form-check-label" for="normalProduct">
-                Normal product
-              </label>
-            </div>
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" (click)="submitForm()">
+        SAVE
+      </button>
+    </div>
 
     <div class="row">
       <div class="col-8">
@@ -71,7 +57,14 @@
                 class="form-control"
                 placeholder="Enter product name"
                 formControlName="productName"
+                [ngClass]="{ 'is-invalid': form?.hasError('productName') }"
               />
+              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'required')">
+                Product name is required
+              </div>
+              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'minLength')">
+                Product name must be at least 10 characters
+              </div>
             </div>
 
             <div class="row mb-3">
@@ -154,6 +147,7 @@
                     type="text"
                     class="form-control"
                     formControlName="salePrice"
+                    [ngClass]="{ 'is-invalid': form.hasError('salePrice') }"
                   />
                 </div>
               </div>
@@ -196,34 +190,34 @@
               Images
             </div>
             <div
-              class="border p-3 py-4 rounded text-center"
+              class="border rounded text-center"
               style="border-style: dashed !important"
             >
-              <div>
-                <i class="bi bi-plus"></i>
-                <span>drag and drop images here or</span>
-                <a class="ms-1" href="#">upload from your computer</a>
+              <div
+                class="custom-dropzone"
+                ngx-dropzone
+                [accept]="'image/*'"
+                (change)="selectedFiles$.next($event.addedFiles)"
+              >
+                <ngx-dropzone-label>
+                  <div>
+                    <i class="bi bi-plus"></i>
+                    <span>drag and drop images here or</span>
+                    <span class="ms-1 text-primary text-decoration-underline"
+                      >upload from your computer</span
+                    >
+                  </div>
+                </ngx-dropzone-label>
+                <ngx-dropzone-image-preview
+                  ngProjectAs="ngx-dropzone-preview"
+                  *ngFor="let f of vm.files"
+                  [file]="f"
+                  [removable]="true"
+                  (removed)="removedFile$.next(f)"
+                >
+                </ngx-dropzone-image-preview>
               </div>
             </div>
-
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label" for="unit">Unit</label>
-                <input type="text" class="form-control" />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            class="btn btn-sm btn-primary"
-            (click)="toggleDescription$.next()"
-          >
-            Product description
-          </button>
-
-          <div class="mt-3" *ngIf="vm.showProductDescription">
-            <quill-editor [styles]="{ height: '200px' }"></quill-editor>
           </div>
         </div>
         <!-- images -->
@@ -352,43 +346,9 @@
       </div>
       <!-- pricing -->
 
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="bg-white border-bottom-0 card-header mb-3 p-0 px-0">
-            Images
-          </div>
-          <div
-            class="border rounded text-center"
-            style="border-style: dashed !important"
-          >
-            <div
-              class="custom-dropzone"
-              ngx-dropzone
-              [accept]="'image/*'"
-              (change)="selectedFiles$.next($event.addedFiles)"
-            >
-              <ngx-dropzone-label>
-                <div>
-                  <i class="bi bi-plus"></i>
-                  <span>drag and drop images here or</span>
-                  <span class="ms-1 text-primary text-decoration-underline">upload from your computer</span>
-                </div>
-              </ngx-dropzone-label>
-              <ngx-dropzone-image-preview
-                ngProjectAs="ngx-dropzone-preview"
-                *ngFor="let f of vm.files"
-                [file]="f"
-                [removable]="true"
-                (removed)="removedFile$.next(f)"
-              >
-              </ngx-dropzone-image-preview>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- images -->
 
-      <div class="card mb-3">
+      <!-- <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <div class="d-flex align-items-center">
             <span style="min-height: 1.5rem" class="me-3">Inventory</span>
@@ -426,7 +386,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- inventory -->
     </div>
     <!-- row -->
