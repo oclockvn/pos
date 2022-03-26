@@ -33,8 +33,8 @@ namespace pos.products.tests
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
-                SalesPrice = 15,
-                WholesalesPrice = 12,
+                SalePrice = 15,
+                WholesalePrice = 12,
                 Sku = sku,
                 Barcode = sku
             });
@@ -69,8 +69,8 @@ namespace pos.products.tests
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
-                SalesPrice = 15,
-                WholesalesPrice = 12,
+                SalePrice = 15,
+                WholesalePrice = 12,
                 Sku = sku,
                 Barcode = sku
             });
@@ -83,8 +83,8 @@ namespace pos.products.tests
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
-                SalesPrice = 15,
-                WholesalesPrice = 12,
+                SalePrice = 15,
+                WholesalePrice = 12,
             });
 
             response2.IsSuccess.Should().BeFalse();
@@ -101,13 +101,13 @@ namespace pos.products.tests
             {
                 ProductName = "test-product",
                 ImportPrice = 10,
-                SalesPrice = 15,
-                WholesalesPrice = 16,
+                SalePrice = 15,
+                WholesalePrice = 16,
             });
 
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeFalse();
-            result.StatusCode.Should().Be(core.StatusCode.Wholesales_price_should_not_greater_than_saleprice);
+            result.StatusCode.Should().Be(core.StatusCode.Wholesale_price_should_not_greater_than_saleprice);
             result.Data.Should().BeNull();
         }
     }

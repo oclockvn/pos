@@ -19,6 +19,9 @@ namespace pos.core.Entities
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public string Unit { get; set; }
+        public string Weight { get; set; }
+        public string WeightUnit { get; set; }
+        public string Description { get; set; }
 
         public ProductType ProductType { get; set; } = ProductType.Normal;
 
@@ -27,6 +30,11 @@ namespace pos.core.Entities
 
         public long? BrandId { get; set; }
         public Brand Brand { get; set; }
+
+        public string GenerateSku(long uniqueId)
+        {
+            return string.Format("POS{0:000000}", uniqueId);
+        }
     }
 
     public class Category : BaseEntity, ICreatedEntity

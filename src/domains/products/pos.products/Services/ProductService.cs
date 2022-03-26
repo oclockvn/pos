@@ -29,43 +29,66 @@ namespace pos.products.Services
             _tenantDbContextFactory = dbContextFactory;
         }
 
-        public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product)
+        public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request request)
         {
-            product.MustNotBeNull();
-            product.ProductName.MustNotBeNullOrWhiteSpace();
+            request.MustNotBeNull();
+            request.ProductName.MustNotBeNullOrWhiteSpace();
 
             Result<ProductCreate.Response> FailedResult(StatusCode statusCode)
             {
                 return new Result<ProductCreate.Response>(statusCode);
             }
 
-            if (product.WholesalesPrice > product.SalesPrice)
+            if (request.WholesalePrice > request.SalePrice)
             {
-                return FailedResult(StatusCode.Wholesales_price_should_not_greater_than_saleprice);
+                return FailedResult(StatusCode.Wholesale_price_should_not_greater_than_saleprice);
             }
+
+            var product = new core.Entities.Product
+            {
+                ProductName = request.ProductName,
+                WholesalePrice = request.WholesalePrice,
+                SalePrice = request.SalePrice,
+                ImportPrice = request.ImportPrice,
+                Sku = request.Sku,
+                Barcode = request.Barcode,
+                BrandId = request.BrandId,
+                CategoryId = request.CategoryId,
+                ProductType = request.ProductType,
+                Sellable = request.Sellable,
+                Taxable = request.Taxable,
+                Description = request.Description,
+                Unit = request.Unit,
+                Weight = request.Weight,
+                WeightUnit = request.WeightUnit,
+            };
 
             using var context = _tenantDbContextFactory.CreateDbContext();
 
-            if (await IsProductNameExist(context, product.ProductName))
+            if (string.IsNullOrWhiteSpace(product.Sku))
             {
-                return FailedResult(StatusCode.Product_name_already_exist);
+                var orderSeq = await context.GetOrderSeqAsync();
+                product.Sku = product.GenerateSku(orderSeq);
+            }
+            else
+            {
+                if (request.Sku.StartsWith(ApplicationConstants.SKU_PREFIX, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return FailedResult(StatusCode.Sku_must_not_contains_pos_prefix);
+                }
             }
 
-            var entity = context.Products.Add(new core.Entities.Product
+            if (await IsSkuExistAsync(context, request.Sku))
             {
-                ProductName = product.ProductName,
-                WholesalePrice = product.WholesalesPrice,
-                SalePrice = product.SalesPrice,
-                ImportPrice = product.ImportPrice,
-                Sku = product.Sku,
-                Barcode = product.Barcode,
-            }).Entity;
+                return FailedResult(StatusCode.Sku_already_exist);
+            }
 
-            context.Inventories.Add(new core.Entities.Inventory(entity));
+            product = context.Products.Add(product).Entity;
+            context.Inventories.Add(new core.Entities.Inventory(product) { Product = product });
 
             await context.SaveChangesAsync();
 
-            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = entity.Id });
+            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }
 
         public async Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request)
@@ -130,10 +153,10 @@ namespace pos.products.Services
             return new Paging.Response<ProductList.Response>(products, count, request.CurrentPage);
         }
 
-        private Task<bool> IsProductNameExist(TenantDbContext context, string productName)
+        private Task<bool> IsSkuExistAsync(TenantDbContext context, string sku)
         {
             return context.Products
-                .Where(x => x.ProductName == productName)
+                .Where(x => x.Sku == sku)
                 .AnyAsync();
         }
     }

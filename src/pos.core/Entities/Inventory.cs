@@ -29,7 +29,6 @@
             WholesalesPrice = p.WholesalePrice;
             SalesPrice = p.SalePrice;
             ImportPrice = p.ImportPrice;
-            ProductId = p.Id;
         }
     }
 }

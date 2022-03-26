@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
 using pos.core.Data.Configrations;
 using pos.core.Entities;
 
@@ -34,6 +35,21 @@ namespace pos.core.Data
             modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryHistoryConfiguration());
+        }
+
+        public async Task<long> GetOrderSeqAsync()
+        {
+            using var command = Database.GetDbConnection().CreateCommand();
+            command.CommandText = "SELECT NEXT VALUE FOR order_seq;";
+            command.CommandType = CommandType.Text;
+
+            Database.OpenConnection();
+
+            var result = await command.ExecuteScalarAsync();
+
+            Database.CloseConnection();
+
+            return Convert.ToInt64(result);
         }
     }
 }
