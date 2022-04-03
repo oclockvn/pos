@@ -78,7 +78,7 @@ namespace pos.orders.Services
                 throw new OrderException(core.StatusCode.Shopping_cart_product_sku_mis_match);
             }
 
-            var total = cartItem.Qty * product.SalesPrice;
+            var total = cartItem.Qty * product.SalesPrice ?? 0; // todo: recheck price
             if (total != cartItem.Total)
             {
                 throw new OrderException(core.StatusCode.Shopping_cart_product_price_mis_match);
@@ -89,16 +89,16 @@ namespace pos.orders.Services
             {
                 DiscountPercentage = 0, // todo: set discount
                 DiscountPrice = 0,
-                ImportPrice = product.ImportPrice,
+                ImportPrice = product.ImportPrice ?? 0,
                 ProductId = product.Id,
                 Qty = cartItem.Qty,
-                SalesPrice = product.SalesPrice,
+                SalesPrice = product.SalesPrice ?? 0,
                 Sku = cartItem.Sku,
                 Tax = product.Tax,
                 Total = total,
                 TotalWithTax = total.WithTax(product.Tax),
-                UnitPrice = product.SalesPrice,
-                WholesalesPrice = product.WholesalesPrice
+                UnitPrice = product.SalesPrice ?? 0,
+                WholesalesPrice = product.WholesalesPrice ?? 0
             };
         }
 
@@ -106,9 +106,9 @@ namespace pos.orders.Services
         {
             public long Id { get; set; }
             public string Sku { get; set; }
-            public decimal ImportPrice { get; set; }
-            public decimal SalesPrice { get; set; }
-            public decimal WholesalesPrice { get; set; }
+            public decimal? ImportPrice { get; set; }
+            public decimal? SalesPrice { get; set; }
+            public decimal? WholesalesPrice { get; set; }
             public float Tax { get; set; }
         }
     }

@@ -39,10 +39,10 @@ namespace pos.products.Services
                 return new Result<ProductCreate.Response>(statusCode);
             }
 
-            if (request.WholesalePrice > request.SalePrice)
-            {
-                return FailedResult(StatusCode.Wholesale_price_should_not_greater_than_saleprice);
-            }
+            //if (request.WholesalePrice > request.SalePrice)
+            //{
+            //    return FailedResult(StatusCode.Wholesale_price_should_not_greater_than_saleprice);
+            //}
 
             var product = new core.Entities.Product
             {
@@ -70,13 +70,13 @@ namespace pos.products.Services
                 var orderSeq = await context.GetOrderSeqAsync();
                 product.Sku = product.GenerateSku(orderSeq);
             }
-            else
-            {
-                if (request.Sku.StartsWith(ApplicationConstants.SKU_PREFIX, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return FailedResult(StatusCode.Sku_must_not_contains_pos_prefix);
-                }
-            }
+            //else
+            //{
+            //    if (request.Sku.StartsWith(ApplicationConstants.SKU_PREFIX, StringComparison.InvariantCultureIgnoreCase))
+            //    {
+            //        return FailedResult(StatusCode.Sku_must_not_contains_pos_prefix);
+            //    }
+            //}
 
             if (await IsSkuExistAsync(context, request.Sku))
             {
@@ -84,6 +84,8 @@ namespace pos.products.Services
             }
 
             product = context.Products.Add(product).Entity;
+
+            // todo: refactor to inventory service
             context.Inventories.Add(new core.Entities.Inventory(product) { Product = product });
 
             await context.SaveChangesAsync();

@@ -41,9 +41,9 @@ namespace pos.products.Services
 
                 context.Inventories.Add(new core.Entities.Inventory
                 {
-                    WholesalesPrice = p.WholesalePrice,
-                    SalesPrice = p.SalePrice,
-                    ImportPrice = p.ImportPrice,
+                    WholesalesPrice = p.WholesalePrice ?? 0,
+                    SalesPrice = p.SalePrice ?? 0,
+                    ImportPrice = p.ImportPrice ?? 0,
                     Product = p,
                     AvailableQty = availQty,
                     TotalQty = availQty + 10

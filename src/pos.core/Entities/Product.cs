@@ -7,9 +7,9 @@ namespace pos.core.Entities
         public string Sku { get; set; }
         public string Barcode { get; set; }
         public string ProductName { get; set; }
-        public decimal WholesalePrice { get; set; }
-        public decimal SalePrice { get; set; }
-        public decimal ImportPrice { get; set; }
+        public decimal? WholesalePrice { get; set; }
+        public decimal? SalePrice { get; set; }
+        public decimal? ImportPrice { get; set; }
 
         public bool Sellable { get; set; }
         public bool Taxable { get; set; }

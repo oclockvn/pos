@@ -26,9 +26,10 @@
 
         public Inventory(Product p)
         {
-            WholesalesPrice = p.WholesalePrice;
-            SalesPrice = p.SalePrice;
-            ImportPrice = p.ImportPrice;
+            // todo: validate inventory prices
+            WholesalesPrice = p.WholesalePrice ?? 0;
+            SalesPrice = p.SalePrice ?? 0;
+            ImportPrice = p.ImportPrice ?? 0;
         }
     }
 }
