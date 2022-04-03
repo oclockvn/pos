@@ -2,18 +2,15 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
 
 declare module "@angular/forms" {
   interface FormGroup {
-    revalidateControls(keys: string[]): void;
+    revalidateControls(): void;
     hasError(key: string): boolean;
     hasErrorOf(key: string, validationType: string): boolean;
   }
 }
 
-FormGroup.prototype.revalidateControls = function (keys: string[] = []): void {
+FormGroup.prototype.revalidateControls = function (): void {
   const form = this as FormGroup;
-
-  if (!keys?.length) {
-    keys = Object.keys(form.controls);
-  }
+  const keys = Object.keys(form.controls);
 
   if (!keys.length) {
     return;
@@ -27,10 +24,10 @@ FormGroup.prototype.revalidateControls = function (keys: string[] = []): void {
     } else if (control instanceof FormArray) {
       const arr = control as FormArray;
       for (let fc of arr.controls) {
-        (fc as FormGroup).revalidateControls([]);
+        (fc as FormGroup).revalidateControls();
       }
     } else if (control instanceof FormGroup) {
-      control.revalidateControls([]);
+      control.revalidateControls();
     }
   }
 };
@@ -58,6 +55,6 @@ FormGroup.prototype.hasErrorOf = function (
   }
 
   return control.errors && control.invalid && (control.dirty || control.touched)
-    ? control?.errors[validationType.toLowerCase()]
+    ? control?.errors[validationType]
     : false;
 };
