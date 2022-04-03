@@ -5,7 +5,7 @@
         public StatusCode? StatusCode { get; private set; }
         public T Data { get; private set; }
 
-        public bool IsSuccess => StatusCode == null;
+        public bool IsOk => StatusCode == null;
 
         public Result(StatusCode statusCode)
         {

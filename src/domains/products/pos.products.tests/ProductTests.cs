@@ -40,7 +40,7 @@ namespace pos.products.tests
             });
 
             result.Should().NotBeNull();
-            result.IsSuccess.Should().BeTrue();
+            result.IsOk.Should().BeTrue();
             result.Data.Id.Should().BeGreaterThan(0);
 
             var contextFactory = _serviceProvider.GetRequiredService<ITenantDbContextFactory>();
@@ -76,7 +76,7 @@ namespace pos.products.tests
             });
 
             result.Should().NotBeNull();
-            result.IsSuccess.Should().BeTrue();
+            result.IsOk.Should().BeTrue();
             result.Data.Id.Should().BeGreaterThan(0);
 
             var response2 = await productService.CreateProductAsync(new Models.ProductCreate.Request
@@ -87,7 +87,7 @@ namespace pos.products.tests
                 WholesalePrice = 12,
             });
 
-            response2.IsSuccess.Should().BeFalse();
+            response2.IsOk.Should().BeFalse();
             response2.StatusCode.Should().Be(core.StatusCode.Product_name_already_exist);
             response2.Data.Should().BeNull();
         }
@@ -106,7 +106,7 @@ namespace pos.products.tests
             });
 
             result.Should().NotBeNull();
-            result.IsSuccess.Should().BeFalse();
+            result.IsOk.Should().BeFalse();
             result.StatusCode.Should().Be(core.StatusCode.Wholesale_price_should_not_greater_than_saleprice);
             result.Data.Should().BeNull();
         }

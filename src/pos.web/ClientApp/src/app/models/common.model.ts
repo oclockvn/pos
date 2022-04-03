@@ -25,4 +25,5 @@ export interface PagingResponse<T> {
 export interface Result<T> {
   data?: T;
   statusCode?: string;
+  isOk: boolean;
 }
