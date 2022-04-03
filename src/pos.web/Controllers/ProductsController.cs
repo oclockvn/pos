@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using pos.core.Models;
 using pos.products.Models;
 using pos.products.Services;
@@ -24,7 +23,6 @@ namespace pos.web.Controllers
         }
 
         [HttpPost()]
-        [AllowAnonymous]
         public async Task<IActionResult> AddProduct(ProductCreate.Request request)
         {
             if (!ModelState.IsValid)

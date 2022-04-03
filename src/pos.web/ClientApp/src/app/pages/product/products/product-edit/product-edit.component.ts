@@ -7,11 +7,25 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
-import { Observable, Subject, tap } from "rxjs";
+import {
+  catchError,
+  Observable,
+  of,
+  partition,
+  Subject,
+  switchMap,
+  tap,
+} from "rxjs";
+import { ProductType } from "src/app/common/enums";
+import { customProductSkuValidator } from "src/app/common/validations";
+import { ProductCreate, ProductCreateResult, Result } from "src/app/models";
+import { ProductService } from "src/app/services";
 
 interface ProductEditState {
   showProductDescription: boolean;
   files: File[];
+  error?: string;
+  submitting: boolean;
 }
 
 @Component({
@@ -26,6 +40,8 @@ export class ProductEditComponent implements OnInit {
   selectedFiles$ = new Subject<File[]>();
   removedFile$ = new Subject<File>();
   form!: FormGroup;
+  formSubmit$ = new Subject<FormGroup>();
+  submit$ = new Subject<FormGroup>();
 
   get vm$(): Observable<ProductEditState> {
     return this.state.select();
@@ -36,6 +52,7 @@ export class ProductEditComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private fb: FormBuilder,
     private toast: HotToastService,
+    private productService: ProductService,
   ) {
     this.state.set({
       showProductDescription: false,
@@ -70,13 +87,41 @@ export class ProductEditComponent implements OnInit {
         };
       },
     );
+
+    const [valid$, invalid$] = partition(this.submit$, f => f.valid);
+
+    this.state.connect(
+      valid$.pipe(
+        tap(() => this.state.set({ submitting: true })),
+        switchMap(f =>
+          this.productService
+            .addProduct(f.value as ProductCreate)
+            .pipe(catchError((err: Result<ProductCreateResult>) => of(err))),
+        ),
+        tap(result => {
+          if (result.isOk) {
+            // todo: redirect to product detail page
+            this.toast.success(`product created successfully`);
+          }
+        }),
+      ),
+      (_prev, curr) => ({
+        error: curr.statusCode,
+        submitting: false,
+      }),
+    );
+
+    this.state.hold(invalid$.pipe(), form => {
+      this.toast.error(`Invalid form. Please recheck and try again!`);
+      form.revalidateControls();
+    });
   }
 
   initForm() {
     this.form = this.fb.group({
-      productType: [],
+      productType: [ProductType.Normal],
       productName: ["", [Validators.required, Validators.minLength(10)]],
-      sku: [],
+      sku: [null, [customProductSkuValidator()]],
       weight: [],
       weightUnit: [],
       barcode: [],
@@ -92,20 +137,8 @@ export class ProductEditComponent implements OnInit {
       category: [],
       brand: [],
       tags: [],
-      active: [],
-      taxable: [],
+      active: [true],
+      taxable: [false],
     });
-  }
-
-  submitForm() {
-    const valid = this.form.valid;
-
-    if (valid) {
-      // this.formSubmit$.next(this.form.value);
-      this.toast.error(`Ok`);
-    } else {
-      this.toast.error(`Invalid form. Please recheck and try again!`);
-      this.form.revalidateControls([]);
-    }
   }
 }

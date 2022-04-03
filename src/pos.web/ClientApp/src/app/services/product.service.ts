@@ -4,8 +4,10 @@ import { Observable } from "rxjs";
 import {
   PagingRequest,
   PagingResponse,
-  ProductData,
+  ProductCreate,
+  ProductCreateResult,
   ProductListItem,
+  Result,
 } from "../models";
 import { Product, ProductListSearch } from "../models";
 import { stringify } from "query-string";
@@ -37,7 +39,10 @@ export class ProductService {
     );
   }
 
-  addProduct(product: ProductData): Observable<boolean> {
-    return this.http.post<boolean>(`api/products/`, product);
+  addProduct(product: ProductCreate): Observable<Result<ProductCreateResult>> {
+    return this.http.post<Result<ProductCreateResult>>(
+      `api/products/`,
+      product,
+    );
   }
 }

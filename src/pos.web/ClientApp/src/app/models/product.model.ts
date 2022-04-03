@@ -1,3 +1,5 @@
+import { ProductType } from "../common/enums";
+
 export interface Product {
   id: number;
   productName: string;
@@ -24,13 +26,7 @@ export interface ProductListSearch {
   categories?: number[];
 }
 
-export enum ProductType {
-  normal = 0,
-  expiry = 1,
-  serial = 2,
-}
-
-export interface ProductData {
+export interface ProductCreate {
   id: number;
   productType: ProductType;
   productName: string;
@@ -52,4 +48,8 @@ export interface ProductData {
   tags?: string;
   sellable: boolean;
   taxable: boolean;
+}
+
+export interface ProductCreateResult {
+  id: number;
 }

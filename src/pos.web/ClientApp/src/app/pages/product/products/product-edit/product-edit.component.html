@@ -1,7 +1,7 @@
 <div class="container py-3" *rxLet="vm$ as vm">
   <form [formGroup]="form">
     <div class="mb-3">
-      <button type="button" class="btn btn-primary" (click)="submitForm()">
+      <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
         SAVE
       </button>
     </div>
@@ -21,7 +21,7 @@
                   type="radio"
                   name="productType"
                   id="normalProduct"
-                  [value]="'normal'"
+                  [value]="0"
                   formControlName="productType"
                 />
                 <label class="form-check-label" for="normalProduct">
@@ -35,7 +35,7 @@
                   type="radio"
                   name="productType"
                   id="expiryProduct"
-                  [value]="'expiry'"
+                  [value]="1"
                   formControlName="productType"
                 />
                 <label class="form-check-label" for="expiryProduct">
@@ -62,7 +62,7 @@
               <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'required')">
                 Product name is required
               </div>
-              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'minLength')">
+              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'minlength')">
                 Product name must be at least 10 characters
               </div>
             </div>
@@ -75,7 +75,11 @@
                     type="text"
                     class="form-control"
                     formControlName="sku"
+                    [ngClass]="{'is-invalid': form.hasError('sku')}"
                   />
+                  <div class="invalid-feedback" *ngIf="form.hasErrorOf('sku', 'forbiddenPrefix')">
+                    SKU is not allowed to have POS as prefix
+                  </div>
                 </div>
               </div>
 
@@ -144,7 +148,7 @@
                 <div class="form-group">
                   <label class="form-label" for="salePrice">Sale price</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     formControlName="salePrice"
                     [ngClass]="{ 'is-invalid': form.hasError('salePrice') }"
@@ -158,7 +162,7 @@
                     >Wholesale price</label
                   >
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     formControlName="wholesalePrice"
                   />
@@ -173,7 +177,7 @@
                     >Import price</label
                   >
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     formControlName="importPrice"
                   />
@@ -392,7 +396,7 @@
     <!-- row -->
 
     <div>
-      <button type="button" class="btn btn-primary" (click)="submitForm()">
+      <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
         SAVE
       </button>
     </div>
