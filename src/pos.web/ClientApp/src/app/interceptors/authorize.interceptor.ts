@@ -63,9 +63,11 @@ export class AuthorizeInterceptor implements HttpInterceptor {
     // todo: show toast message in case of server error
 
     // throw error for component to handle
+    const { statusCode } = err.error;
     return throwError(() => ({
-      success: false,
-      statusCode: "internal_server_error",
+      isOk: false,
+      statusCode: statusCode || "internal_server_error",
+      data: null,
     }));
   };
 

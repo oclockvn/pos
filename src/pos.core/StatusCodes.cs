@@ -2,6 +2,8 @@
 {
     public enum StatusCode
     {
+        Argument_exception = -1,
+        Internal_server_error = 0,
         Wholesale_price_should_not_greater_than_saleprice = 1,
         Product_name_already_exist = 2,
         Shopping_cart_product_price_mis_match = 3,

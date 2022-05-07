@@ -1,4 +1,8 @@
 <div class="container py-3" *rxLet="vm$ as vm">
+  <div class="alert alert-danger" *ngIf="vm.error">
+    {{ vm.error }}
+  </div>
+
   <form [formGroup]="form">
     <div class="mb-3">
       <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
