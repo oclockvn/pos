@@ -14,10 +14,6 @@ const routes: Routes = [
             m => m.ProductListModule,
           ),
       },
-      // {
-      //   path: ":id",
-      //   component: ProductDetailComponent,
-      // },
       {
         path: "create",
         loadChildren: () =>
@@ -25,10 +21,13 @@ const routes: Routes = [
             m => m.ProductEditModule,
           ),
       },
-      // {
-      //   path: ":id/edit",
-      //   component: ProductEditComponent,
-      // },
+      {
+        path: ":id",
+        loadChildren: () =>
+          import("./product-edit/product-edit.module").then(
+            m => m.ProductEditModule,
+          ),
+      },
     ],
   },
 ];

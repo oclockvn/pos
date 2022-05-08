@@ -5,9 +5,43 @@
 
   <form [formGroup]="form">
     <div class="mb-3">
-      <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
-        SAVE
-      </button>
+      <div class="btn-group" dropdown>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="submit$.next({ form, redirect: true })"
+        >
+          SAVE AND GOTO
+        </button>
+
+        <button
+          id="button-split"
+          type="button"
+          dropdownToggle
+          class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+          aria-controls="dropdown-split"
+        >
+          <span class="caret"></span>
+          <span class="sr-only visually-hidden">toggle</span>
+        </button>
+        <ul
+          id="dropdown-split"
+          *dropdownMenu
+          class="dropdown-menu"
+          role="menu"
+          aria-labelledby="button-split"
+        >
+          <li role="menuitem">
+            <button
+              class="dropdown-item"
+              type="button"
+              (click)="submit$.next({ form, redirect: false })"
+            >
+              SAVE AND RESET
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="row">
@@ -63,10 +97,16 @@
                 formControlName="productName"
                 [ngClass]="{ 'is-invalid': form?.hasError('productName') }"
               />
-              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'required')">
+              <div
+                class="invalid-feedback"
+                *ngIf="form.hasErrorOf('productName', 'required')"
+              >
                 Product name is required
               </div>
-              <div class="invalid-feedback" *ngIf="form.hasErrorOf('productName', 'minlength')">
+              <div
+                class="invalid-feedback"
+                *ngIf="form.hasErrorOf('productName', 'minlength')"
+              >
                 Product name must be at least 10 characters
               </div>
             </div>
@@ -79,9 +119,12 @@
                     type="text"
                     class="form-control"
                     formControlName="sku"
-                    [ngClass]="{'is-invalid': form.hasError('sku')}"
+                    [ngClass]="{ 'is-invalid': form.hasError('sku') }"
                   />
-                  <div class="invalid-feedback" *ngIf="form.hasErrorOf('sku', 'forbiddenPrefix')">
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="form.hasErrorOf('sku', 'forbiddenPrefix')"
+                  >
                     SKU is not allowed to have POS as prefix
                   </div>
                 </div>
@@ -400,8 +443,12 @@
     <!-- row -->
 
     <div>
-      <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
-        SAVE
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="submit$.next({ form, redirect: true })"
+      >
+        SAVE AND GOTO
       </button>
     </div>
   </form>

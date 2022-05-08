@@ -5,10 +5,12 @@ import {
   OnInit,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
 import {
   catchError,
+  map,
   Observable,
   of,
   partition,
@@ -41,7 +43,7 @@ export class ProductEditComponent implements OnInit {
   removedFile$ = new Subject<File>();
   form!: FormGroup;
   formSubmit$ = new Subject<FormGroup>();
-  submit$ = new Subject<FormGroup>();
+  submit$ = new Subject<{ form: FormGroup; redirect: boolean }>();
 
   get vm$(): Observable<ProductEditState> {
     return this.state.select();
@@ -53,6 +55,8 @@ export class ProductEditComponent implements OnInit {
     private fb: FormBuilder,
     private toast: HotToastService,
     private productService: ProductService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.state.set({
       showProductDescription: false,
@@ -88,20 +92,36 @@ export class ProductEditComponent implements OnInit {
       },
     );
 
-    const [valid$, invalid$] = partition(this.submit$, f => f.valid);
+    const [valid$, invalid$] = partition(
+      this.submit$,
+      ({ form }) => form.valid,
+    );
 
     this.state.connect(
       valid$.pipe(
         tap(() => this.state.set({ submitting: true })),
-        switchMap(f =>
-          this.productService
-            .addProduct(f.value as ProductCreate)
-            .pipe(catchError((err: Result<ProductCreateResult>) => of(err))),
+        switchMap(({ form, redirect }) =>
+          this.productService.addProduct(form.value as ProductCreate).pipe(
+            catchError((err: Result<ProductCreateResult>) => of(err)),
+            map(r => ({ ...r, redirect })),
+          ),
         ),
         tap(result => {
-          if (result.isOk) {
-            // todo: redirect to product detail page
-            this.toast.success(`product created successfully`);
+          if (!result.isOk) {
+            return;
+          }
+
+          this.toast.success(`product created successfully`);
+
+          if (result.redirect) {
+            // redirect to product detail page
+            this.router.navigate(["../", result?.data?.id], {
+              relativeTo: this.activatedRoute,
+            });
+          } else {
+            // reset the form
+            this.form.reset();
+            this.initForm();
           }
         }),
       ),
@@ -111,7 +131,7 @@ export class ProductEditComponent implements OnInit {
       }),
     );
 
-    this.state.hold(invalid$.pipe(), form => {
+    this.state.hold(invalid$.pipe(), ({ form }) => {
       this.toast.error(`Invalid form. Please recheck and try again!`);
       form.revalidateControls();
     });
