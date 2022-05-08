@@ -137,7 +137,7 @@ export class ProductEditComponent implements OnInit {
       category: [],
       brand: [],
       tags: [],
-      active: [true],
+      sellable: [true],
       taxable: [false],
     });
   }
