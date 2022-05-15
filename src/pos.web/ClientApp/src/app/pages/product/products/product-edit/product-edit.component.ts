@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
+import { BsModalService } from "ngx-bootstrap/modal";
 import {
   catchError,
   map,
@@ -22,6 +23,7 @@ import { ProductType } from "src/app/common/enums";
 import { customProductSkuValidator } from "src/app/common/validations";
 import { ProductCreate, ProductCreateResult, Result } from "src/app/models";
 import { ProductService } from "src/app/services";
+import { CategoryModalComponent } from "../../shared";
 
 interface ProductEditState {
   showProductDescription: boolean;
@@ -57,6 +59,7 @@ export class ProductEditComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private modalService: BsModalService,
   ) {
     this.state.set({
       showProductDescription: false,
@@ -159,6 +162,14 @@ export class ProductEditComponent implements OnInit {
       tags: [],
       sellable: [true],
       taxable: [false],
+    });
+  }
+
+  showAddCategory() {
+    const bsModalRef = this.modalService.show(CategoryModalComponent, {
+      initialState: {
+        simpleForm: true,
+      },
     });
   }
 }

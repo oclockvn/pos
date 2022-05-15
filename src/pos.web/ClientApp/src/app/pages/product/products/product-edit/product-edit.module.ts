@@ -11,6 +11,7 @@ import { LetModule } from "@rx-angular/template";
 import { NgxDropzoneModule } from "ngx-dropzone";
 import { HotToastModule } from "@ngneat/hot-toast";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 const lib = [NgSelectModule, QuillModule, LetModule, NgxDropzoneModule];
 
@@ -23,6 +24,7 @@ const lib = [NgSelectModule, QuillModule, LetModule, NgxDropzoneModule];
     ReactiveFormsModule,
     HotToastModule.forRoot(),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     ...lib,
   ],
 })
