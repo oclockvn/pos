@@ -18,9 +18,11 @@ export class CategoryService {
     );
   }
 
-  addCategory(category: Partial<Category>): Observable<Result<number>> {
+  addCategory(
+    category: Partial<Category>,
+  ): Observable<Result<Partial<Category>>> {
     return of({
-      data: 1,
+      data: category,
       isOk: true,
     });
   }

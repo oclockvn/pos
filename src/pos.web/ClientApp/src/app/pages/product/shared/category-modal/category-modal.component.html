@@ -15,10 +15,25 @@
     <div [ngClass]="{ 'd-flex gap-3 mb-3': !simpleForm }">
       <div class="form-group" [ngClass]="{ col: !simpleForm }">
         <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" formControlName="name" />
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': form?.hasError('name') }"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="form.hasErrorOf('name', 'required')"
+        >
+          Name is required
+        </div>
       </div>
 
-      <div class="form-group" [ngClass]="{ col: !simpleForm }" *ngIf="!simpleForm">
+      <div
+        class="form-group"
+        [ngClass]="{ col: !simpleForm }"
+        *ngIf="!simpleForm"
+      >
         <label for="code" class="form-label">Code</label>
         <input type="text" class="form-control" formControlName="code" />
       </div>
@@ -29,10 +44,9 @@
       <textarea rows="3" class="form-control" formControlName="note"></textarea>
     </div>
 
-    <div *ngIf="hasError$" class="alert alert-danger">
+    <div *ngIf="hasError$ | async" class="alert alert-danger mt-3">
       Form is invalid. Please recheck!
     </div>
-
   </form>
 </div>
 
@@ -40,7 +54,7 @@
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
     Close
   </button>
-  <button type="button" class="btn btn-primary" (click)="submit()">
+  <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
     Submit
   </button>
 </div>

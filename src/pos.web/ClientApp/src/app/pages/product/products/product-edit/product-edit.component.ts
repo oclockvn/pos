@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   OnInit,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -17,19 +18,31 @@ import {
   partition,
   Subject,
   switchMap,
+  take,
   tap,
 } from "rxjs";
 import { ProductType } from "src/app/common/enums";
 import { customProductSkuValidator } from "src/app/common/validations";
-import { ProductCreate, ProductCreateResult, Result } from "src/app/models";
+import {
+  Category,
+  IdValue,
+  ProductCreate,
+  ProductCreateResult,
+  Result,
+} from "src/app/models";
 import { ProductService } from "src/app/services";
 import { CategoryModalComponent } from "../../shared";
+import {
+  ProductListPageState,
+  PRODUCT_PAGE_STATE,
+} from "../product-list/states";
 
 interface ProductEditState {
   showProductDescription: boolean;
   files: File[];
   error?: string;
   submitting: boolean;
+  categories: Category[];
 }
 
 @Component({
@@ -46,12 +59,19 @@ export class ProductEditComponent implements OnInit {
   form!: FormGroup;
   formSubmit$ = new Subject<FormGroup>();
   submit$ = new Subject<{ form: FormGroup; redirect: boolean }>();
+  categoryAdded$ = new Subject<{ id: number; name: string }>();
 
   get vm$(): Observable<ProductEditState> {
     return this.state.select();
   }
 
+  get categories$(): Observable<IdValue[]> {
+    return this.productPageState.select("categories");
+  }
+
   constructor(
+    @Inject(PRODUCT_PAGE_STATE)
+    private productPageState: RxState<ProductListPageState>,
     private state: RxState<ProductEditState>,
     private cd: ChangeDetectorRef,
     private fb: FormBuilder,
@@ -138,6 +158,10 @@ export class ProductEditComponent implements OnInit {
       this.toast.error(`Invalid form. Please recheck and try again!`);
       form.revalidateControls();
     });
+
+    this.productPageState.connect(this.categoryAdded$, (prev, curr) => ({
+      categories: [...prev.categories, { id: curr.id, value: curr.name }],
+    }));
   }
 
   initForm() {
@@ -169,6 +193,16 @@ export class ProductEditComponent implements OnInit {
     const bsModalRef = this.modalService.show(CategoryModalComponent, {
       initialState: {
         simpleForm: true,
+      },
+    });
+
+    bsModalRef.onHide?.pipe(take(1)).subscribe({
+      next: result => {
+        const categoryAdded = result as { id: number; name: string };
+        this.categoryAdded$.next({
+          id: categoryAdded.id,
+          name: categoryAdded.name,
+        });
       },
     });
   }

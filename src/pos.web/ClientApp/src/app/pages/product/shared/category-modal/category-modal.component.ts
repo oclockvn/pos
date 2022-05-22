@@ -47,9 +47,12 @@ export class CategoryModalComponent implements OnInit {
 
     const [$valid, $invalid] = partition(this.submit$, f => f.valid);
 
-    this.state.connect($invalid, () => ({
-      hasError: true,
-    }));
+    this.state.connect(
+      $invalid.pipe(tap(() => this.form.revalidateControls())),
+      () => ({
+        hasError: true,
+      }),
+    );
 
     this.state.connect(
       $valid
@@ -57,18 +60,21 @@ export class CategoryModalComponent implements OnInit {
           switchMap(form =>
             this.categoryService
               .addCategory(form.value)
-              .pipe(catchError(() => of({ isOk: false, data: 0 }))),
+              .pipe(catchError(() => of({ isOk: false, data: null }))),
           ),
         )
         .pipe(
           filter(result => result.isOk),
           tap(result => {
-            this.bsModalRef.onHide?.emit({ id: result.data });
+            this.bsModalRef.onHide?.emit({
+              id: result?.data?.id,
+              name: result?.data?.name,
+            });
             this.bsModalRef.hide();
           }),
         ),
       (prev, curr) => ({
-        hasError: curr.isOk,
+        hasError: !curr.isOk,
       }),
     );
   }
@@ -80,6 +86,4 @@ export class CategoryModalComponent implements OnInit {
       note: [null],
     });
   }
-
-  submit() {}
 }

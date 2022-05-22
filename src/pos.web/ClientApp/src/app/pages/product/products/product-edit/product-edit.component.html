@@ -331,9 +331,18 @@
           <div class="card-body">
             <div class="form-group mb-3">
               <label for="category" class="form-label">Category</label>
-              <ng-select [items]="[1, 2, 3, 4]" formControlName="category" class="header-p-0">
+              <ng-select
+                [items]="categories$ | async"
+                bindValue="id"
+                bindLabel="value"
+                formControlName="category"
+                class="header-p-0"
+              >
                 <ng-template ng-header-tmp>
-                  <button class="btn btn-default btn-sm rounded-0 text-start w-100" (click)="showAddCategory()">
+                  <button
+                    class="btn btn-default btn-sm rounded-0 text-start w-100"
+                    (click)="showAddCategory()"
+                  >
                     <i class="bi bi-plus-circle"></i>
                     Add category
                   </button>
