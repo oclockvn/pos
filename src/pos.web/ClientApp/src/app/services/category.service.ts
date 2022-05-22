@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { IdValue } from "../models";
+import { Category, IdValue, Result } from "../models";
 
 @Injectable({
   providedIn: "root",
@@ -16,5 +16,12 @@ export class CategoryService {
         value: `Category ${x}`,
       })),
     );
+  }
+
+  addCategory(category: Partial<Category>): Observable<Result<number>> {
+    return of({
+      data: 1,
+      isOk: true,
+    });
   }
 }

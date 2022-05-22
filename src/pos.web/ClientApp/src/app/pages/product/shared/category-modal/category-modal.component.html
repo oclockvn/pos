@@ -28,6 +28,11 @@
       <label for="note" class="form-label">Note</label>
       <textarea rows="3" class="form-control" formControlName="note"></textarea>
     </div>
+
+    <div *ngIf="hasError$" class="alert alert-danger">
+      Form is invalid. Please recheck!
+    </div>
+
   </form>
 </div>
 
