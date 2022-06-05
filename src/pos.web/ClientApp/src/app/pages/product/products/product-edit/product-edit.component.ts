@@ -160,9 +160,16 @@ export class ProductEditComponent implements OnInit {
       form.revalidateControls();
     });
 
-    this.productPageState.connect(this.categoryAdded$, (prev, curr) => ({
-      categories: [...prev.categories, { id: curr.id, value: curr.name }],
-    }));
+    this.productPageState.connect(
+      this.categoryAdded$.pipe(
+        tap(category => {
+          this.form.get("category")?.setValue(category.id);
+        }),
+      ),
+      (prev, curr) => ({
+        categories: [...prev.categories, { id: curr.id, value: curr.name }],
+      }),
+    );
   }
 
   initForm() {

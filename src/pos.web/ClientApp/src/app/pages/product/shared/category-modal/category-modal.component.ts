@@ -17,6 +17,7 @@ import { CategoryService } from "src/app/services";
 
 declare type ModalState = {
   hasError: boolean;
+  submitting: boolean;
 };
 
 @Component({
@@ -33,6 +34,10 @@ export class CategoryModalComponent implements OnInit {
 
   public get hasError$(): Observable<boolean> {
     return this.state.select("hasError");
+  }
+
+  public get submitting$(): Observable<boolean> {
+    return this.state.select("submitting");
   }
 
   constructor(
@@ -57,6 +62,7 @@ export class CategoryModalComponent implements OnInit {
     this.state.connect(
       $valid
         .pipe(
+          tap(() => this.state.set({ submitting: true })),
           switchMap(form =>
             this.categoryService
               .addCategory(form.value)
@@ -76,6 +82,7 @@ export class CategoryModalComponent implements OnInit {
         ),
       (prev, curr) => ({
         hasError: !curr.isOk,
+        submitting: false,
       }),
     );
   }

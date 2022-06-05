@@ -54,7 +54,12 @@
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
     Close
   </button>
-  <button type="button" class="btn btn-primary" (click)="submit$.next(form)">
-    Submit
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="submitting$ | async"
+    (click)="submit$.next(form)"
+  >
+    {{ (submitting$ | async) ? "Submitting..." : "Submit" }}
   </button>
 </div>
