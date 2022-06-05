@@ -1,4 +1,5 @@
-﻿using pos.core.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using pos.core.Enums;
 
 namespace pos.core.Entities
 {

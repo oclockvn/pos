@@ -45,8 +45,10 @@ namespace pos.core.Data.Configrations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-
             builder.ToTable("Categories", "product");
+
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(120);
+            builder.HasIndex(x => x.Name).IsUnique();
         }
     }
 
