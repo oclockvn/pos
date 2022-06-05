@@ -14,6 +14,7 @@ namespace pos.products.Models
         public class Response
         {
             public long Id { get; set; }
+            public string Name { get; set; }
         }
     }
 

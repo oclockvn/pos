@@ -50,7 +50,11 @@ namespace pos.products.Services
             await context.SaveChangesAsync();
 
             return new Result<CategoryCreate.Response>(
-                new CategoryCreate.Response { Id = category.Id });
+                new CategoryCreate.Response
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                });
         }
 
         public async Task<Paging.Response<CategoryList.Response>> GetCategoryList(
