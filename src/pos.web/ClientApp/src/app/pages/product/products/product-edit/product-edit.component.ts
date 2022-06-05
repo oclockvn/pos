@@ -12,6 +12,7 @@ import { RxState } from "@rx-angular/state";
 import { BsModalService } from "ngx-bootstrap/modal";
 import {
   catchError,
+  filter,
   map,
   Observable,
   of,
@@ -196,14 +197,19 @@ export class ProductEditComponent implements OnInit {
       },
     });
 
-    bsModalRef.onHide?.pipe(take(1)).subscribe({
-      next: result => {
-        const categoryAdded = result as { id: number; name: string };
-        this.categoryAdded$.next({
-          id: categoryAdded.id,
-          name: categoryAdded.name,
-        });
-      },
-    });
+    bsModalRef.onHide
+      ?.pipe(
+        take(1),
+        filter(s => (s as any).success),
+      )
+      .subscribe({
+        next: result => {
+          const categoryAdded = result as { id: number; name: string };
+          this.categoryAdded$.next({
+            id: categoryAdded.id,
+            name: categoryAdded.name,
+          });
+        },
+      });
   }
 }
