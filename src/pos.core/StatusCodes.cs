@@ -10,5 +10,6 @@
         Shopping_cart_product_sku_mis_match = 4,
         Sku_already_exist = 5,
         Sku_must_not_contains_pos_prefix = 6,
+        Data_already_exist = 7,
     }
 }
