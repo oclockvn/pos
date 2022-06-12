@@ -13,11 +13,11 @@ namespace pos.products.Services
         /// <summary>
         /// Add product
         /// </summary>
-        /// <param name="product"><see cref="AddProduct.Request"/></param>
+        /// <param name="product"><see cref="ProductCreate.Request"/></param>
         /// <returns></returns>
-        Task<AddProduct.Response> AddProductAsync(AddProduct.Request product);
+        Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product);
 
-        Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request);
+        Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request);
     }
 
     public class ProductService : IProductService
@@ -29,55 +29,75 @@ namespace pos.products.Services
             _tenantDbContextFactory = dbContextFactory;
         }
 
-        public async Task<AddProduct.Response> AddProductAsync(AddProduct.Request product)
+        public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request request)
         {
-            product.MustNotBeNull();
-            product.ProductName.MustNotBeNullOrWhiteSpace();
+            request.MustNotBeNull();
+            request.ProductName.MustNotBeNullOrWhiteSpace();
 
-            AddProduct.Response FailedResult(StatusCode statusCode)
+            Result<ProductCreate.Response> FailedResult(StatusCode statusCode)
             {
-                return new AddProduct.Response
-                {
-                    StatusCode = statusCode
-                };
+                return new Result<ProductCreate.Response>(statusCode);
             }
 
-            if (product.WholesalesPrice > product.SalesPrice)
+            //if (request.WholesalePrice > request.SalePrice)
+            //{
+            //    return FailedResult(StatusCode.Wholesale_price_should_not_greater_than_saleprice);
+            //}
+
+            var product = new core.Entities.Product
             {
-                return FailedResult(StatusCode.Wholesales_price_should_not_greater_than_saleprice);
-            }
+                ProductName = request.ProductName,
+                WholesalePrice = request.WholesalePrice,
+                SalePrice = request.SalePrice,
+                ImportPrice = request.ImportPrice,
+                Sku = request.Sku,
+                Barcode = request.Barcode,
+                BrandId = request.BrandId,
+                CategoryId = request.CategoryId,
+                ProductType = request.ProductType,
+                Sellable = request.Sellable,
+                Taxable = request.Taxable,
+                Description = request.Description,
+                Unit = request.Unit,
+                Weight = request.Weight,
+                WeightUnit = request.WeightUnit,
+            };
 
             using var context = _tenantDbContextFactory.CreateDbContext();
 
-            if (await IsProductNameExist(context, product.ProductName))
+            if (string.IsNullOrWhiteSpace(product.Sku))
             {
-                return FailedResult(StatusCode.Product_name_already_exist);
+                var orderSeq = await context.GetOrderSeqAsync();
+                product.Sku = product.GenerateSku(orderSeq);
+            }
+            //else
+            //{
+            //    if (request.Sku.StartsWith(ApplicationConstants.SKU_PREFIX, StringComparison.InvariantCultureIgnoreCase))
+            //    {
+            //        return FailedResult(StatusCode.Sku_must_not_contains_pos_prefix);
+            //    }
+            //}
+
+            if (await IsSkuExistAsync(context, request.Sku))
+            {
+                return FailedResult(StatusCode.Sku_already_exist);
             }
 
-            var entity = context.Products.Add(new core.Entities.Product
-            {
-                ProductName = product.ProductName,
-                WholesalesPrice = product.WholesalesPrice,
-                SalesPrice = product.SalesPrice,
-                ImportPrice = product.ImportPrice,
-                Sku = product.Sku,
-                Barcode = product.Barcode,
-            }).Entity;
+            product = context.Products.Add(product).Entity;
 
-            context.Inventories.Add(new core.Entities.Inventory(entity));
+            // todo: refactor to inventory service
+            context.Inventories.Add(new core.Entities.Inventory(product) { Product = product });
 
             await context.SaveChangesAsync();
 
-            return new AddProduct.Response
-            {
-                Id = entity.Id,
-            };
+            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }
 
-        public async Task<Paging<ProductList.Response>> GetProducts(ProductList.Request request)
+        public async Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request)
         {
             using var context = _tenantDbContextFactory.CreateDbContext();
             var query = context.Products
+                .OrderByDescending(x => x.Id)
                 .Join(context.Inventories, p => p.Id, i => i.ProductId, (p, i) => new
                 {
                     p.Sku,
@@ -89,10 +109,10 @@ namespace pos.products.Services
                     i.TotalQty,
                 });
 
-            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            if (request.Searchable)
             {
-                var keyword = request.Keyword.Trim();
-                query = query.Where(x => x.ProductName.Contains(request.Keyword) || x.Barcode.Contains(keyword) || x.Sku.Contains(keyword));
+                var keyword = request.Keyword;
+                query = query.Where(x => x.ProductName.Contains(keyword) || x.Barcode.Contains(keyword) || x.Sku.Contains(keyword));
             }
 
             // todo: query by categories
@@ -102,10 +122,10 @@ namespace pos.products.Services
             //}
 
             var count = await query.CountAsync();
-            if (!string.IsNullOrWhiteSpace(request.SortBy))
+            if (request.Sortable)
             {
-                var sortBy = request.SortBy.ToLower();
-                var asc = request.SortDir == "asc";
+                var sortBy = request.SortBy;
+                var asc = request.SortAsc;
 
                 query = sortBy switch
                 {
@@ -132,17 +152,13 @@ namespace pos.products.Services
                 })
                 .ToListAsync();
 
-            return new Paging<ProductList.Response>
-            {
-                Metadata = new PagingMetadata(request.CurrentPage, count),
-                Records = products,
-            };
+            return new Paging.Response<ProductList.Response>(products, count, request.CurrentPage);
         }
 
-        private Task<bool> IsProductNameExist(TenantDbContext context, string productName)
+        private Task<bool> IsSkuExistAsync(TenantDbContext context, string sku)
         {
             return context.Products
-                .Where(x => x.ProductName == productName)
+                .Where(x => x.Sku == sku)
                 .AnyAsync();
         }
     }

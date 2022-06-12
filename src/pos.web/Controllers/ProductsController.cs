@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using pos.core.Models;
 using pos.products.Models;
 using pos.products.Services;
 
@@ -15,9 +16,21 @@ namespace pos.web.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<IActionResult> GetProducts([FromQuery] ProductList.Request request)
+        public async Task<IActionResult> GetProducts([FromQuery] Paging.Request<ProductList.Request> request)
         {
             var result = await _productService.GetProducts(request);
+            return Ok(result);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> AddProduct(ProductCreate.Request request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _productService.CreateProductAsync(request);
             return Ok(result);
         }
     }

@@ -1,4 +1,4 @@
-import { SearchInfo } from ".";
+import { ProductType } from "../common/enums";
 
 export interface Product {
   id: number;
@@ -22,6 +22,34 @@ export interface ProductListItem {
   createdAt: Date;
 }
 
-export interface ProductListSearch extends SearchInfo {
+export interface ProductListSearch {
   categories?: number[];
+}
+
+export interface ProductCreate {
+  id: number;
+  productType: ProductType;
+  productName: string;
+  sku: string;
+  weight: string;
+  weightUnit: "" | "g" | "kg";
+  barcode: string;
+  unit: string;
+  description: string;
+  importPrice: number;
+  salePrice: number;
+  wholesalePrice: number;
+  inventoryInit: boolean;
+  inventoryBranch: string;
+  inventoryInitQty: number;
+  inventoryImportPrice: number;
+  category?: number;
+  brand?: number;
+  tags?: string;
+  sellable: boolean;
+  taxable: boolean;
+}
+
+export interface ProductCreateResult {
+  id: number;
 }

@@ -14,18 +14,20 @@ const routes: Routes = [
             m => m.ProductListModule,
           ),
       },
-      // {
-      //   path: ":id",
-      //   component: ProductDetailComponent,
-      // },
-      // {
-      //   path: "create",
-      //   component: ProductEditComponent,
-      // },
-      // {
-      //   path: ":id/edit",
-      //   component: ProductEditComponent,
-      // },
+      {
+        path: "create",
+        loadChildren: () =>
+          import("./product-edit/product-edit.module").then(
+            m => m.ProductEditModule,
+          ),
+      },
+      {
+        path: ":id",
+        loadChildren: () =>
+          import("./product-edit/product-edit.module").then(
+            m => m.ProductEditModule,
+          ),
+      },
     ],
   },
 ];

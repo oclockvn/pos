@@ -21,8 +21,8 @@ namespace pos.products.Services
         {
             var productFaker = new Faker<core.Entities.Product>()
                 .RuleFor(x => x.ProductName, f => f.Commerce.ProductName())
-                .RuleFor(x => x.WholesalesPrice, f => f.Random.Decimal() * 1000_000)
-                .RuleFor(x => x.SalesPrice, f => f.Random.Decimal() * 1000_000)
+                .RuleFor(x => x.WholesalePrice, f => f.Random.Decimal() * 1000_000)
+                .RuleFor(x => x.SalePrice, f => f.Random.Decimal() * 1000_000)
                 .RuleFor(x => x.ImportPrice, f => f.Random.Decimal() * 1000_000)
                 .RuleFor(x => x.Sku, f => f.Commerce.Ean13())
                 .RuleFor(x => x.Barcode, f => f.Commerce.Ean13())
@@ -41,9 +41,9 @@ namespace pos.products.Services
 
                 context.Inventories.Add(new core.Entities.Inventory
                 {
-                    WholesalesPrice = p.WholesalesPrice,
-                    SalesPrice = p.SalesPrice,
-                    ImportPrice = p.ImportPrice,
+                    WholesalesPrice = p.WholesalePrice ?? 0,
+                    SalesPrice = p.SalePrice ?? 0,
+                    ImportPrice = p.ImportPrice ?? 0,
                     Product = p,
                     AvailableQty = availQty,
                     TotalQty = availQty + 10

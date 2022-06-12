@@ -25,11 +25,38 @@ namespace pos.core.Data.Configrations
 
             builder.HasIndex(x => x.Barcode).IsUnique();
 
-            builder.Property(x => x.WholesalesPrice).HasPrecision(18, 2);
-            builder.Property(x => x.SalesPrice).HasPrecision(18, 2);
+            builder.Property(x => x.WholesalePrice).HasPrecision(18, 2);
+            builder.Property(x => x.SalePrice).HasPrecision(18, 2);
             builder.Property(x => x.ImportPrice).HasPrecision(18, 2);
 
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("getutcdate()");
+
+            builder.HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId);
+
+            builder.HasOne(x => x.Brand)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.BrandId);
+        }
+    }
+
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    {
+        public void Configure(EntityTypeBuilder<Category> builder)
+        {
+            builder.ToTable("Categories", "product");
+
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(120);
+            builder.HasIndex(x => x.Name).IsUnique();
+        }
+    }
+
+    public class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    {
+        public void Configure(EntityTypeBuilder<Brand> builder)
+        {
+            builder.ToTable("Brands", "product");
         }
     }
 }

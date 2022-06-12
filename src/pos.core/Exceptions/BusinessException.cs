@@ -5,7 +5,7 @@
     {
         public StatusCode StatusCode { get; set; }
 
-        public BusinessException(StatusCode statusCode) : base($"An exception occurred: {statusCode}")
+        public BusinessException(StatusCode statusCode, string message = null) : base($"An exception occurred: {statusCode}{(!string.IsNullOrWhiteSpace(message) ? " due to reason: " + message : string.Empty)}")
         {
             StatusCode = statusCode;
         }

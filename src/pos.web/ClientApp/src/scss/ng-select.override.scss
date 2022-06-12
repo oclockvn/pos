@@ -25,3 +25,11 @@ $ng-select-dropdown-optgroup-marked: $ng-select-dropdown-optgroup-text !default;
 $ng-select-dropdown-option-bg: $ng-select-dropdown-bg !default;
 $ng-select-dropdown-option-text: rgba(0, 0, 0, 0.87) !default;
 $ng-select-dropdown-option-disabled: lighten($ng-select-primary-text, 60) !default;
+
+.ng-select {
+  &.header-p-0 {
+    .ng-dropdown-header {
+      padding: 0;
+    }
+  }
+}

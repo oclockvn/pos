@@ -9,6 +9,7 @@ namespace pos.products
         {
             return services
                 .AddScoped<IProductService, ProductService>()
+                .AddScoped<ICategoryService, CategoryService>()
                 .AddScoped<IProductFakeService, ProductFakeService>()
                 .AddScoped<IInventoryService, InventoryService>()
                 ;

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pos.common.extensions;
 using pos.core.Data;
+using pos.core.Models;
 using pos.orders.Exceptions;
 using pos.orders.Models;
 
@@ -14,7 +15,7 @@ namespace pos.orders.Services
         /// </summary>
         /// <param name="request"><see cref="CreateOrder.Request"/></param>
         /// <returns><see cref="CreateOrder.Response"/></returns>
-        Task<CreateOrder.Response> CreateOrderAsync(CreateOrder.Request request);
+        Task<Result<CreateOrder.Response>> CreateOrderAsync(CreateOrder.Request request);
     }
 
     public class OrderService : IOrderService
@@ -26,7 +27,7 @@ namespace pos.orders.Services
             _tenantDbContextFactory = dbContextFactory;
         }
 
-        public async Task<CreateOrder.Response> CreateOrderAsync(CreateOrder.Request request)
+        public async Task<Result<CreateOrder.Response>> CreateOrderAsync(CreateOrder.Request request)
         {
             request.MustNotBeNull();
             request.Items.MustHaveMinimumCount(1);
@@ -41,8 +42,8 @@ namespace pos.orders.Services
                     Id = x.Id,
                     Sku = x.Sku,
                     ImportPrice = x.ImportPrice,
-                    SalesPrice = x.SalesPrice,
-                    WholesalesPrice = x.WholesalesPrice,
+                    SalesPrice = x.SalePrice,
+                    WholesalesPrice = x.WholesalePrice,
                     Tax = 0, // todo: config product tax
                 })
                 .ToListAsync();
@@ -64,7 +65,7 @@ namespace pos.orders.Services
 
             // todo: add inventory history
 
-            return new CreateOrder.Response();
+            return new Result<CreateOrder.Response>(new CreateOrder.Response());
         }
 
         private core.Entities.OrderItem ValidateAndMapOrderItem(List<ValidatableProduct> products, CreateOrder.ProductItem cartItem)
@@ -77,7 +78,7 @@ namespace pos.orders.Services
                 throw new OrderException(core.StatusCode.Shopping_cart_product_sku_mis_match);
             }
 
-            var total = cartItem.Qty * product.SalesPrice;
+            var total = cartItem.Qty * product.SalesPrice ?? 0; // todo: recheck price
             if (total != cartItem.Total)
             {
                 throw new OrderException(core.StatusCode.Shopping_cart_product_price_mis_match);
@@ -88,16 +89,16 @@ namespace pos.orders.Services
             {
                 DiscountPercentage = 0, // todo: set discount
                 DiscountPrice = 0,
-                ImportPrice = product.ImportPrice,
+                ImportPrice = product.ImportPrice ?? 0,
                 ProductId = product.Id,
                 Qty = cartItem.Qty,
-                SalesPrice = product.SalesPrice,
+                SalesPrice = product.SalesPrice ?? 0,
                 Sku = cartItem.Sku,
                 Tax = product.Tax,
                 Total = total,
                 TotalWithTax = total.WithTax(product.Tax),
-                UnitPrice = product.SalesPrice,
-                WholesalesPrice = product.WholesalesPrice
+                UnitPrice = product.SalesPrice ?? 0,
+                WholesalesPrice = product.WholesalesPrice ?? 0
             };
         }
 
@@ -105,9 +106,9 @@ namespace pos.orders.Services
         {
             public long Id { get; set; }
             public string Sku { get; set; }
-            public decimal ImportPrice { get; set; }
-            public decimal SalesPrice { get; set; }
-            public decimal WholesalesPrice { get; set; }
+            public decimal? ImportPrice { get; set; }
+            public decimal? SalesPrice { get; set; }
+            public decimal? WholesalesPrice { get; set; }
             public float Tax { get; set; }
         }
     }

@@ -1,0 +1,10 @@
+.card-header {
+  font-weight: 600;
+}
+
+.weight-options {
+  ::ng-deep .ng-select-container {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

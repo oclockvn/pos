@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:8200</SpaProxyServerUrl>
-    <SpaProxyLaunchCommand>yarn start</SpaProxyLaunchCommand>
+    <!--<SpaProxyLaunchCommand>yarn start</SpaProxyLaunchCommand>-->
     <ImplicitUsings>enable</ImplicitUsings>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
