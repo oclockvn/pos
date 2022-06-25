@@ -88,7 +88,7 @@ export class ProductListComponent implements OnInit {
     this.productListState.connect(
       this.search$.pipe(
         tap(() => this.productListState.set({ loading: true })),
-        switchMap(s => this.productService.getProducts(s)),
+        switchMap(s => this.productService.getProductPaging(s)),
       ),
       (_, result) => ({
         products: result.records,

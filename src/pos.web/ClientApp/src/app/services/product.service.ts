@@ -23,7 +23,7 @@ export class ProductService {
     return this.http.get<Product[]>("api/inventory/products");
   }
 
-  getProducts(
+  getProductPaging(
     request: PagingRequest<ProductListSearch>,
   ): Observable<PagingResponse<ProductListItem>> {
     const q = stringify({
