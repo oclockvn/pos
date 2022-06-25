@@ -45,6 +45,8 @@ declare type FormType = {
 })
 export class ProductListComponent implements OnInit {
   @ViewChild("colCreatedAt", { static: true }) colCreatedAt!: TemplateRef<any>;
+  @ViewChild("colProductName", { static: true })
+  colProductName!: TemplateRef<any>;
   @ViewChild(DatatableComponent) table!: DatatableComponent;
 
   columns: TableColumn[] = [];
@@ -123,6 +125,7 @@ export class ProductListComponent implements OnInit {
         prop: "productName",
         canAutoResize: true,
         sortable: false,
+        cellTemplate: this.colProductName,
       },
       {
         prop: "category",
