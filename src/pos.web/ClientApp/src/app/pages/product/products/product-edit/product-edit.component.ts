@@ -88,6 +88,10 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
+  get submitting$(): Observable<boolean> {
+    return this.state.select("submitting");
+  }
+
   ngOnInit(): void {
     this.initForm();
 
@@ -175,7 +179,7 @@ export class ProductEditComponent implements OnInit {
   initForm() {
     this.form = this.fb.group({
       productType: [ProductType.Normal],
-      productName: ["", [Validators.required, Validators.minLength(10)]],
+      productName: ["", [Validators.required, Validators.minLength(3)]],
       sku: [null, [customProductSkuValidator()]],
       weight: [],
       weightUnit: [],
@@ -183,13 +187,13 @@ export class ProductEditComponent implements OnInit {
       unit: [],
       description: [],
       importPrice: [],
-      salePrice: [0, [Validators.required, Validators.min(10)]],
+      salePrice: [0, [Validators.required, Validators.min(1)]],
       wholesalePrice: [],
       inventoryInit: [],
       inventoryBranch: [],
       inventoryInitQty: [],
       inventoryImportPrice: [],
-      category: [],
+      categoryId: [],
       brand: [],
       tags: [],
       sellable: [true],

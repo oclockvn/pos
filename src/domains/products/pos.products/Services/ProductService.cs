@@ -1,4 +1,5 @@
 ﻿using Light.GuardClauses;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using pos.core;
 using pos.core.Data;
@@ -23,10 +24,12 @@ namespace pos.products.Services
     public class ProductService : IProductService
     {
         private readonly ITenantDbContextFactory _tenantDbContextFactory;
+        private readonly IMediator _mediator;
 
-        public ProductService(ITenantDbContextFactory dbContextFactory)
+        public ProductService(ITenantDbContextFactory dbContextFactory, IMediator mediator)
         {
             _tenantDbContextFactory = dbContextFactory;
+            _mediator = mediator;
         }
 
         public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request request)
@@ -84,11 +87,16 @@ namespace pos.products.Services
             }
 
             product = context.Products.Add(product).Entity;
-
-            // todo: refactor to inventory service
-            context.Inventories.Add(new core.Entities.Inventory(product) { Product = product });
-
             await context.SaveChangesAsync();
+
+            // refactor to inventory service
+            var inventoryResult = await _mediator.Send(new InventoryCreate.Request
+            {
+                ImportPrice = product.ImportPrice ?? 0,
+                WholesalesPrice = product.WholesalePrice ?? 0,
+                SalesPrice = product.SalePrice ?? 0,
+                ProductId = product.Id,
+            });
 
             return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }

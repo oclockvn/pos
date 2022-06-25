@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using pos.products.Services;
 
 namespace pos.products
@@ -7,6 +8,8 @@ namespace pos.products
     {
         public static IServiceCollection AddProductServices(this IServiceCollection services)
         {
+            services.AddMediatR(typeof(ServiceCollectionExtension));
+
             return services
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<ICategoryService, CategoryService>()

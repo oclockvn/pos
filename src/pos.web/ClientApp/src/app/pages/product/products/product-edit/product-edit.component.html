@@ -10,8 +10,9 @@
           type="button"
           class="btn btn-primary"
           (click)="submit$.next({ form, redirect: true })"
+          [disabled]="submitting$ | async"
         >
-          SAVE AND GOTO
+          {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}
         </button>
 
         <button
@@ -20,6 +21,7 @@
           dropdownToggle
           class="btn btn-primary dropdown-toggle dropdown-toggle-split"
           aria-controls="dropdown-split"
+          [disabled]="submitting$ | async"
         >
           <span class="caret"></span>
           <span class="sr-only visually-hidden">toggle</span>
@@ -107,7 +109,7 @@
                 class="invalid-feedback"
                 *ngIf="form.hasErrorOf('productName', 'minlength')"
               >
-                Product name must be at least 10 characters
+                Product name must be at least 3 characters
               </div>
             </div>
 
@@ -330,12 +332,12 @@
           <div class="card-header bg-white py-3">Additional info</div>
           <div class="card-body">
             <div class="form-group mb-3">
-              <label for="category" class="form-label">Category</label>
+              <label for="categoryId" class="form-label">Category</label>
               <ng-select
                 [items]="categories$ | async"
                 bindValue="id"
                 bindLabel="value"
-                formControlName="category"
+                formControlName="categoryId"
                 class="header-p-0"
               >
                 <ng-template ng-header-tmp>
@@ -460,8 +462,9 @@
         type="button"
         class="btn btn-primary"
         (click)="submit$.next({ form, redirect: true })"
+        [disabled]="submitting$ | async"
       >
-        SAVE AND GOTO
+        {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}
       </button>
     </div>
   </form>
