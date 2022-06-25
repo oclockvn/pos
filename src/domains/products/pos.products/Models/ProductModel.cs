@@ -94,4 +94,25 @@ namespace pos.products.Models
             public DateTimeOffset CreatedAt { get; set; }
         }
     }
+
+    public class ProductDetail
+    {
+        public long Id { get; set; }
+        public string ProductName { get; set; }
+        public decimal? WholesalePrice { get; set; }
+        public decimal? SalePrice { get; set; }
+        public decimal? ImportPrice { get; set; }
+        public string Sku { get; set; }
+        public string Barcode { get; set; }
+        public ProductType ProductType { get; set; }
+        public string Weight { get; set; }
+        public string WeightUnit { get; set; }
+        public string Unit { get; set; }
+        public string Description { get; set; }
+        public long? CategoryId { get; set; }
+        public long? BrandId { get; set; }
+        public string Tags { get; set; }
+        public bool Sellable { get; set; }
+        public bool Taxable { get; set; }
+    }
 }

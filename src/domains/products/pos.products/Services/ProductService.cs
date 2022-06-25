@@ -18,7 +18,14 @@ namespace pos.products.Services
         /// <returns></returns>
         Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product);
 
-        Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request);
+        Task<Paging.Response<ProductList.Response>> GetProductPagingAsync(Paging.Request<ProductList.Request> request);
+
+        /// <summary>
+        /// Get product detail by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ProductDetail> GetProductDetailAsync(long id);
     }
 
     public class ProductService : IProductService
@@ -101,7 +108,34 @@ namespace pos.products.Services
             return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }
 
-        public async Task<Paging.Response<ProductList.Response>> GetProducts(Paging.Request<ProductList.Request> request)
+        public async Task<ProductDetail> GetProductDetailAsync(long id)
+        {
+            using var context = _tenantDbContextFactory.CreateDbContext();
+            return await context.Products.Where(x => x.Id == id)
+                .Select(x => new ProductDetail
+                {
+                    Id = x.Id,
+                    ProductName = x.ProductName,
+                    Barcode = x.Barcode,
+                    ImportPrice = x.ImportPrice,
+                    SalePrice = x.SalePrice,
+                    WholesalePrice = x.WholesalePrice,
+                    BrandId = x.BrandId,
+                    CategoryId = x.CategoryId,
+                    Description = x.Description,
+                    ProductType = x.ProductType,
+                    Sellable = x.Sellable,
+                    Sku = x.Sku,
+                    Tags = null, // todo: add tags
+                    Taxable = x.Taxable,
+                    Unit = x.Unit,
+                    Weight = x.Weight,
+                    WeightUnit = x.WeightUnit,
+                })
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<Paging.Response<ProductList.Response>> GetProductPagingAsync(Paging.Request<ProductList.Request> request)
         {
             using var context = _tenantDbContextFactory.CreateDbContext();
             var query = context.Products

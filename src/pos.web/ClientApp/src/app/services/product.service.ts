@@ -6,6 +6,7 @@ import {
   PagingResponse,
   ProductCreate,
   ProductCreateResult,
+  ProductDetail,
   ProductListItem,
   Result,
 } from "../models";
@@ -35,7 +36,7 @@ export class ProductService {
     });
 
     return this.http.get<PagingResponse<ProductListItem>>(
-      `api/products/products?` + q,
+      `api/products/paging?` + q,
     );
   }
 
@@ -44,5 +45,9 @@ export class ProductService {
       `api/products/`,
       product,
     );
+  }
+
+  getProduct(id: number): Observable<ProductDetail> {
+    return this.http.get<ProductDetail>(`api/products/${id}`);
   }
 }

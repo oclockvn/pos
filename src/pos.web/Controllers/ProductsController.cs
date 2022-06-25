@@ -15,14 +15,14 @@ namespace pos.web.Controllers
             _productService = productService;
         }
 
-        [HttpGet("products")]
-        public async Task<IActionResult> GetProducts([FromQuery] Paging.Request<ProductList.Request> request)
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaging([FromQuery] Paging.Request<ProductList.Request> request)
         {
-            var result = await _productService.GetProducts(request);
+            var result = await _productService.GetProductPagingAsync(request);
             return Ok(result);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> AddProduct(ProductCreate.Request request)
         {
             if (!ModelState.IsValid)
@@ -32,6 +32,13 @@ namespace pos.web.Controllers
 
             var result = await _productService.CreateProductAsync(request);
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductDetail(long id)
+        {
+            var product = await _productService.GetProductDetailAsync(id);
+            return Ok(product);
         }
     }
 }

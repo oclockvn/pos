@@ -50,6 +50,10 @@ export interface ProductCreate {
   taxable: boolean;
 }
 
+export interface ProductDetail extends ProductCreate {
+  // add detail props
+}
+
 export interface ProductCreateResult {
   id: number;
 }

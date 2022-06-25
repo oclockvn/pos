@@ -29,6 +29,7 @@ import {
   IdValue,
   ProductCreate,
   ProductCreateResult,
+  ProductDetail,
   Result,
 } from "src/app/models";
 import { ProductService } from "src/app/services";
@@ -43,7 +44,9 @@ interface ProductEditState {
   files: File[];
   error?: string;
   submitting: boolean;
+  loading: boolean;
   categories: Category[];
+  product: ProductDetail;
 }
 
 @Component({
@@ -62,14 +65,6 @@ export class ProductEditComponent implements OnInit {
   submit$ = new Subject<{ form: FormGroup; redirect: boolean }>();
   categoryAdded$ = new Subject<{ id: number; name: string }>();
 
-  get vm$(): Observable<ProductEditState> {
-    return this.state.select();
-  }
-
-  get categories$(): Observable<IdValue[]> {
-    return this.productPageState.select("categories");
-  }
-
   constructor(
     @Inject(PRODUCT_PAGE_STATE)
     private productPageState: RxState<ProductListPageState>,
@@ -86,6 +81,31 @@ export class ProductEditComponent implements OnInit {
       showProductDescription: false,
       files: [],
     });
+
+    this.state.connect(
+      this.activatedRoute.paramMap.pipe(
+        filter(p => p.has("id") && Number(p.get("id")) > 0),
+        map(p => Number(p.get("id"))),
+        switchMap(id =>
+          this.productService
+            .getProduct(id)
+            .pipe(tap(() => this.state.set({ loading: true }))),
+        ),
+        tap(product => this.patchForm(product)),
+      ),
+      (prev, curr) => ({
+        product: curr,
+        loading: false,
+      }),
+    );
+  }
+
+  get vm$(): Observable<ProductEditState> {
+    return this.state.select();
+  }
+
+  get categories$(): Observable<IdValue[]> {
+    return this.productPageState.select("categories");
   }
 
   get submitting$(): Observable<boolean> {
@@ -93,7 +113,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
+    this.buildForm();
 
     this.state.connect(this.toggleDescription$, (prev, _) => ({
       showProductDescription: !prev.showProductDescription,
@@ -149,7 +169,7 @@ export class ProductEditComponent implements OnInit {
           } else {
             // reset the form
             this.form.reset();
-            this.initForm();
+            this.buildForm();
           }
         }),
       ),
@@ -176,7 +196,7 @@ export class ProductEditComponent implements OnInit {
     );
   }
 
-  initForm() {
+  buildForm() {
     this.form = this.fb.group({
       productType: [ProductType.Normal],
       productName: ["", [Validators.required, Validators.minLength(3)]],
@@ -199,6 +219,10 @@ export class ProductEditComponent implements OnInit {
       sellable: [true],
       taxable: [false],
     });
+  }
+
+  patchForm(product: Partial<ProductDetail>) {
+    this.form.patchValue(product);
   }
 
   showAddCategory() {
