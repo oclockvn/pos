@@ -27,7 +27,8 @@ namespace pos.products.Services
             {
                 SalesPrice = request.SalesPrice,
                 WholesalesPrice = request.WholesalesPrice,
-                ImportPrice = request.ImportPrice
+                ImportPrice = request.ImportPrice,
+                ProductId = request.ProductId,
             }).Entity;
 
             await context.SaveChangesAsync();

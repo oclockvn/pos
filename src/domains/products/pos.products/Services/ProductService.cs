@@ -87,11 +87,16 @@ namespace pos.products.Services
             }
 
             product = context.Products.Add(product).Entity;
+            await context.SaveChangesAsync();
 
             // refactor to inventory service
-            var inventoryResult = await _mediator.Send(new InventoryCreate.Request { });
-
-            await context.SaveChangesAsync();
+            var inventoryResult = await _mediator.Send(new InventoryCreate.Request
+            {
+                ImportPrice = product.ImportPrice ?? 0,
+                WholesalesPrice = product.WholesalePrice ?? 0,
+                SalesPrice = product.SalePrice ?? 0,
+                ProductId = product.Id,
+            });
 
             return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }

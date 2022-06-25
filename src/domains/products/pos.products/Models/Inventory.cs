@@ -18,6 +18,7 @@ namespace pos.products.Models
     {
         public class Request : IRequest<Result<Response>>
         {
+            public long ProductId { get; set; }
             public decimal SalesPrice { get; set; }
             public decimal WholesalesPrice { get; set; }
             public decimal ImportPrice { get; set; }
