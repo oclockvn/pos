@@ -88,6 +88,10 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
+  get submitting$(): Observable<boolean> {
+    return this.state.select("submitting");
+  }
+
   ngOnInit(): void {
     this.initForm();
 
