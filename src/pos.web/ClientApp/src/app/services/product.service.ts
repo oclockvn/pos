@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, Observable, of } from "rxjs";
 import {
   PagingRequest,
   PagingResponse,
@@ -41,10 +41,32 @@ export class ProductService {
   }
 
   addProduct(product: ProductCreate): Observable<Result<ProductCreateResult>> {
-    return this.http.post<Result<ProductCreateResult>>(
-      `api/products/`,
-      product,
-    );
+    return this.http
+      .post<Result<ProductCreateResult>>(`api/products/`, product)
+      .pipe(
+        catchError((err: { statusCode: string }) =>
+          of({
+            isOk: false,
+            statusCode: err.statusCode,
+          } as Result<ProductCreateResult>),
+        ),
+      );
+  }
+
+  updateProduct(
+    id: number,
+    product: ProductCreate,
+  ): Observable<Result<ProductCreateResult>> {
+    return this.http
+      .put<Result<ProductCreateResult>>(`api/products/${id}`, product)
+      .pipe(
+        catchError((err: { statusCode: string }) =>
+          of({
+            isOk: false,
+            statusCode: err.statusCode,
+          } as Result<ProductCreateResult>),
+        ),
+      );
   }
 
   getProduct(id: number): Observable<ProductDetail> {

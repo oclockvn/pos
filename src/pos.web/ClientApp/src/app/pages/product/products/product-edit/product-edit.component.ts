@@ -11,11 +11,9 @@ import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
 import { BsModalService } from "ngx-bootstrap/modal";
 import {
-  catchError,
   filter,
   map,
   Observable,
-  of,
   partition,
   Subject,
   switchMap,
@@ -28,9 +26,7 @@ import {
   Category,
   IdValue,
   ProductCreate,
-  ProductCreateResult,
   ProductDetail,
-  Result,
 } from "src/app/models";
 import { ProductService } from "src/app/services";
 import { CategoryModalComponent } from "../../shared";
@@ -62,8 +58,14 @@ export class ProductEditComponent implements OnInit {
   removedFile$ = new Subject<File>();
   form!: FormGroup;
   formSubmit$ = new Subject<FormGroup>();
-  submit$ = new Subject<{ form: FormGroup; redirect: boolean }>();
+  submit$ = new Subject<{
+    form: FormGroup;
+    redirect: boolean;
+    isUpdate: boolean;
+  }>();
   categoryAdded$ = new Subject<{ id: number; name: string }>();
+  id = 0;
+  skuValidator = customProductSkuValidator();
 
   constructor(
     @Inject(PRODUCT_PAGE_STATE)
@@ -92,6 +94,12 @@ export class ProductEditComponent implements OnInit {
             .pipe(tap(() => this.state.set({ loading: true }))),
         ),
         tap(product => this.patchForm(product)),
+        tap(product => {
+          this.id = product.id;
+          // remove sku validation
+          this.form.get("sku")?.removeValidators(this.skuValidator);
+          this.form.get("sku")?.disable();
+        }),
       ),
       (prev, curr) => ({
         product: curr,
@@ -148,18 +156,25 @@ export class ProductEditComponent implements OnInit {
     this.state.connect(
       valid$.pipe(
         tap(() => this.state.set({ submitting: true })),
-        switchMap(({ form, redirect }) =>
-          this.productService.addProduct(form.value as ProductCreate).pipe(
-            catchError((err: Result<ProductCreateResult>) => of(err)),
-            map(r => ({ ...r, redirect })),
-          ),
-        ),
+        switchMap(({ form, redirect, isUpdate }) => {
+          if (isUpdate) {
+            return this.productService
+              .updateProduct(this.id, form.value as ProductCreate)
+              .pipe(map(r => ({ ...r, redirect, isUpdate })));
+          }
+
+          return this.productService
+            .addProduct(form.value as ProductCreate)
+            .pipe(map(r => ({ ...r, redirect, isUpdate })));
+        }),
         tap(result => {
           if (!result.isOk) {
             return;
           }
 
-          this.toast.success(`product created successfully`);
+          this.toast.success(
+            `product ${result.isUpdate ? "updated" : "created"} successfully`,
+          );
 
           if (result.redirect) {
             // redirect to product detail page
@@ -200,7 +215,7 @@ export class ProductEditComponent implements OnInit {
     this.form = this.fb.group({
       productType: [ProductType.Normal],
       productName: ["", [Validators.required, Validators.minLength(3)]],
-      sku: [null, [customProductSkuValidator()]],
+      sku: [null, [this.skuValidator]],
       weight: [],
       weightUnit: [],
       barcode: [],

@@ -9,7 +9,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          (click)="submit$.next({ form, redirect: true })"
+          (click)="submit$.next({ form, redirect: true, isUpdate: id > 0 })"
           [disabled]="submitting$ | async"
         >
           {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}
@@ -37,7 +37,7 @@
             <button
               class="dropdown-item"
               type="button"
-              (click)="submit$.next({ form, redirect: false })"
+              (click)="submit$.next({ form, redirect: false, isUpdate: id > 0 })"
             >
               SAVE AND RESET
             </button>
@@ -461,7 +461,7 @@
       <button
         type="button"
         class="btn btn-primary"
-        (click)="submit$.next({ form, redirect: true })"
+        (click)="submit$.next({ form, redirect: true, isUpdate: id > 0 })"
         [disabled]="submitting$ | async"
       >
         {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}

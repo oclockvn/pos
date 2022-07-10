@@ -18,6 +18,8 @@ namespace pos.products.Services
         /// <returns></returns>
         Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request product);
 
+        Task<Result<ProductCreate.Response>> UpdateProductAsync(long id, ProductCreate.Request product);
+
         Task<Paging.Response<ProductList.Response>> GetProductPagingAsync(Paging.Request<ProductList.Request> request);
 
         /// <summary>
@@ -104,6 +106,30 @@ namespace pos.products.Services
                 SalesPrice = product.SalePrice ?? 0,
                 ProductId = product.Id,
             });
+
+            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
+        }
+
+        public async Task<Result<ProductCreate.Response>> UpdateProductAsync(long id, ProductCreate.Request request)
+        {
+            request.MustNotBeNull();
+            request.ProductName.MustNotBeNullOrWhiteSpace();
+
+            using var context = _tenantDbContextFactory.CreateDbContext();
+            var product = await context.Products.Where(p => p.Id == id).SingleOrDefaultAsync();
+
+            product.MustNotBeNull();
+
+            product.ProductName = request.ProductName;
+            product.CategoryId = request.CategoryId;
+            product.Description = request.Description;
+            product.Weight = request.Weight;
+            product.Unit = request.Unit;
+            product.Sellable = request.Sellable;
+            product.Taxable = request.Taxable;
+            // todo: check pricing update in sapo and modify this logic later
+
+            await context.SaveChangesAsync();
 
             return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
         }
