@@ -22,6 +22,7 @@ const lib = [NgSelectModule, QuillModule, LetModule, NgxDropzoneModule];
     ProductEditRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    LetModule,
     HotToastModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
