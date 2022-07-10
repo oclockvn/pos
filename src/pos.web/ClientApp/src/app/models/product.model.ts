@@ -48,6 +48,7 @@ export interface ProductCreate {
   tags?: string;
   sellable: boolean;
   taxable: boolean;
+  files: File[];
 }
 
 export interface ProductDetail extends ProductCreate {

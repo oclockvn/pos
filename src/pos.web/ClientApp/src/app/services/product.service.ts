@@ -41,8 +41,12 @@ export class ProductService {
   }
 
   addProduct(product: ProductCreate): Observable<Result<ProductCreateResult>> {
+    const { files, ...payload } = product;
     return this.http
-      .post<Result<ProductCreateResult>>(`api/products/`, product)
+      .post<Result<ProductCreateResult>>(
+        `api/products/`,
+        this.toFormData(payload, files),
+      )
       .pipe(
         catchError((err: { statusCode: string }) =>
           of({
@@ -57,8 +61,13 @@ export class ProductService {
     id: number,
     product: ProductCreate,
   ): Observable<Result<ProductCreateResult>> {
+    const { files, ...payload } = product;
+
     return this.http
-      .put<Result<ProductCreateResult>>(`api/products/${id}`, product)
+      .put<Result<ProductCreateResult>>(
+        `api/products/${id}`,
+        this.toFormData(payload, files),
+      )
       .pipe(
         catchError((err: { statusCode: string }) =>
           of({
@@ -67,6 +76,27 @@ export class ProductService {
           } as Result<ProductCreateResult>),
         ),
       );
+  }
+
+  toFormData(product: Partial<ProductCreate>, files: File[]): FormData {
+    const formData = new FormData();
+    const payload = {
+      ...product,
+      importPrice: product.importPrice || 0,
+      salePrice: product.salePrice || 0,
+      wholesalePrice: product.wholesalePrice || 0,
+    }
+
+    // todo: check syntax of keyof
+    Object.keys(payload).forEach(key => formData.append(key, (payload as any)[key]));
+
+    if (files?.length > 0) {
+      for (let f of files) {
+        formData.append("Files", f, f.name);
+      }
+    }
+
+    return formData;
   }
 
   getProduct(id: number): Observable<ProductDetail> {

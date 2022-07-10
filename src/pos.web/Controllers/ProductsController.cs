@@ -2,6 +2,7 @@
 using pos.core.Models;
 using pos.products.Models;
 using pos.products.Services;
+using pos.web.Models;
 
 namespace pos.web.Controllers
 {
@@ -23,7 +24,7 @@ namespace pos.web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductCreate.Request request)
+        public async Task<IActionResult> AddProduct([FromForm] ProductCreateUpdate request)
         {
             if (!ModelState.IsValid)
             {
@@ -35,7 +36,7 @@ namespace pos.web.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(long id, ProductCreate.Request request)
+        public async Task<IActionResult> UpdateProduct(long id, [FromForm] ProductCreateUpdate request)
         {
             if (!ModelState.IsValid)
             {

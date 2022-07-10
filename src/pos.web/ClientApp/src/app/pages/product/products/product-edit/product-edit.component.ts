@@ -157,14 +157,17 @@ export class ProductEditComponent implements OnInit {
       valid$.pipe(
         tap(() => this.state.set({ submitting: true })),
         switchMap(({ form, redirect, isUpdate }) => {
+          const payload = form.value as ProductCreate;
+          payload.files = this.state.get("files");
+
           if (isUpdate) {
             return this.productService
-              .updateProduct(this.id, form.value as ProductCreate)
+              .updateProduct(this.id, payload)
               .pipe(map(r => ({ ...r, redirect, isUpdate })));
           }
 
           return this.productService
-            .addProduct(form.value as ProductCreate)
+            .addProduct(payload)
             .pipe(map(r => ({ ...r, redirect, isUpdate })));
         }),
         tap(result => {
