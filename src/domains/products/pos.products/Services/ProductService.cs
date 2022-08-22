@@ -5,6 +5,7 @@ using pos.core;
 using pos.core.Data;
 using pos.core.Extensions;
 using pos.core.Models;
+using pos.core.Services;
 using pos.products.Models;
 
 namespace pos.products.Services
@@ -34,11 +35,13 @@ namespace pos.products.Services
     {
         private readonly ITenantDbContextFactory _tenantDbContextFactory;
         private readonly IMediator _mediator;
+        private readonly IStorageService storageService;
 
-        public ProductService(ITenantDbContextFactory dbContextFactory, IMediator mediator)
+        public ProductService(ITenantDbContextFactory dbContextFactory, IMediator mediator, IStorageService storageService)
         {
             _tenantDbContextFactory = dbContextFactory;
             _mediator = mediator;
+            this.storageService = storageService;
         }
 
         public async Task<Result<ProductCreate.Response>> CreateProductAsync(ProductCreate.Request request)
@@ -73,6 +76,7 @@ namespace pos.products.Services
                 Unit = request.Unit,
                 Weight = request.Weight,
                 WeightUnit = request.WeightUnit,
+                ReferenceKey = Guid.NewGuid()
             };
 
             using var context = _tenantDbContextFactory.CreateDbContext();
@@ -107,7 +111,12 @@ namespace pos.products.Services
                 ProductId = product.Id,
             });
 
-            return new Result<ProductCreate.Response>(new ProductCreate.Response { Id = product.Id });
+            return new Result<ProductCreate.Response>(
+                new ProductCreate.Response
+                {
+                    Id = product.Id,
+                    ReferenceKey = product.ReferenceKey
+                });
         }
 
         public async Task<Result<ProductCreate.Response>> UpdateProductAsync(long id, ProductCreate.Request request)

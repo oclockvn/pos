@@ -71,6 +71,7 @@ namespace pos.products.Models
         public class Response
         {
             public long Id { get; set; }
+            public Guid ReferenceKey { get; set; }
         }
     }
 
