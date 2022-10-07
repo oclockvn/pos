@@ -31,8 +31,8 @@ namespace pos.core.Entities
         public long? BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        public ObjectType ObjectType => ObjectType.Product;
-        public Guid ObjectKey => ReferenceKey;
+        public ObjectType GetObjectType() => ObjectType.Product;
+        public Guid GetObjectKey() => ReferenceKey;
 
         public Guid ReferenceKey { get; set; }
 

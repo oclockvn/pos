@@ -21,8 +21,8 @@ public interface IUpdatedEntity
 
 public interface IAttachmentObject
 {
-    ObjectType ObjectType { get; }
-    Guid ObjectKey { get; }
+    ObjectType GetObjectType();
+    Guid GetObjectKey();
 }
 
 public interface IReferenceEntity

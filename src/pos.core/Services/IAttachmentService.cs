@@ -40,8 +40,8 @@ public class AttachmentService : IAttachmentService
             {
                 FileName = x.FileName,
                 FullPath = fullPath,
-                ObjectType = attachmentObject.ObjectType,
-                ReferenceKey = attachmentObject.ObjectKey,
+                ObjectType = attachmentObject.GetObjectType(),
+                ReferenceKey = attachmentObject.GetObjectKey(),
             };
 
             db.Attachments.Add(entity);
