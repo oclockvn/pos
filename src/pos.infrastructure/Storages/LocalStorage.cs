@@ -4,7 +4,7 @@ namespace pos.infrastructure.Storages;
 
 public class AzureBlobStorage : IStorageService
 {
-    public Task<(string fullPath, string fileName)> SaveAsync(Stream file, string fileName, string path)
+    public Task<string> SaveAsync(Stream file, string fileName)
     {
         throw new NotImplementedException();
     }
@@ -13,17 +13,18 @@ public class AzureBlobStorage : IStorageService
 public class LocalStorage : IStorageService
 {
     private readonly IPathResolver pathResolver;
+    private const string FOLDER = "LocalStorage";
 
     public LocalStorage(IPathResolver pathResolver)
     {
         this.pathResolver = pathResolver;
     }
 
-    public async Task<(string fullPath, string fileName)> SaveAsync(Stream file, string fileName, string path)
+    public async Task<string> SaveAsync(Stream file, string fileName)
     {
+        var path = Path.Combine(pathResolver.GetRootPath(), FOLDER);
         if (!Directory.Exists(path))
         {
-            // todo: recheck path
             Directory.CreateDirectory(path);
         }
 
@@ -33,7 +34,7 @@ public class LocalStorage : IStorageService
 
         await File.WriteAllBytesAsync(fullPath, ReadBytes(file));
 
-        return (fullPath, fileName);
+        return fullPath;
     }
 
     static byte[] ReadBytes(Stream s)

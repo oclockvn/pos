@@ -35,10 +35,10 @@ public class AttachmentService : IAttachmentService
         using var db = tenantDbContextFactory.CreateDbContext();
         foreach (var x in attachments)
         {
-            var (fullPath, fileName) = await storageService.SaveAsync(x.File, x.FileName, x.FullPath);
+            var fullPath = await storageService.SaveAsync(x.File, x.FileName);
             var entity = new Attachment
             {
-                FileName = fileName,
+                FileName = x.FileName,
                 FullPath = fullPath,
                 ObjectType = attachmentObject.ObjectType,
                 ReferenceKey = attachmentObject.ObjectKey,

@@ -1,4 +1,5 @@
 using pos.core;
+using pos.infrastructure;
 using pos.orders;
 using pos.products;
 using pos.users;
@@ -24,6 +25,7 @@ builder.Services
     .AddProductServices()
     .AddOrderServices()
     .AddUserServices()
+    .AddInfrastructureServices(builder.Environment.ContentRootPath)
     .AddControllersWithViews();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);

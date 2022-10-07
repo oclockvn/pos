@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using pos.core.Data;
+using pos.core.Services;
 
 namespace pos.core
 {
@@ -15,6 +16,7 @@ namespace pos.core
             return services
                 .AddTenantContext(connectionString, sensitiveDataLogging, detailError)
                 .AddScoped<ITenantDbContextFactory, TenantDbContextFactory>()
+                .AddScoped<IAttachmentService, AttachmentService>()
                 ;
         }
 

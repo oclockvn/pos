@@ -50,7 +50,6 @@ public class ProductsController : ApplicationBaseController
                 {
                     File = target,
                     FileName = f.FileName,
-                    FullPath = "Files" // undone: set full path
                 }).ToList();
             }
 

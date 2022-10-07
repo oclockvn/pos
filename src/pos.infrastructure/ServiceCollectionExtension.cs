@@ -6,11 +6,11 @@ namespace pos.infrastructure;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string rootPath)
     {
         return services
             .AddScoped<IStorageService, LocalStorage>()
-            .AddScoped<IPathResolver, PathResolver>()
+            .AddScoped<IPathResolver, PathResolver>(sp => new PathResolver(rootPath))
             ;
     }
 
