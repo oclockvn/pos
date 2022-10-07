@@ -21,6 +21,7 @@ namespace pos.core.Data
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<InventoryHistory> InventoryHistories { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,7 @@ namespace pos.core.Data
             modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
         }
 
         public async Task<long> GetOrderSeqAsync()

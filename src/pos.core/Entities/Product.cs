@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using pos.core.Enums;
+﻿using pos.core.Enums;
 
 namespace pos.core.Entities
 {
-    public class Product : BaseEntity, ICreatedEntity, IUpdatedEntity
+    public class Product : BaseEntity, ICreatedEntity, IUpdatedEntity, IAttachmentObject, IReferenceEntity
     {
         public string Sku { get; set; }
         public string Barcode { get; set; }
@@ -31,6 +30,11 @@ namespace pos.core.Entities
 
         public long? BrandId { get; set; }
         public Brand Brand { get; set; }
+
+        public ObjectType GetObjectType() => ObjectType.Product;
+        public Guid GetObjectKey() => ReferenceKey;
+
+        public Guid ReferenceKey { get; set; }
 
         public string GenerateSku(long uniqueId)
         {

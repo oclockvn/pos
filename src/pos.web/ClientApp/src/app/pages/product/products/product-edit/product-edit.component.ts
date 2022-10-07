@@ -11,11 +11,9 @@ import { HotToastService } from "@ngneat/hot-toast";
 import { RxState } from "@rx-angular/state";
 import { BsModalService } from "ngx-bootstrap/modal";
 import {
-  catchError,
   filter,
   map,
   Observable,
-  of,
   partition,
   Subject,
   switchMap,
@@ -28,8 +26,7 @@ import {
   Category,
   IdValue,
   ProductCreate,
-  ProductCreateResult,
-  Result,
+  ProductDetail,
 } from "src/app/models";
 import { ProductService } from "src/app/services";
 import { CategoryModalComponent } from "../../shared";
@@ -43,7 +40,9 @@ interface ProductEditState {
   files: File[];
   error?: string;
   submitting: boolean;
+  loading: boolean;
   categories: Category[];
+  product: ProductDetail;
 }
 
 @Component({
@@ -59,16 +58,14 @@ export class ProductEditComponent implements OnInit {
   removedFile$ = new Subject<File>();
   form!: FormGroup;
   formSubmit$ = new Subject<FormGroup>();
-  submit$ = new Subject<{ form: FormGroup; redirect: boolean }>();
+  submit$ = new Subject<{
+    form: FormGroup;
+    redirect: boolean;
+    isUpdate: boolean;
+  }>();
   categoryAdded$ = new Subject<{ id: number; name: string }>();
-
-  get vm$(): Observable<ProductEditState> {
-    return this.state.select();
-  }
-
-  get categories$(): Observable<IdValue[]> {
-    return this.productPageState.select("categories");
-  }
+  id = 0;
+  skuValidator = customProductSkuValidator();
 
   constructor(
     @Inject(PRODUCT_PAGE_STATE)
@@ -86,6 +83,37 @@ export class ProductEditComponent implements OnInit {
       showProductDescription: false,
       files: [],
     });
+
+    this.state.connect(
+      this.activatedRoute.paramMap.pipe(
+        filter(p => p.has("id") && Number(p.get("id")) > 0),
+        map(p => Number(p.get("id"))),
+        switchMap(id =>
+          this.productService
+            .getProduct(id)
+            .pipe(tap(() => this.state.set({ loading: true }))),
+        ),
+        tap(product => this.patchForm(product)),
+        tap(product => {
+          this.id = product.id;
+          // remove sku validation
+          this.form.get("sku")?.removeValidators(this.skuValidator);
+          this.form.get("sku")?.disable();
+        }),
+      ),
+      (prev, curr) => ({
+        product: curr,
+        loading: false,
+      }),
+    );
+  }
+
+  get vm$(): Observable<ProductEditState> {
+    return this.state.select();
+  }
+
+  get categories$(): Observable<IdValue[]> {
+    return this.productPageState.select("categories");
   }
 
   get submitting$(): Observable<boolean> {
@@ -93,7 +121,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
+    this.buildForm();
 
     this.state.connect(this.toggleDescription$, (prev, _) => ({
       showProductDescription: !prev.showProductDescription,
@@ -128,18 +156,28 @@ export class ProductEditComponent implements OnInit {
     this.state.connect(
       valid$.pipe(
         tap(() => this.state.set({ submitting: true })),
-        switchMap(({ form, redirect }) =>
-          this.productService.addProduct(form.value as ProductCreate).pipe(
-            catchError((err: Result<ProductCreateResult>) => of(err)),
-            map(r => ({ ...r, redirect })),
-          ),
-        ),
+        switchMap(({ form, redirect, isUpdate }) => {
+          const payload = form.value as ProductCreate;
+          payload.files = this.state.get("files");
+
+          if (isUpdate) {
+            return this.productService
+              .updateProduct(this.id, payload)
+              .pipe(map(r => ({ ...r, redirect, isUpdate })));
+          }
+
+          return this.productService
+            .addProduct(payload)
+            .pipe(map(r => ({ ...r, redirect, isUpdate })));
+        }),
         tap(result => {
           if (!result.isOk) {
             return;
           }
 
-          this.toast.success(`product created successfully`);
+          this.toast.success(
+            `product ${result.isUpdate ? "updated" : "created"} successfully`,
+          );
 
           if (result.redirect) {
             // redirect to product detail page
@@ -149,7 +187,7 @@ export class ProductEditComponent implements OnInit {
           } else {
             // reset the form
             this.form.reset();
-            this.initForm();
+            this.buildForm();
           }
         }),
       ),
@@ -176,11 +214,11 @@ export class ProductEditComponent implements OnInit {
     );
   }
 
-  initForm() {
+  buildForm() {
     this.form = this.fb.group({
       productType: [ProductType.Normal],
       productName: ["", [Validators.required, Validators.minLength(3)]],
-      sku: [null, [customProductSkuValidator()]],
+      sku: [null, [this.skuValidator]],
       weight: [],
       weightUnit: [],
       barcode: [],
@@ -199,6 +237,10 @@ export class ProductEditComponent implements OnInit {
       sellable: [true],
       taxable: [false],
     });
+  }
+
+  patchForm(product: Partial<ProductDetail>) {
+    this.form.patchValue(product);
   }
 
   showAddCategory() {

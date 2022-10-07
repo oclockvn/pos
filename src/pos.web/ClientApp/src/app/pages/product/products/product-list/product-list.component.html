@@ -82,9 +82,9 @@
         [loadingIndicator]="(loading$ | async) === true"
         [externalPaging]="true"
         [externalSorting]="true"
-        [count]="(metadata$|async)?.count || 0"
-        [offset]="(metadata$|async)?.currentPage || 0"
-        [limit]="(metadata$|async)?.itemPerPage || 0"
+        [count]="(metadata$ | async)?.count || 0"
+        [offset]="(metadata$ | async)?.currentPage || 0"
+        [limit]="(metadata$ | async)?.itemPerPage || 0"
         (page)="onPage($event)"
         (sort)="onSort($event)"
       >
@@ -92,6 +92,10 @@
     </div>
   </div>
 </div>
+
+<ng-template #colProductName let-value="value" let-row="row">
+  <a [routerLink]="['./', row.id]">{{ value }}</a>
+</ng-template>
 
 <ng-template #colCreatedAt let-value="value">
   {{ value | date: "dd/MM/yyyy" }}

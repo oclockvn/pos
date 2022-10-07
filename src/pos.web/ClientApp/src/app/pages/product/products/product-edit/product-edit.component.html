@@ -9,40 +9,47 @@
         <button
           type="button"
           class="btn btn-primary"
-          (click)="submit$.next({ form, redirect: true })"
+          (click)="submit$.next({ form, redirect: true, isUpdate: id > 0 })"
           [disabled]="submitting$ | async"
         >
-          {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}
+          {{
+            (submitting$ | async)
+              ? "SUBMITTING..."
+              : id > 0
+              ? "UPDATE"
+              : "SAVE AND GOTO"
+          }}
         </button>
-
-        <button
-          id="button-split"
-          type="button"
-          dropdownToggle
-          class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-          aria-controls="dropdown-split"
-          [disabled]="submitting$ | async"
-        >
-          <span class="caret"></span>
-          <span class="sr-only visually-hidden">toggle</span>
-        </button>
-        <ul
-          id="dropdown-split"
-          *dropdownMenu
-          class="dropdown-menu"
-          role="menu"
-          aria-labelledby="button-split"
-        >
-          <li role="menuitem">
-            <button
-              class="dropdown-item"
-              type="button"
-              (click)="submit$.next({ form, redirect: false })"
-            >
-              SAVE AND RESET
-            </button>
-          </li>
-        </ul>
+        <ng-container *ngIf="id === 0">
+          <button
+            id="button-split"
+            type="button"
+            dropdownToggle
+            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+            aria-controls="dropdown-split"
+            [disabled]="submitting$ | async"
+          >
+            <span class="caret"></span>
+            <span class="sr-only visually-hidden">toggle</span>
+          </button>
+          <ul
+            id="dropdown-split"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-split"
+          >
+            <li role="menuitem">
+              <button
+                class="dropdown-item"
+                type="button"
+                (click)="submit$.next({ form, redirect: false, isUpdate: id > 0 })"
+              >
+                SAVE AND RESET
+              </button>
+            </li>
+          </ul>
+        </ng-container>
       </div>
     </div>
 
@@ -461,10 +468,10 @@
       <button
         type="button"
         class="btn btn-primary"
-        (click)="submit$.next({ form, redirect: true })"
+        (click)="submit$.next({ form, redirect: true, isUpdate: id > 0 })"
         [disabled]="submitting$ | async"
       >
-        {{ (submitting$ | async) ? "SUBMITTING..." : "SAVE AND GOTO" }}
+        {{ (submitting$ | async) ? "SUBMITTING..." : (id > 0) ? "UPDATE" : "SAVE AND GOTO" }}
       </button>
     </div>
   </form>

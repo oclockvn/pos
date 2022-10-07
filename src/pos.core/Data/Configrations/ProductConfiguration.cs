@@ -30,6 +30,7 @@ namespace pos.core.Data.Configrations
             builder.Property(x => x.ImportPrice).HasPrecision(18, 2);
 
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("getutcdate()");
+            builder.Property(x => x.ReferenceKey).HasDefaultValueSql("newid()");
 
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Products)
